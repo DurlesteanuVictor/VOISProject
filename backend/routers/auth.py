@@ -21,8 +21,7 @@ def login(request: LoginRequest):
             detail="Email sau parolă incorectă"
         )
     
-    # JWT token
-    access_token = create_access_token(data={"sub": request.email, "role": user["role"]})
+    access_token = create_access_token(data={"sub": request.email, "role": "user"})
     
     # frontend response
     return {
