@@ -1,8 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth
+from db.database import engine, Base
+from db import models
 
 app = FastAPI(title="Aplicație Căutare Mecanici API")
+
+models.Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
