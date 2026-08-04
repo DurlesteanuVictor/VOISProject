@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navbar</title>
+  <link rel="stylesheet" href="Menu.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <a href="#" id="menu-link" class="menu-button">MENIU</a>
+
+    <div class="navbar-row">
+      <nav class="navbar">
+
+        <div class="nav-group date-wrapper">
+          <button type="button" id="date-btn" class="nav-toggle-btn">Date</button>
+
+          <div id="calendar-dropdown" class="calendar-dropdown hidden">
+            <div class="calendar-header">
+              <button type="button" id="prev-month" class="calendar-nav-btn">&#8592;</button>
+              <span id="calendar-month-label"></span>
+              <button type="button" id="next-month" class="calendar-nav-btn">&#8594;</button>
+            </div>
+            <div id="calendar-grid" class="calendar-grid"></div>
+          </div>
+        </div>
+
+        <div class="nav-group">
+          <button type="button" class="nav-toggle-btn" onclick="toggleMenu('servicii')">
+            Servicii <span class="arrow">&#9660;</span>
+          </button>
+
+          <div class="dropdown-panel" id="servicii">
+            <div class="dropdown-panel-content">
+              <h3 class="dropdown-title">Categorie generică</h3>
+              <div class="services-grid">
+                <div class="services-column">
+                  <a href="#">Serviciu 1</a>
+                  <a href="#">Serviciu 2</a>
+                  <a href="#">Serviciu 3</a>
+                  <a href="#">Serviciu 4</a>
+                </div>
+                <div class="services-column">
+                  <a href="#">Serviciu 5</a>
+                  <a href="#">Serviciu 6</a>
+                  <a href="#">Serviciu 7</a>
+                  <a href="#">Serviciu 8</a>
+                </div>
+                <div class="services-column">
+                  <a href="#">Serviciu 9</a>
+                  <a href="#">Serviciu 10</a>
+                  <a href="#">Serviciu 11</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-group">
+          <button type="button" class="nav-toggle-btn" onclick="toggleMenu('about')">
+            About <span class="arrow">&#9660;</span>
+          </button>
+
+          <div class="dropdown-panel" id="about">
+            <div class="dropdown-panel-content about-content">
+              <div class="about-column">
+                <h3 class="dropdown-title">Titlu generic 1</h3>
+                <p class="about-text">Text generic despre această secțiune. Va fi înlocuit ulterior cu conținutul real.</p>
+              </div>
+
+              <div class="about-divider"></div>
+
+              <div class="about-column">
+                <h3 class="dropdown-title">Titlu generic 2</h3>
+                <p class="about-text">Text generic despre această secțiune. Va fi înlocuit ulterior cu conținutul real.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-group">
+          <button type="button" class="nav-toggle-btn" onclick="toggleMenu('contact')">
+            Contact <span class="arrow">&#9660;</span>
+          </button>
+
+          <div class="dropdown-panel" id="contact">
+            <div class="dropdown-panel-content contact-details">
+              <div class="contact-row">
+                <span class="contact-label">Email</span>
+                <span class="contact-value">contact@site-generic.ro</span>
+              </div>
+              <div class="contact-row">
+                <span class="contact-label">Telefon</span>
+                <span class="contact-value">+40 700 000 000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="account-avatar-link">
+          <img src="profile-placeholder.png" alt="Cont" class="account-avatar" />
+        </a>
+
+      </nav>
+    </div>
+
+  </div>
+
+  <main class="page-content">
+    <p>Conținutul paginii va apărea aici.</p>
+  </main>
+
+  <script src="Menu.js"></script>
+</body>
+</html>
