@@ -51,7 +51,7 @@ body {
   border-radius: 4px;
   font-size: 14px;
   color: #0000FF; /* culoarea textului scris de utilizator - albastru */
-  background-color: #FF0000; /* culoarea fundalului input-urilor - rosu */
+  background-color: #eeeeee; /* culoarea fundalului input-urilor - rosu */
 }
 
 .input-group input:focus {
@@ -100,5 +100,5 @@ body {
 }
 
 .login-btn:hover {
-  background-color: #3F00FF; /* culoarea butonului de Login cand tii cursorul pe el - indigo */
+  background-color: #0044ff; /* culoarea butonului de Login cand tii cursorul pe el - indigo */
 }

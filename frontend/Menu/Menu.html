@@ -8,15 +8,17 @@
 </head>
 <body>
 
+  
+  
   <div class="page-wrapper">
 
-    <a href="#" id="menu-link" class="menu-button">MENIU</a>
+    <a href="#" id="menu-link" class="menu-button">NAME</a>
 
     <div class="navbar-row">
       <nav class="navbar">
 
         <div class="nav-group date-wrapper">
-          <button type="button" id="date-btn" class="nav-toggle-btn">Date</button>
+          <button type="button" id="date-btn" class="nav-toggle-btn">Data</button>
 
           <div id="calendar-dropdown" class="calendar-dropdown hidden">
             <div class="calendar-header">
@@ -30,7 +32,7 @@
 
         <div class="nav-group">
           <button type="button" class="nav-toggle-btn" onclick="toggleMenu('servicii')">
-            Servicii <span class="arrow">&#9660;</span>
+            Services <span class="arrow">&#9660;</span>
           </button>
 
           <div class="dropdown-panel" id="servicii">
@@ -110,7 +112,139 @@
   </div>
 
   <main class="page-content">
-    <p>Conținutul paginii va apărea aici.</p>
+    <p><div class="grid-container">
+  <!-- Coloana 1 -->
+  <div class="card" onclick="this.classList.toggle('open')">
+  <div class="card-header">
+    <h3>Service 1</h3>
+    <div class="rating">
+    <span class="rating-number">5</span>
+    <span class="stars">★★★★★</span>
+  </div>
+    <span class="price">130 RON</span>
+  </div>
+  <div class="card-body">
+    <div class="card-content">
+      <p>Detalii despre serviciile oferite de acest mecanic. Tot aici poți scrie prețuri sau alte informații utile.</p>
+      
+      <button class="booking-btn" onclick="event.stopPropagation(); window.location.href='link-ul-tau-de-booking.html';">
+        Booking
+      </button>
+
+    </div>
+  </div>
+</div>
+
+  <!-- Coloana 2 -->
+  <div class="card" onclick="this.classList.toggle('open')">
+  <div class="card-header">
+    <h3>Service 2</h3>
+    <div class="rating">
+    <span class="rating-number">4.7</span>
+    <span class="stars">★★★★<span class="half-star">★</span></span>
+  </div>
+    <span class="price">175 RON</span>
+  </div>
+  <div class="card-body">
+    <div class="card-content">
+      <p>Detalii despre serviciile oferite de acest mecanic. Tot aici poți scrie prețuri sau alte informații utile.</p>
+      
+      <button class="booking-btn" onclick="event.stopPropagation(); window.location.href='link-ul-tau-de-booking.html';">
+        Booking
+      </button>
+
+    </div>
+  </div>
+</div>
+
+  <!-- Coloana 3 -->
+  <div class="card" onclick="this.classList.toggle('open')">
+  <div class="card-header">
+    <h3>Service 3</h3>
+    <div class="rating">
+    <span class="rating-number">4.5</span>
+    <span class="stars">★★★★<span class="half-star">★</span></span>
+  </div>
+    <span class="price">125 RON</span>
+  </div>
+  <div class="card-body">
+    <div class="card-content">
+      <p>Detalii despre serviciile oferite de acest mecanic. Tot aici poți scrie prețuri sau alte informații utile.</p>
+      
+      <button class="booking-btn" onclick="event.stopPropagation(); window.location.href='link-ul-tau-de-booking.html';">
+        Booking
+      </button>
+
+    </div>
+  </div>
+</div>
+  
+  <!-- Coloana 4 (pe rândul următor) -->
+  <div class="card" onclick="this.classList.toggle('open')">
+  <div class="card-header">
+    <h3>Service 4</h3>
+    <div class="rating">
+    <span class="rating-number">4</span>
+    <span class="stars">★★★★</span>
+  </div>
+    <span class="price">125 RON</span>
+  </div>
+  <div class="card-body">
+    <div class="card-content">
+      <p>Detalii despre serviciile oferite de acest mecanic. Tot aici poți scrie prețuri sau alte informații utile.</p>
+      
+      <button class="booking-btn" onclick="event.stopPropagation(); window.location.href='link-ul-tau-de-booking.html';">
+        Booking
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<div class="card" onclick="this.classList.toggle('open')">
+  <div class="card-header">
+    <h3>Service 5</h3>
+    <div class="rating">
+    <span class="rating-number">3.8</span>
+    <span class="stars">★★★<span class="half-star">★</span></span>
+  </div>
+    <span class="price">100 RON</span>
+  </div>
+  <div class="card-body">
+    <div class="card-content">
+      <p>Detalii despre serviciile oferite de acest mecanic. Tot aici poți scrie prețuri sau alte informații utile.</p>
+      
+      <button class="booking-btn" onclick="event.stopPropagation(); window.location.href='link-ul-tau-de-booking.html';">
+        Booking
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<div class="card" onclick="this.classList.toggle('open')">
+  <div class="card-header">
+    <h3>Service 6</h3>
+    <div class="rating">
+    <span class="rating-number">3.5</span>
+    <span class="stars">★★★★<span class="half-star">★</span></span>
+  </div>
+    <span class="price">150 RON</span>
+  </div>
+  <div class="card-body">
+    <div class="card-content">
+      <p>Detalii despre serviciile oferite de acest mecanic. Tot aici poți scrie prețuri sau alte informații utile.</p>
+      
+      <button class="booking-btn" onclick="event.stopPropagation(); window.location.href='link-ul-tau-de-booking.html';">
+        Booking
+      </button>
+
+    </div>
+  </div>
+</div>
+
+</div>
+</p>
   </main>
 
   <script src="Menu.js"></script>
