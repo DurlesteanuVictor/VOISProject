@@ -137,7 +137,6 @@ body {
 }
 
 .dropdown-panel {
-  display: none;
   position: absolute;
   top: calc(100% + 14px);
   left: 0;
@@ -147,10 +146,16 @@ body {
   border-radius: 18px;
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
 }
 
 .nav-group.active .dropdown-panel {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .dropdown-panel-content {
@@ -250,10 +255,16 @@ body {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   padding: 12px;
   z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
 }
 
-.calendar-dropdown.hidden {
-  display: none;
+.calendar-dropdown:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .calendar-header {
@@ -328,28 +339,25 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr;
   gap: 20px;
-  width: 70%; 
-  max-width: 1400px; 
+  width: 70%;
+  max-width: 1400px;
   margin: 0 auto;
-  align-items: start; 
+  align-items: start;
 }
 
-
 .card {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background-color: #f8f9fa; /* culoarea de fundal a cardului */
+  border: 1px solid #dee2e6; /* culoarea marginii cardului */
   border-radius: 8px;
-  
-  padding: 3.5vh 25px; 
-  
+  padding: 3.5vh 25px;
   cursor: pointer;
   transition: box-shadow 0.2s, background-color 0.2s;
 }
 
 .card:hover {
-  background-color: #f1f3f5;
+  background-color: #f1f3f5; /* culoarea de fundal a cardului la hover */
 }
 
 .card-header {
@@ -366,36 +374,31 @@ body {
   margin-right: auto;
 }
 
-/* Magia animației folosind Grid */
 .card-body {
   display: grid;
-  grid-template-rows: 0fr; 
+  grid-template-rows: 0fr;
   transition: grid-template-rows 0.3s ease-out;
 }
 
 .card-content {
-  overflow: hidden; 
-  color: #495057;
+  overflow: hidden;
+  color: #495057; /* culoarea textului din interiorul cardului */
   font-size: 0.95rem;
 }
-
 
 .card.open .card-body {
   grid-template-rows: 1fr;
 }
 
 .card.open .card-content {
-  padding-top: 15px; 
+  padding-top: 15px;
 }
 
-
 .icon {
-  font-size: 2rem; 
+  font-size: 2rem;
   line-height: 1;
   transition: transform 0.3s ease;
 }
-
-
 
 @media (max-width: 768px) {
   .grid-container {
@@ -404,58 +407,50 @@ body {
 }
 
 .booking-btn {
-  background-color: #007bff; 
-  color: white;
+  background-color: #007bff; /* culoarea de fundal a butonului de booking */
+  color: white; /* culoarea textului butonului de booking */
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 15px; /* Lasă spațiu între text și buton */
+  margin-top: 15px;
   transition: background-color 0.3s ease, transform 0.1s ease;
-  display: inline-block; 
+  display: inline-block;
 }
-
 
 .booking-btn:hover {
-  background-color: #0056b3; 
+  background-color: #0056b3; /* culoarea butonului de booking la hover */
 }
 
-
 .booking-btn:active {
-  transform: scale(0.95); 
+  transform: scale(0.95);
 }
 
 .rating {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-right: 30px; 
+  margin-right: 30px;
 }
 
-/* Stilul pentru cifra 4.5 */
 .rating-number {
   font-weight: bold;
   font-size: 1.1rem;
-  color: #333;
+  color: #333; /* culoarea cifrei de rating */
 }
 
-/* Stelele normale (primele 4) */
 .stars {
-  color: #FFD700;
+  color: #FFD700; /* culoarea stelelor pline */
   font-size: 1.2rem;
   letter-spacing: 2px;
 }
 
-/* MAGIA CSS: Steaua pe jumătate */
 .half-star {
-  /* Creăm un fundal care este 50% auriu și 50% gri deschis */
-  background: linear-gradient(90deg, #FFD700 50%, #d3d3d3 50%);
+  background: linear-gradient(90deg, #FFD700 50%, #d3d3d3 50%); /* auriu pentru jumătatea plină, gri pentru jumătatea goală a stelei */
   background-clip: text;
-  /* Decupăm fundalul pe forma textului (a stelei) */
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; 
-  
-  display: inline-block; 
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
