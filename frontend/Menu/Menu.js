@@ -25,6 +25,12 @@ function closeAllMenus() {
   calendarDropdown.classList.add('hidden');
 }
 
+document.querySelectorAll('.nav-toggle-btn[data-menu-target]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    toggleMenu(btn.dataset.menuTarget);
+  });
+});
+
 document.addEventListener('click', (event) => {
   const isClickInsideNavGroup = event.target.closest('.nav-group');
 
@@ -123,3 +129,16 @@ function renderCalendar() {
     calendarGrid.appendChild(dayEl);
   }
 }
+
+document.querySelectorAll('.card').forEach((card) => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('open');
+  });
+});
+
+document.querySelectorAll('.booking-btn').forEach((btn) => {
+  btn.addEventListener('click', (event) => {
+    event.stopPropagation();
+    window.location.href = '../Checkout/Checkout.html';
+  });
+});
