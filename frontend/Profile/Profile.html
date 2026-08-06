@@ -34,6 +34,70 @@
         <input type="tel" id="phone" name="phone" placeholder="Introduce phone number" />
       </div>
 
+      <h2 class="section-title">Car details</h2>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="carMake">Manufacturer</label>
+          <input type="text" id="carMake" name="carMake" placeholder="e.g. Volkswagen" list="carMakeList" autocomplete="off" />
+          <datalist id="carMakeList"></datalist>
+        </div>
+
+        <div class="input-group">
+          <label for="carModel">Model</label>
+          <input type="text" id="carModel" name="carModel" placeholder="Select manufacturer first" list="carModelList" autocomplete="off" />
+          <datalist id="carModelList"></datalist>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="carYear">Year</label>
+          <input type="text" id="carYear" name="carYear" placeholder="e.g. 2018" list="carYearList" inputmode="numeric" autocomplete="off" />
+          <datalist id="carYearList"></datalist>
+        </div>
+
+        <div class="input-group">
+          <label for="carEnginePower">Engine power</label>
+          <input type="text" id="carEnginePower" name="carEnginePower" placeholder="e.g. 2.0" list="carEnginePowerList" autocomplete="off" />
+          <datalist id="carEnginePowerList"></datalist>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="carEngineType">Engine type</label>
+          <select id="carEngineType" name="carEngineType">
+            <option value="">Engine type</option>
+            <option value="petrol">Petrol</option>
+            <option value="diesel">Diesel</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="electric">Electric</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="carTransmission">Transmission</label>
+          <select id="carTransmission" name="carTransmission">
+            <option value="">Transmission</option>
+            <option value="manual">Manual</option>
+            <option value="automatic">Automatic</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="carPlate">License plate</label>
+          <input type="text" id="carPlate" name="carPlate" placeholder="e.g. IS 01 ABC" />
+        </div>
+
+        <div class="input-group">
+          <label for="carMileage">Mileage (km)</label>
+          <input type="text" id="carMileage" name="carMileage" placeholder="e.g. 85000" inputmode="numeric" pattern="[0-9]*" />
+        </div>
+      </div>
+
       <h2 class="section-title">Address</h2>
       <div class="input-group">
         <label for="street">Street address</label>

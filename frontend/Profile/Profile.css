@@ -1,4 +1,4 @@
-/*Dimensiuni de baza a cutiei de profil*/
+/*Base sizing for the profile box*/
 * {
   margin: 0;
   padding: 0;
@@ -6,22 +6,22 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif; /* font text (nume, email, etc) */
+  font-family: Arial, Helvetica, sans-serif; /* text font (name, email, etc) */
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* toate de mai sus is pentru centralizare */
-  background-color: #f2f2f2; /* culoarea fundalului paginii */
+  /* everything above is for centering */
+  background-color: #f2f2f2; /* page background color */
   padding: 40px 0;
 }
 
-/*Card-ul de profil*/
+/*Profile card*/
 .profile-container {
-  background-color: #ffffff; /* culoarea fundalului cutiei de profil (e mai deschisa ca fundalul paginii in sine) */
+  background-color: #ffffff; /* profile box background color (lighter than the page background) */
   padding: 40px 32px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* umbra din jurul cutiei */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* shadow around the box */
   width: 100%;
   max-width: 360px;
 }
@@ -29,7 +29,7 @@ body {
 .profile-title {
   text-align: center;
   margin-bottom: 24px;
-  color: #000000; /* culoarea titlului "My Profile" */
+  color: #000000; /* "My Profile" title color */
 }
 
 .avatar-section {
@@ -41,31 +41,32 @@ body {
 }
 
 .profile-avatar {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #dddddd; /* culoarea de fundal cat timp nu exista inca o poza reala */
-  border: 1px solid #e0e0e0; /* culoarea conturului avatarului */
+  background-color: #dddddd; /* background color while there's no real photo yet */
+  border: 3px solid #ffffff; /* white ring around the avatar */
+  box-shadow: 0 0 0 1px #e0e0e0, 0 2px 8px rgba(0, 0, 0, 0.12); /* thin outline + soft shadow */
 }
 
 .avatar-upload-label {
   font-size: 13px;
-  color: #0000FF; /* aceeasi culoare ca butonul Arata/Ascunde din Login - albastru */
+  color: #0000FF; /* same color as the Show/Hide button in Login - blue */
   cursor: pointer;
 }
 
 .avatar-upload-label:hover {
-  color: #00FFFF; /* aceeasi culoare de hover ca in Login */
+  color: #00FFFF; /* same hover color as in Login */
 }
 
-/*Titlurile de sectiune (Personal info, Address, etc)*/
+/*Section titles (Personal info, Address, etc)*/
 .section-title {
   font-size: 15px;
   color: #000000;
-  margin: 28px 0 14px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #eeeeee; /* linia subtire de sub titlul sectiunii */
+  margin: 36px 0 16px;
+  padding-left: 10px;
+  border-left: 3px solid #FFC0CB; /* pink accent, matches the input border color */
 }
 
 .profile-container > .section-title:first-of-type,
@@ -73,35 +74,39 @@ body {
   margin-top: 0;
 }
 
-/*Grupurile de input (nume + email + telefon etc)*/
+/*Input groups (name + email + phone etc)*/
 .input-group {
-  margin-bottom: 18px; /* distanta intre text-box-uri */
+  margin-bottom: 18px; /* spacing between text boxes */
 }
 
 .input-group label {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
-  color: #800080; /* culoarea textului label-urilor - mov */
+  color: #800080; /* label text color - purple */
 }
 
 .input-group input[type="text"],
 .input-group input[type="email"],
 .input-group input[type="tel"],
-.input-group input[type="password"] {
+.input-group input[type="password"],
+.input-group select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #FFC0CB; /* culoarea marginii input-urilor - roz */
+  border: 1px solid #FFC0CB; /* input border color - pink */
   border-radius: 4px;
   font-size: 14px;
+  background-color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.input-group input:focus {
+.input-group input:focus,
+.input-group select:focus {
   outline: none;
-  border-color: #FFFF00; /* culoarea marginii input-ului cand il alegi - galben */
+  border-color: #FFFF00; /* input border color when selected - yellow */
 }
 
-/*Randul cu doua input-uri alaturate (City + Postal code)*/
+/*Row with two side-by-side inputs (City + Postal code)*/
 .input-row {
   display: flex;
   gap: 12px;
@@ -111,7 +116,7 @@ body {
   flex: 1;
 }
 
-/*Zona parolei + butonul "Arata/Ascunde"*/
+/*Password area + Show/Hide button*/
 .password-wrapper {
   display: flex;
   align-items: center;
@@ -120,7 +125,7 @@ body {
 
 .password-wrapper input {
   flex: 1;
-  padding-right: 70px; /* spatiu pentru butonul din dreapta */
+  padding-right: 70px; /* space for the button on the right */
 }
 
 .toggle-btn {
@@ -128,24 +133,24 @@ body {
   right: 8px;
   background: none;
   border: none;
-  color: #0000FF; /* culoarea textului butonului Arata/Ascunde - albastru */
+  color: #0000FF; /* Show/Hide button text color - blue */
   font-size: 13px;
   cursor: pointer;
   padding: 4px 6px;
 }
 
 .toggle-btn:hover {
-  color: #00FFFF; /* culoarea butonului Arata/Ascunde cand tii cursorul pe el - albastru mai deschis */
+  color: #00FFFF; /* Show/Hide button color on hover - lighter blue */
 }
 
-/*Cardul salvat*/
+/*Saved card*/
 .saved-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding: 12px 14px;
-  border: 1px solid #FFC0CB; /* aceeasi culoare de margine ca input-urile - roz */
+  border: 1px solid #FFC0CB; /* same border color as inputs - pink */
   border-radius: 4px;
   margin-bottom: 12px;
 }
@@ -158,7 +163,7 @@ body {
 
 .card-label {
   font-size: 12px;
-  color: #800080; /* mov, la fel ca celelalte label-uri */
+  color: #800080; /* purple, same as the other labels */
 }
 
 .card-number {
@@ -175,7 +180,7 @@ body {
 .remove-card-btn {
   background: none;
   border: none;
-  color: #d32f2f; /* rosu pentru actiunea de stergere */
+  color: #d32f2f; /* red for the delete action */
   font-size: 13px;
   cursor: pointer;
   padding: 4px 6px;
@@ -183,16 +188,16 @@ body {
 }
 
 .remove-card-btn:hover {
-  color: #a02020; /* rosu mai inchis la hover */
+  color: #a02020; /* darker red on hover */
 }
 
-/*Butoanele*/
+/*Buttons*/
 .profile-btn {
   width: 100%;
   padding: 12px;
   margin-top: 8px;
-  background-color: #0096FF; /* culoarea de fundal a butonului - albastru deschis */
-  color: #ffffff; /* culoarea textului butonului - alb */
+  background-color: #0096FF; /* button background color - light blue */
+  color: #ffffff; /* button text color - white */
   border: none;
   border-radius: 4px;
   font-size: 15px;
@@ -200,18 +205,18 @@ body {
 }
 
 .profile-btn:hover {
-  background-color: #3F00FF; /* culoarea butonului cand tii cursorul pe el - indigo */
+  background-color: #3F00FF; /* button color on hover - indigo */
 }
 
 .secondary-btn {
   background-color: #ffffff;
-  color: #0096FF; /* text albastru pe fundal alb */
-  border: 1px solid #0096FF; /* margine albastra */
+  color: #0096FF; /* blue text on white background */
+  border: 1px solid #0096FF; /* blue border */
   margin-bottom: 18px;
 }
 
 .secondary-btn:hover {
-  background-color: #f2f8ff; /* fundal albastru foarte deschis la hover */
+  background-color: #f2f8ff; /* very light blue background on hover */
 }
 
 .logout-btn {
