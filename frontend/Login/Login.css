@@ -1,0 +1,104 @@
+/*Dimensiuni de baza a cutiei de autentificare*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif; /* font text (autentificare, utilizator, etc) */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  /* toate de mai sus is pentru centralizare */
+  background-color: #f2f2f2;  /* culoarea fundalului paginii */
+}
+
+/*Card-ul de login*/
+.login-container {
+  background-color: #ffffff; /* culoarea fundalului cutiei de login (e mai deschisa ca fundalul paginii in sine) */
+  padding: 40px 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* umbra din jurul cutiei */
+  width: 100%;
+  max-width: 360px;
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #000000 ; /* culoarea titlului "Autentificare" */
+}
+
+/*Grupurile de input (username + password)*/
+.input-group {
+  margin-bottom: 18px; /* distanta intre text-box-uri */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #800080; /* culoarea textului label-urilor (Utilizator / Parolă) - mov */
+}
+
+.input-group input[type="email"],
+.input-group input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #FFC0CB ; /* culoarea marginii input-urilor - roz */
+  border-radius: 4px;
+  font-size: 14px;
+  color: #0000FF; /* culoarea textului scris de utilizator - albastru */
+  background-color: #eeeeee; /* culoarea fundalului input-urilor - rosu */
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #FFFF00 ; /* culoarea marginii input-ului cand il alegi (daca apesi pe spatiul pentru utilizator) - galben */
+}
+
+/*Zona parolei + butonul "Arată/Ascunde"*/
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding-right: 70px; /* spațiu pentru butonul din dreapta */
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #0000FF; /* culoarea textului butonului Arată/Ascunde - albastru */
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.toggle-btn:hover {
+  color: #00FFFF; /* culoarea butonului Arată/Ascunde cand tii cursorul pe el - albastru mai deschis */
+}
+
+/*Butonul de login*/
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: #0096FF; /* culoarea de fundal a butonului de Login - albastru deschis */
+  color: #ffffff; /* culoarea textului de pe butonul de Login - alb */
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #0044ff; /* culoarea butonului de Login cand tii cursorul pe el - indigo */
+}
