@@ -17,3 +17,36 @@
   outline: none;
   border-color: #FFFF00;
 }
+
+.company-register-section {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #FFC0CB;
+}
+
+.company-register-text {
+  font-size: 14px;
+  color: #800080;
+}
+
+.company-register-btn {
+  display: inline-block;
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background-color: #f2f2f2;
+  color: #0096FF;
+  border: 1px solid #0096FF;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.company-register-btn:hover {
+  background-color: #e6e6e6;
+}

@@ -32,7 +32,10 @@
 
       <div class="input-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Minim 6 caractere" required />
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="Minim 6 caractere" required />
+          <button type="button" id="toggle-password" class="toggle-btn">Arată</button>
+        </div>
       </div>
 
       <div class="input-group">
@@ -59,6 +62,12 @@
       </div>
 
       <button type="submit" class="login-btn">Register</button>
+
+      <div class="company-register-section">
+        <span class="company-register-text">Ești un service auto nou pe platformă?</span>
+        <br>
+        <a href="../Register Company/RegisterCompany.html" class="company-register-btn">Înregistrează Compania</a>
+      </div>
     </form>
   </div>
   <script src="Register.js"></script>

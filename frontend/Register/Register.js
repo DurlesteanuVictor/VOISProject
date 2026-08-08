@@ -1,6 +1,14 @@
 const roleSelect = document.getElementById('role');
 const carDetailsSection = document.getElementById('car-details-section');
 const registerForm = document.getElementById('register-form');
+const passwordInput = document.getElementById('password');
+const toggleBtn = document.getElementById('toggle-password');
+
+toggleBtn.addEventListener('click', () => {
+    const isHidden = passwordInput.type === 'password';
+    passwordInput.type = isHidden ? 'text' : 'password';
+    toggleBtn.textContent = isHidden ? 'Ascunde' : 'Arată';
+});
 
 roleSelect.addEventListener('change', function() {
     if (this.value === 'mechanic') {
