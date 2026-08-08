@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register your Company</title>
+</head>
+<body>
+
+    <h2>Register your shop!</h2>
+    <form id="company-form">
+        <div>
+            <label for="name">Name of the company:</label>
+            <br>
+            <input type="text" id="name" required minlength="2">
+        </div>
+        <br>
+        <div>
+            <label for="address">Adress</label>
+            <br>
+            <input type="text" id="address" required minlength="5">
+        </div>
+        <br>
+        <div>
+            <label for="contact_info">Telefon / Email:</label>
+            <br>
+            <input type="text" id="contact_info" required>
+        </div>
+        <br>
+        <div>
+            <label for="description">Description of the company </label>
+            <br>
+            <textarea id="description" rows="4"></textarea>
+        </div>
+        <br>
+        <button type="submit">Înregistrează Compania</button>
+    </form>
+    <p id="message-box"></p>
+    <script src="RegisterCompany.js"></script>
+</body>
+</html>
