@@ -1,0 +1,248 @@
+/*Base sizing for the profile box*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif; /* text font (name, email, etc) */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* everything above is for centering */
+  background-color: #f2f2f2; /* page background color */
+  padding: 40px 0;
+}
+
+/*Profile card*/
+.profile-container {
+  background-color: #ffffff; /* profile box background color (lighter than the page background) */
+  padding: 40px 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* shadow around the box */
+  width: 100%;
+  max-width: 360px;
+}
+
+.profile-title {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #000000; /* "My Profile" title color */
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #dddddd; /* background color while there's no real photo yet */
+  border: 3px solid #ffffff; /* white ring around the avatar */
+  box-shadow: 0 0 0 1px #e0e0e0, 0 2px 8px rgba(0, 0, 0, 0.12); /* thin outline + soft shadow */
+}
+
+.avatar-upload-label {
+  font-size: 13px;
+  color: #0000FF; /* same color as the Show/Hide button in Login - blue */
+  cursor: pointer;
+}
+
+.avatar-upload-label:hover {
+  color: #00FFFF; /* same hover color as in Login */
+}
+
+/*Section titles (Personal info, Address, etc)*/
+.section-title {
+  font-size: 15px;
+  color: #000000;
+  margin: 36px 0 16px;
+  padding-left: 10px;
+  border-left: 3px solid #FFC0CB; /* pink accent, matches the input border color */
+}
+
+.profile-container > .section-title:first-of-type,
+.profile-container form:first-of-type .section-title:first-of-type {
+  margin-top: 0;
+}
+
+/*Input groups (name + email + phone etc)*/
+.input-group {
+  margin-bottom: 18px; /* spacing between text boxes */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #800080; /* label text color - purple */
+}
+
+.input-group input[type="text"],
+.input-group input[type="email"],
+.input-group input[type="tel"],
+.input-group input[type="password"],
+.input-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #FFC0CB; /* input border color - pink */
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #FFFF00; /* input border color when selected - yellow */
+}
+
+/*Row with two side-by-side inputs (City + Postal code)*/
+.input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+/*Password area + Show/Hide button*/
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding-right: 70px; /* space for the button on the right */
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #0000FF; /* Show/Hide button text color - blue */
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.toggle-btn:hover {
+  color: #00FFFF; /* Show/Hide button color on hover - lighter blue */
+}
+
+/*Saved card*/
+.saved-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #FFC0CB; /* same border color as inputs - pink */
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.saved-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-label {
+  font-size: 12px;
+  color: #800080; /* purple, same as the other labels */
+}
+
+.card-number {
+  font-size: 15px;
+  color: #000000;
+  letter-spacing: 1px;
+}
+
+.card-expiry {
+  font-size: 12px;
+  color: #555555;
+}
+
+.remove-card-btn {
+  background: none;
+  border: none;
+  color: #d32f2f; /* red for the delete action */
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 6px;
+  white-space: nowrap;
+}
+
+.remove-card-btn:hover {
+  color: #a02020; /* darker red on hover */
+}
+
+/*Buttons*/
+.profile-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: #0096FF; /* button background color - light blue */
+  color: #ffffff; /* button text color - white */
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.profile-btn:hover {
+  background-color: #3F00FF; /* button color on hover - indigo */
+}
+
+.secondary-btn {
+  background-color: #ffffff;
+  color: #0096FF; /* blue text on white background */
+  border: 1px solid #0096FF; /* blue border */
+  margin-bottom: 18px;
+}
+
+.secondary-btn:hover {
+  background-color: #f2f8ff; /* very light blue background on hover */
+}
+
+.logout-btn {
+  background-color: #555555;
+  margin-top: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #333333;
+}
+
+.save-btn {
+  margin-top: 28px;
+}
+
+/* Stil pentru inputurile doar in mod citire */
+.input-group input[readonly] {
+  background-color: transparent;
+  border-color: transparent;
+  color: #000000;
+  cursor: default;
+  padding-left: 0;
+}
+
+/* Cand utilizatorul apasa pe acel input readonly nu vrem sa se faca galben */
+.input-group input[readonly]:focus {
+  outline: none;
+  border-color: transparent;
+}
