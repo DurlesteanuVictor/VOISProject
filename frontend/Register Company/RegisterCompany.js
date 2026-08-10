@@ -16,6 +16,10 @@ document.getElementById("company-form").addEventListener("submit", async functio
         });
         const result = await response.json();
         if (response.ok) {
+            localStorage.setItem("company_name", payload.address);
+            localStorage.setItem("company_adress", payload.address);
+            localStorage.setItem("company_contact", payload.contact_info);
+            localStorage.setItem("company_description", payload.description);
             alert("Company is made!");
             window.location.href = "../Menu/Menu.html"; 
         } else {
