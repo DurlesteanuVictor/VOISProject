@@ -43,8 +43,7 @@ body {
   color: #800080; /* culoarea textului label-urilor (Utilizator / Parolă) - mov */
 }
 
-.input-group input[type="email"],
-.input-group input[type="password"] {
+.input-group input {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #FFC0CB ; /* culoarea marginii input-urilor - roz */
@@ -101,4 +100,27 @@ body {
 
 .login-btn:hover {
   background-color: #0044ff; /* culoarea butonului de Login cand tii cursorul pe el - indigo */
+}
+
+.register-redirect {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.redirect-text {
+  font-size: 14px;
+  color: #000000;
+}
+
+.redirect-link {
+  color: #0096FF;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.redirect-link:hover {
+  color: #0044ff;
 }

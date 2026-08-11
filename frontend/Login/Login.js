@@ -45,7 +45,3 @@ loginForm.addEventListener('submit', async (event) => {
         alert("Server connection error!");
     }
 });
-
-document.getElementById('create-account-btn').addEventListener('click', () => {
-    window.location.href = "../Register/Register.html";
-});
