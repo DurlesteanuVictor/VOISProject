@@ -1,4 +1,3 @@
-/*Base sizing for the profile box*/
 * {
   margin: 0;
   padding: 0;
@@ -6,36 +5,34 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif; /* text font (name, email, etc) */
+  font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  /* everything above is for centering */
-  background-color: #f2f2f2; /* page background color */
+  background-color: #f2f2f2;
   padding: 40px 0;
 }
 
-/*Profile card*/
 .profile-container {
-  background-color: #ffffff; /* profile box background color (lighter than the page background) */
+  background-color: #ffffff;
   padding: 40px 32px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* shadow around the box */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
 }
 
 .profile-title {
   text-align: center;
   margin-bottom: 24px;
-  color: #000000; /* "My Profile" title color */
+  color: #000000;
 }
 
-.avatar-section {
+.avatar-section-left {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   margin-bottom: 24px;
 }
@@ -45,68 +42,150 @@ body {
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #dddddd; /* background color while there's no real photo yet */
-  border: 3px solid #ffffff; /* white ring around the avatar */
-  box-shadow: 0 0 0 1px #e0e0e0, 0 2px 8px rgba(0, 0, 0, 0.12); /* thin outline + soft shadow */
+  background-color: #dddddd;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 1px #e0e0e0, 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .avatar-upload-label {
   font-size: 13px;
-  color: #0000FF; /* same color as the Show/Hide button in Login - blue */
+  color: #0000FF;
   cursor: pointer;
 }
 
 .avatar-upload-label:hover {
-  color: #00FFFF; /* same hover color as in Login */
+  color: #00FFFF;
 }
 
-/*Section titles (Personal info, Address, etc)*/
-.section-title {
-  font-size: 15px;
+.accordion-item {
+  background-color: #ffffff;
+  border: 1px solid #FFC0CB;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  background-color: #fcfcfc;
+}
+
+.accordion-header h2, .accordion-header h3 {
+  margin: 0;
+  font-size: 16px;
   color: #000000;
-  margin: 36px 0 16px;
+}
+
+.accordion-content {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid #FFC0CB;
+}
+
+.toggle-icon {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0096FF;
+  width: 24px;
+  text-align: center;
+  user-select: none;
+}
+
+.section-my-car {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-header-row h2 {
+  font-size: 18px;
+  color: #000000;
   padding-left: 10px;
-  border-left: 3px solid #FFC0CB; /* pink accent, matches the input border color */
+  border-left: 3px solid #FFC0CB;
 }
 
-.profile-container > .section-title:first-of-type,
-.profile-container form:first-of-type .section-title:first-of-type {
-  margin-top: 0;
+.add-car-btn {
+  background-color: #0096FF;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 16px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-/*Input groups (name + email + phone etc)*/
+.add-car-btn:hover {
+  background-color: #3F00FF;
+}
+
+.car-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.delete-btn {
+  background-color: #d32f2f;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #a02020;
+}
+
 .input-group {
-  margin-bottom: 18px; /* spacing between text boxes */
+  margin-bottom: 18px;
 }
 
 .input-group label {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
-  color: #800080; /* label text color - purple */
+  color: #800080;
 }
 
-.input-group input[type="text"],
-.input-group input[type="email"],
-.input-group input[type="tel"],
-.input-group input[type="password"],
-.input-group select {
+.input-group input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #FFC0CB; /* input border color - pink */
+  border: 1px solid #FFC0CB;
   border-radius: 4px;
   font-size: 14px;
   background-color: #ffffff;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
-.input-group input:focus,
-.input-group select:focus {
+.input-group input:focus {
   outline: none;
-  border-color: #FFFF00; /* input border color when selected - yellow */
+  border-color: #FFFF00;
 }
 
-/*Row with two side-by-side inputs (City + Postal code)*/
+.input-group input[readonly] {
+  background-color: transparent;
+  border-color: transparent;
+  color: #000000;
+  cursor: default;
+  padding-left: 0;
+}
+
+.input-group input[readonly]:focus {
+  outline: none;
+  border-color: transparent;
+}
+
 .input-row {
   display: flex;
   gap: 12px;
@@ -116,7 +195,6 @@ body {
   flex: 1;
 }
 
-/*Password area + Show/Hide button*/
 .password-wrapper {
   display: flex;
   align-items: center;
@@ -125,7 +203,7 @@ body {
 
 .password-wrapper input {
   flex: 1;
-  padding-right: 70px; /* space for the button on the right */
+  padding-right: 70px;
 }
 
 .toggle-btn {
@@ -133,71 +211,22 @@ body {
   right: 8px;
   background: none;
   border: none;
-  color: #0000FF; /* Show/Hide button text color - blue */
+  color: #0000FF;
   font-size: 13px;
   cursor: pointer;
   padding: 4px 6px;
 }
 
 .toggle-btn:hover {
-  color: #00FFFF; /* Show/Hide button color on hover - lighter blue */
+  color: #00FFFF;
 }
 
-/*Saved card*/
-.saved-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 14px;
-  border: 1px solid #FFC0CB; /* same border color as inputs - pink */
-  border-radius: 4px;
-  margin-bottom: 12px;
-}
-
-.saved-card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.card-label {
-  font-size: 12px;
-  color: #800080; /* purple, same as the other labels */
-}
-
-.card-number {
-  font-size: 15px;
-  color: #000000;
-  letter-spacing: 1px;
-}
-
-.card-expiry {
-  font-size: 12px;
-  color: #555555;
-}
-
-.remove-card-btn {
-  background: none;
-  border: none;
-  color: #d32f2f; /* red for the delete action */
-  font-size: 13px;
-  cursor: pointer;
-  padding: 4px 6px;
-  white-space: nowrap;
-}
-
-.remove-card-btn:hover {
-  color: #a02020; /* darker red on hover */
-}
-
-/*Buttons*/
 .profile-btn {
   width: 100%;
   padding: 12px;
   margin-top: 8px;
-  background-color: #0096FF; /* button background color - light blue */
-  color: #ffffff; /* button text color - white */
+  background-color: #0096FF;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   font-size: 15px;
@@ -205,44 +234,96 @@ body {
 }
 
 .profile-btn:hover {
-  background-color: #3F00FF; /* button color on hover - indigo */
+  background-color: #3F00FF;
 }
 
 .secondary-btn {
   background-color: #ffffff;
-  color: #0096FF; /* blue text on white background */
-  border: 1px solid #0096FF; /* blue border */
+  color: #0096FF;
+  border: 1px solid #0096FF;
   margin-bottom: 18px;
 }
 
 .secondary-btn:hover {
-  background-color: #f2f8ff; /* very light blue background on hover */
+  background-color: #f2f8ff;
+}
+
+.action-buttons-container {
+  display: none;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.save-btn {
+  margin-top: 0;
+}
+
+.cancel-btn {
+  margin-top: 0;
+  background-color: #d32f2f;
+}
+
+.cancel-btn:hover {
+  background-color: #a02020;
 }
 
 .logout-btn {
   background-color: #555555;
-  margin-top: 10px;
 }
 
 .logout-btn:hover {
   background-color: #333333;
 }
 
-.save-btn {
-  margin-top: 28px;
+.main-logout-btn {
+  margin-top: 30px;
 }
 
-/* Stil pentru inputurile doar in mod citire */
-.input-group input[readonly] {
-  background-color: transparent;
-  border-color: transparent;
+.history-empty-text {
+  color: #555555;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.my-car-main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #fcfcfc;
+  border-bottom: 1px solid #FFC0CB;
+}
+
+.my-car-main-header h2 {
+  margin: 0;
+  font-size: 18px;
   color: #000000;
-  cursor: default;
-  padding-left: 0;
 }
 
-/* Cand utilizatorul apasa pe acel input readonly nu vrem sa se faca galben */
-.input-group input[readonly]:focus {
-  outline: none;
-  border-color: transparent;
+.inner-car-item {
+  border-bottom: 1px solid #FFC0CB;
+}
+
+.inner-car-item:last-child {
+  border-bottom: none;
+}
+
+.add-car-form-container {
+  display: none;
+  padding: 16px;
+  border-bottom: 1px solid #FFC0CB;
+  background-color: #fafafa;
+}
+
+.add-car-form-container h3 {
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: #000000;
+}
+
+.add-car-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }

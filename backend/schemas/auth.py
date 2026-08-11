@@ -40,7 +40,14 @@ class UserLogin(BaseModel):
     email: str
     password: str
 
+class CarCreate(BaseModel):
+    make: str
+    model: str
+    year: int
+    engine: str
+
 class CarResponse(BaseModel):
+    id: int
     make: str | None = None
     model: str | None = None
     year: int | None = None
@@ -51,7 +58,7 @@ class UserProfileResponse(BaseModel):
     email: str
     telephoneNumber: str
     role: str
-    car: CarResponse | None = None
+    cars: list[CarResponse] = []
 
 class CarUpdate(BaseModel):
     make: str | None = None
@@ -63,7 +70,6 @@ class UserProfileUpdate(BaseModel):
     user: str | None = None
     email: str | None = None
     telephoneNumber: str | None = None
-    car: CarUpdate | None = None
 
 class PasswordUpdate(BaseModel):
     currentPassword: str
