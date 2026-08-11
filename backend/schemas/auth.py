@@ -39,3 +39,32 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: str
     password: str
+
+class CarResponse(BaseModel):
+    make: str | None = None
+    model: str | None = None
+    year: int | None = None
+    engine: str | None = None
+
+class UserProfileResponse(BaseModel):
+    user: str
+    email: str
+    telephoneNumber: str
+    role: str
+    car: CarResponse | None = None
+
+class CarUpdate(BaseModel):
+    make: str | None = None
+    model: str | None = None
+    year: int | None = None
+    engine: str | None = None
+
+class UserProfileUpdate(BaseModel):
+    user: str | None = None
+    email: str | None = None
+    telephoneNumber: str | None = None
+    car: CarUpdate | None = None
+
+class PasswordUpdate(BaseModel):
+    currentPassword: str
+    newPassword: str
