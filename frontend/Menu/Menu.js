@@ -8,14 +8,10 @@ menuLink.addEventListener('click', (event) => {
 function toggleMenu(menuId) {
   const menu = document.getElementById(menuId);
   const navGroup = menu.parentElement;
-
   const isActive = navGroup.classList.contains('active');
 
   closeAllMenus();
-
-  if (!isActive) {
-    navGroup.classList.add('active');
-  }
+  if (!isActive) navGroup.classList.add('active');
 }
 
 function closeAllMenus() {
@@ -26,18 +22,14 @@ function closeAllMenus() {
 }
 
 document.querySelectorAll('.nav-toggle-btn[data-menu-target]').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    toggleMenu(btn.dataset.menuTarget);
-  });
+  btn.addEventListener('click', () => toggleMenu(btn.dataset.menuTarget));
 });
 
 document.addEventListener('click', (event) => {
-  const isClickInsideNavGroup = event.target.closest('.nav-group');
-
-  if (!isClickInsideNavGroup) {
-    closeAllMenus();
-  }
+  if (!event.target.closest('.nav-group')) closeAllMenus();
 });
+
+// --- Setări Calendar ---
 
 const dateBtn = document.getElementById('date-btn');
 const calendarDropdown = document.getElementById('calendar-dropdown');
@@ -58,16 +50,10 @@ let selectedDate = null;
 dateBtn.addEventListener('click', (event) => {
   event.stopPropagation();
   const wasHidden = calendarDropdown.classList.contains('hidden');
-
-  document.querySelectorAll('.nav-group').forEach((item) => {
-    item.classList.remove('active');
-  });
-
+  
+  closeAllMenus();
   calendarDropdown.classList.toggle('hidden');
-
-  if (wasHidden) {
-    renderCalendar();
-  }
+  if (wasHidden) renderCalendar();
 });
 
 prevMonthBtn.addEventListener('click', () => {
@@ -130,18 +116,81 @@ function renderCalendar() {
   }
 }
 
-document.querySelectorAll('.card').forEach((card) => {
-  card.addEventListener('click', () => {
-    card.classList.toggle('open');
-  });
-});
+// --- Randare Companii (Backend API) ---
 
-document.querySelectorAll('.booking-btn').forEach((btn) => {
-  btn.addEventListener('click', (event) => {
-    event.stopPropagation();
-    window.location.href = '../Checkout/Checkout.html';
+const servicesContainer = document.getElementById('services-container');
+const API_URL = "/api/get-companii"; 
+
+// Event delegation pentru cardurile generate dinamic
+if (servicesContainer) {
+  servicesContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('booking-btn')) {
+      event.stopPropagation();
+      window.location.href = '../Checkout/Checkout.html';
+      return;
+    }
+
+    const clickedCard = event.target.closest('.card');
+    if (clickedCard) clickedCard.classList.toggle('open');
   });
-});
+}
+
+// Preia datele din API
+async function incarcaCompaniile() {
+  if (!servicesContainer) return;
+
+  try {
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Se încarcă serviciile...</p>";
+    
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error("Eroare rețea");
+    
+    const companii = await response.json();
+    randeazaCompanii(companii);
+
+  } catch (error) {
+    console.error("Eroare fetch companii:", error);
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>Nu am putut încărca lista de servicii.</p>";
+  }
+}
+
+// Generează HTML-ul
+// Generează HTML-ul
+function randeazaCompanii(companii) {
+  servicesContainer.innerHTML = ""; 
+
+  if (companii.length === 0) {
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Nicio companie înregistrată momentan.</p>";
+    return;
+  }
+
+  companii.forEach(companie => {
+    const cardHTML = `
+      <div class="card">
+        <div class="card-header">
+          <h3>${companie.nume}</h3>
+          <div class="rating">
+            <span class="rating-number">${companie.rating}</span>
+            <span class="stars">${companie.stele}</span>
+          </div>
+          <span class="price">${companie.pret}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-content">
+            <p class="location-text" style="font-weight: bold; margin-bottom: 5px;">📍 ${companie.locatie}</p>
+            <p>${companie.descriere}</p>
+            <button class="booking-btn">Booking</button>
+          </div>
+        </div>
+      </div>
+    `;
+    servicesContainer.insertAdjacentHTML('beforeend', cardHTML);
+  });
+}
+
+incarcaCompaniile();
+
+// --- Efect Motto (Typewriter) ---
 
 const mottoEl = document.getElementById('page-motto');
 
