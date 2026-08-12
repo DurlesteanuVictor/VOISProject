@@ -19,6 +19,7 @@ function closeAllMenus() {
     item.classList.remove('active');
   });
   calendarDropdown.classList.add('hidden');
+  locationPanel.classList.add('hidden');
 }
 
 document.querySelectorAll('.nav-toggle-btn[data-menu-target]').forEach((btn) => {
@@ -115,6 +116,120 @@ function renderCalendar() {
     calendarGrid.appendChild(dayEl);
   }
 }
+
+// --- Location Settings ---
+
+const locationBtn = document.getElementById('location-btn');
+const locationPanel = document.getElementById('location-panel');
+const locationRadiusInput = document.getElementById('location-radius');
+const locationRadiusValue = document.getElementById('location-radius-value');
+const locationAddressInput = document.getElementById('location-address');
+const locationSearchBtn = document.getElementById('location-search-btn');
+const locationCurrentBtn = document.getElementById('location-current-btn');
+const locationApplyBtn = document.getElementById('location-apply-btn');
+
+const DEFAULT_LAT = 47.1585;
+const DEFAULT_LON = 27.6014;
+
+let locationMap = null;
+let locationMarker = null;
+let locationCircle = null;
+let mapInitialized = false;
+
+function initLocationMap() {
+  if (mapInitialized) return;
+  mapInitialized = true;
+
+  locationMap = L.map('location-map').setView([DEFAULT_LAT, DEFAULT_LON], 11);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(locationMap);
+
+  L.control.scale({ metric: true, imperial: false }).addTo(locationMap);
+
+  locationMarker = L.marker([DEFAULT_LAT, DEFAULT_LON]).addTo(locationMap);
+  locationCircle = L.circle([DEFAULT_LAT, DEFAULT_LON], {
+    radius: locationRadiusInput.value * 1000,
+    color: '#0096FF',
+    fillColor: '#0096FF',
+    fillOpacity: 0.15
+  }).addTo(locationMap);
+
+  locationMap.on('click', (event) => {
+    setLocationPoint(event.latlng.lat, event.latlng.lng);
+  });
+}
+
+function setLocationPoint(lat, lon) {
+  locationMarker.setLatLng([lat, lon]);
+  locationCircle.setLatLng([lat, lon]);
+  locationMap.setView([lat, lon], locationMap.getZoom());
+}
+
+locationBtn.addEventListener('click', (event) => {
+  event.stopPropagation();
+  const wasHidden = locationPanel.classList.contains('hidden');
+
+  closeAllMenus();
+  locationPanel.classList.toggle('hidden');
+
+  if (wasHidden) {
+    initLocationMap();
+    setTimeout(() => locationMap.invalidateSize(), 200);
+  }
+});
+
+locationRadiusInput.addEventListener('input', () => {
+  locationRadiusValue.textContent = locationRadiusInput.value;
+  if (locationCircle) locationCircle.setRadius(locationRadiusInput.value * 1000);
+});
+
+locationSearchBtn.addEventListener('click', () => {
+  const query = locationAddressInput.value.trim();
+  if (!query) return;
+
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+    .then((response) => response.json())
+    .then((results) => {
+      if (results.length === 0) {
+        alert('Location not found. Try a different address.');
+        return;
+      }
+      setLocationPoint(parseFloat(results[0].lat), parseFloat(results[0].lon));
+    })
+    .catch(() => {
+      alert('Could not search for that address right now.');
+    });
+});
+
+locationCurrentBtn.addEventListener('click', () => {
+  if (!navigator.geolocation) {
+    alert('Your browser does not support location detection.');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      setLocationPoint(position.coords.latitude, position.coords.longitude);
+    },
+    () => {
+      alert('Could not get your current location.');
+    }
+  );
+});
+
+locationApplyBtn.addEventListener('click', () => {
+  const chosenLocation = {
+    lat: locationMarker.getLatLng().lat,
+    lon: locationMarker.getLatLng().lng,
+    radiusKm: Number(locationRadiusInput.value)
+  };
+
+  localStorage.setItem('preferredLocation', JSON.stringify(chosenLocation));
+  alert('Location saved! Filtering companies by distance is not connected to the backend yet.');
+  locationPanel.classList.add('hidden');
+});
 
 // --- Randare Companii (Backend API) ---
 

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Menu</title>
   <link rel="stylesheet" href="Menu.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 </head>
 <body>
 
@@ -55,6 +56,30 @@
                   <a href="#">Serviciu 11</a>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-group location-wrapper">
+          <button type="button" id="location-btn" class="nav-toggle-btn">Change location</button>
+
+          <div id="location-panel" class="location-panel hidden">
+            <div id="location-map"></div>
+
+            <div class="location-controls">
+              <div class="location-radius-row">
+                <label for="location-radius">Range: <span id="location-radius-value">25</span> km</label>
+                <input type="range" id="location-radius" min="1" max="100" value="25" />
+              </div>
+
+              <div class="location-search-row">
+                <input type="text" id="location-address" placeholder="Enter a city or address" />
+                <button type="button" id="location-search-btn">Search</button>
+              </div>
+
+              <button type="button" id="location-current-btn" class="location-current-btn">Use my current location</button>
+
+              <button type="button" id="location-apply-btn" class="location-apply-btn">Apply</button>
             </div>
           </div>
         </div>
@@ -119,6 +144,7 @@
 
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="Menu.js"></script>
 </body>
 </html>
