@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Account</title>
+  <link rel="stylesheet" href="Register.css" />
+  <link rel="stylesheet" href="../Login/Login.css" />
+</head>
+<body>
+
+  <div class="login-container register-container">
+    <h1 class="login-title">Create Account</h1>
+    
+    <form id="register-form">
+      <div class="input-group">
+        <label for="user">Name:</label>
+        <input type="text" id="user" name="user" placeholder="Ion Popescu" required />
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email Adress:</label>
+        <input type="email" id="email" name="email" placeholder="email@gmail.com" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="Minim 6 caractere" required />
+          <button type="button" id="toggle-password" class="toggle-btn">Arată</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="telephoneNumber">Telephone Number</label>
+        <input type="tel" id="telephoneNumber" name="telephoneNumber" placeholder="XXXXXXXXX" required />
+      </div>
+      <div id="car-details-section">
+        <h3>Car Details:</h3>
+        
+        <div class="input-group">
+          <label for="carName">Make and Model</label>
+          <input type="text" id="carName" name="carName" placeholder="example: Dacia Logan" />
+        </div>
+
+        <div class="input-group">
+          <label for="carYear">Year Of Production</label>
+          <input type="number" id="carYear" name="carYear" min="1900" max="2027" placeholder="example: 2015" />
+        </div>
+
+        <div class="input-group">
+          <label for="carEngine">Type Of Engine</label>
+          <input type="text" id="carEngine" name="carEngine" placeholder="example: 1.5 dCi" />
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn">Register</button>
+
+      <div class="company-register-section">
+        <span class="company-register-text">Ești un service auto nou pe platformă?</span>
+        <br>
+        <a href="../Register Company/RegisterCompany.html" class="company-register-btn">Înregistrează Compania</a>
+      </div>
+    </form>
+  </div>
+  <script src="Register.js"></script>
+</body>
+</html>

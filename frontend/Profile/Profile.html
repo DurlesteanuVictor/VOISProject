@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Profile</title>
+  <link rel="stylesheet" href="Profile.css" />
+</head>
+<body>
+  <div class="profile-container">
+    <h1 class="profile-title">My Profile</h1>
+    
+    <div class="avatar-section">
+      <img src="profile-placeholder.png" alt="Profile picture" class="profile-avatar" id="avatar-preview" />
+      <label for="avatar-upload" class="avatar-upload-label">Change photo</label>
+      <input type="file" id="avatar-upload" accept="image/*" hidden />
+    </div>
+
+    <form id="profile-form">
+      <h2 class="section-title">Personal info</h2>
+      <div class="input-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" readonly />
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" readonly />
+      </div>
+      <div class="input-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" readonly />
+      </div>
+      
+      <div id="company-services-section" style="display: none;">
+        <h2 class="section-title">Servicii Oferite</h2>
+        <div id="profile-tags-container" class="tags-container readonly-tags">
+          <span class="service-tag">Schimb Ulei</span>
+          <span class="service-tag">Revizie Frâne</span>
+          <span class="service-tag">Diagnoză Auto</span>
+          <span class="service-tag">Schimb Distribuție</span>
+          <span class="service-tag">Vulcanizare</span>
+          <span class="service-tag">Climatizare AC</span>
+        </div>
+      </div>
+
+      <div id="company-mechanics-section">
+        <h2 class="section-title">Echipa de Mecanici</h2>
+        <div id="mechanics-list" class="mechanics-list-container"></div>
+        <button type="button" class="profile-btn secondary-btn add-mechanic-btn" id="add-mechanic-btn">+ Adaugă Mecanic</button>
+      </div>
+
+      <div id="car-section">
+        <h2 class="section-title">Car details</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="carMake">Make</label>
+            <input type="text" id="carMake" name="carMake" readonly />
+          </div>
+          <div class="input-group">
+            <label for="carModel">Model</label>
+            <input type="text" id="carModel" name="carModel" readonly />
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="carYear">Year</label>
+            <input type="number" id="carYear" name="carYear" readonly />
+          </div>
+          <div class="input-group">
+            <label for="carEngine">Engine</label>
+            <input type="text" id="carEngine" name="carEngine" readonly />
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="profile-btn secondary-btn" id="edit-btn">Edit Profile</button>
+      <div id="action-buttons" style="display: none; gap: 10px; margin-top: 28px;">
+        <button type="submit" class="profile-btn save-btn" id="save-btn" style="margin-top: 0;">Save Changes</button>
+        <button type="button" class="profile-btn logout-btn" id="cancel-btn" style="margin-top: 0; background-color: #d32f2f;">Cancel</button>
+      </div>
+
+      
+    </form>
+
+    <h2 class="section-title">Change password</h2>
+    <form id="password-form">
+      <div class="input-group">
+        <label for="currentPassword">Current password</label>
+        <div class="password-wrapper">
+          <input type="password" id="currentPassword" name="currentPassword" required />
+          <button type="button" class="toggle-btn" data-target="currentPassword">Show</button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="newPassword">New password</label>
+        <div class="password-wrapper">
+          <input type="password" id="newPassword" name="newPassword" required />
+          <button type="button" class="toggle-btn" data-target="newPassword">Show</button>
+        </div>
+      </div>
+      <button type="submit" class="profile-btn">Update password</button>
+    </form>
+
+    <button type="button" class="profile-btn logout-btn" id="logout-btn">Log out</button>
+  </div>
+
+  <template id="mechanic-card-template">
+    <div class="saved-card mechanic-card">
+      <div class="saved-card-info">
+        <span class="card-number mechanic-name">Nume Mecanic</span>
+        <span class="card-expiry">Mecanic Auto</span>
+      </div>
+      <div class="mechanic-actions">
+        <span class="calendar-icon" title="Vezi Programul">📅</span>
+        <button type="button" class="remove-card-btn delete-mechanic-btn">Șterge</button>
+      </div>
+    </div>
+  </template>
+  <script src="Profile.js"></script>
+</body>
+</html>

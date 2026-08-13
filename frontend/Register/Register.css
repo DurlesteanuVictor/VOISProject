@@ -1,0 +1,19 @@
+.register-container {
+  max-width: 420px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.input-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #FFC0CB;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.input-group select:focus {
+  outline: none;
+  border-color: #FFFF00;
+}

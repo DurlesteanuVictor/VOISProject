@@ -1,0 +1,51 @@
+.company-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #FFC0CB; /* culoarea marginii textarea-ului - roz */
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0000FF; /* culoarea textului scris de utilizator - albastru */
+  background-color: #eeeeee; /* culoarea fundalului textarea-ului - gri deschis */
+  resize: vertical;
+}
+
+.company-textarea:focus {
+  outline: none;
+  border-color: #FFFF00; /* culoarea marginii textarea-ului cand e selectat - galben */
+}
+
+#message-box {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #800080; /* culoarea mesajelor de eroare/succes - mov */
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.service-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border: 1px solid #FFC0CB;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #800080;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.service-tag.selected {
+  background-color: #0096FF;
+  color: #ffffff;
+  border-color: #0096FF;
+}

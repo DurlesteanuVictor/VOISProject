@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu</title>
+  <link rel="stylesheet" href="Menu.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <a href="#" id="menu-link" class="menu-button">NAME</a>
+
+    <div class="navbar-row">
+      <nav class="navbar">
+
+        <div class="nav-group date-wrapper">
+          <button type="button" id="date-btn" class="nav-toggle-btn">Data</button>
+
+          <div id="calendar-dropdown" class="calendar-dropdown hidden">
+            <div class="calendar-header">
+              <button type="button" id="prev-month" class="calendar-nav-btn">&#8592;</button>
+              <span id="calendar-month-label"></span>
+              <button type="button" id="next-month" class="calendar-nav-btn">&#8594;</button>
+            </div>
+            <div id="calendar-grid" class="calendar-grid"></div>
+          </div>
+        </div>
+
+        <div class="nav-group">
+          <button type="button" class="nav-toggle-btn" data-menu-target="servicii">
+            Services <span class="arrow">&#9660;</span>
+          </button>
+
+          <div class="dropdown-panel" id="servicii">
+            <div class="dropdown-panel-content">
+              <h3 class="dropdown-title">Categorie generică</h3>
+              <div class="services-grid">
+                <div class="services-column">
+                  <a href="#">Serviciu 1</a>
+                  <a href="#">Serviciu 2</a>
+                  <a href="#">Serviciu 3</a>
+                  <a href="#">Serviciu 4</a>
+                </div>
+                <div class="services-column">
+                  <a href="#">Serviciu 5</a>
+                  <a href="#">Serviciu 6</a>
+                  <a href="#">Serviciu 7</a>
+                  <a href="#">Serviciu 8</a>
+                </div>
+                <div class="services-column">
+                  <a href="#">Serviciu 9</a>
+                  <a href="#">Serviciu 10</a>
+                  <a href="#">Serviciu 11</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-group location-wrapper">
+          <button type="button" id="location-btn" class="nav-toggle-btn">Change location</button>
+
+          <div id="location-panel" class="location-panel hidden">
+            <div id="location-map"></div>
+
+            <div class="location-controls">
+              <div class="location-radius-row">
+                <label for="location-radius">Range: <span id="location-radius-value">25</span> km</label>
+                <input type="range" id="location-radius" min="1" max="100" value="25" />
+              </div>
+
+              <div class="location-search-row">
+                <input type="text" id="location-address" placeholder="Enter a city or address" />
+                <button type="button" id="location-search-btn">Search</button>
+              </div>
+
+              <button type="button" id="location-current-btn" class="location-current-btn">Use my current location</button>
+
+              <button type="button" id="location-apply-btn" class="location-apply-btn">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-group">
+          <button type="button" class="nav-toggle-btn" data-menu-target="about">
+            About <span class="arrow">&#9660;</span>
+          </button>
+
+          <div class="dropdown-panel" id="about">
+            <div class="dropdown-panel-content about-content">
+              <div class="about-column">
+                <h3 class="dropdown-title">Titlu generic 1</h3>
+                <p class="about-text">Text generic despre această secțiune. Va fi înlocuit ulterior cu conținutul real.</p>
+              </div>
+
+              <div class="about-divider"></div>
+
+              <div class="about-column">
+                <h3 class="dropdown-title">Titlu generic 2</h3>
+                <p class="about-text">Text generic despre această secțiune. Va fi înlocuit ulterior cu conținutul real.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-group">
+          <button type="button" class="nav-toggle-btn" data-menu-target="contact">
+            Contact <span class="arrow">&#9660;</span>
+          </button>
+
+          <div class="dropdown-panel" id="contact">
+            <div class="dropdown-panel-content contact-details">
+              <div class="contact-row">
+                <span class="contact-label">Email</span>
+                <span class="contact-value">contact@site-generic.ro</span>
+              </div>
+              <div class="contact-row">
+                <span class="contact-label">Telefon</span>
+                <span class="contact-value">+40 700 000 000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </nav>
+    </div>
+
+    <a href="../Profile/Profile.html" class="account-avatar-link">
+      <img src="profile-placeholder.png" alt="Account" class="account-avatar" />
+    </a>
+
+  </div>
+
+  <main class="page-content">
+
+    <p class="page-motto" id="page-motto" data-text="Motto generic al site-ului, îl schimbăm ulterior."></p>
+
+    <div class="grid-container" id="services-container">
+      
+    </div>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="Menu.js"></script>
+</body>
+</html>
