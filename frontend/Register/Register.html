@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <div class="login-container register-container">
+  <div class="login-container register-container" id="register-container">
     <h1 class="login-title">Create Account</h1>
     
     <form id="register-form">
@@ -28,6 +28,10 @@
           <input type="password" id="password" name="password" placeholder="Minim 6 caractere" required />
           <button type="button" id="toggle-password" class="toggle-btn">Arată</button>
         </div>
+        <div class="password-strength">
+          <div class="password-strength-bar" id="password-strength-bar"></div>
+        </div>
+        <span class="password-strength-label" id="password-strength-label"></span>
       </div>
 
       <div class="input-group">
@@ -53,7 +57,11 @@
         </div>
       </div>
 
-      <button type="submit" class="login-btn">Register</button>
+      <p class="form-error" id="form-error"></p>
+
+      <button type="submit" class="login-btn" id="register-btn">
+        <span id="register-btn-text">Register</span>
+      </button>
 
       <div class="company-register-section">
         <span class="company-register-text">Ești un service auto nou pe platformă?</span>
