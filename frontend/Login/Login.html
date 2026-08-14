@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <div class="login-container">
+  <div class="login-container" id="login-container">
     <h1 class="login-title">Autentificare</h1>
 
     <form id="login-form">
@@ -25,7 +25,11 @@
         </div>
       </div>
 
-      <button type="submit" class="login-btn">Login</button>
+      <p class="form-error" id="form-error"></p>
+
+      <button type="submit" class="login-btn" id="login-btn">
+        <span id="login-btn-text">Login</span>
+      </button>
 
       <div class="register-redirect">
         <span class="redirect-text">Nu ai cont?</span>

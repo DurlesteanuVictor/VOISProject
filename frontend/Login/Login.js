@@ -6,6 +6,10 @@ if (token) {
 const passwordInput = document.getElementById('password');
 const toggleBtn = document.getElementById('toggle-password');
 const loginForm = document.getElementById('login-form');
+const loginContainer = document.getElementById('login-container');
+const formError = document.getElementById('form-error');
+const loginBtn = document.getElementById('login-btn');
+const loginBtnText = document.getElementById('login-btn-text');
 
 toggleBtn.addEventListener('click', () => {
     const isHidden = passwordInput.type === 'password';
@@ -13,12 +17,42 @@ toggleBtn.addEventListener('click', () => {
     toggleBtn.textContent = isHidden ? 'Hide' : 'Show';
 });
 
+function showError(message) {
+    formError.textContent = message;
+
+    loginContainer.classList.remove('shake');
+    void loginContainer.offsetWidth;
+    loginContainer.classList.add('shake');
+}
+
+function clearError() {
+    formError.textContent = '';
+}
+
+function setLoading(isLoading) {
+    loginBtn.disabled = isLoading;
+
+    if (isLoading) {
+        loginBtnText.textContent = 'Se conectează...';
+        const spinner = document.createElement('span');
+        spinner.className = 'btn-spinner';
+        loginBtn.appendChild(spinner);
+    } else {
+        loginBtnText.textContent = 'Login';
+        const spinner = loginBtn.querySelector('.btn-spinner');
+        if (spinner) spinner.remove();
+    }
+}
+
 loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    
+
+    clearError();
+    setLoading(true);
+
     const email = document.getElementById('username').value;
     const password = passwordInput.value;
-    
+
     try {
         const response = await fetch('http://127.0.0.1:8000/api/auth/login', {
             method: 'POST',
@@ -27,21 +61,23 @@ loginForm.addEventListener('submit', async (event) => {
             },
             body: JSON.stringify({ email: email, password: password })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.ok) {
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('role', data.role);
             localStorage.setItem('user_name', data.user_name);
-            
+
             if (data.role === 'user' || data.role === 'mechanic') {
                 window.location.href = "../Menu/Menu.html";
             }
         } else {
-            alert("Login error: " + (data.detail || "Invalid credentials"));
+            showError(data.detail || 'Email sau parolă incorectă.');
+            setLoading(false);
         }
     } catch (error) {
-        alert("Server connection error!");
+        showError('Nu ne putem conecta la server. Încearcă din nou.');
+        setLoading(false);
     }
 });
