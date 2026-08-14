@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="Checkout.css" />
+</head>
+<body>
+
+  <header class="checkout-header">
+    <a href="../Menu/Menu.html" class="checkout-logo">FixFlex</a>
+  </header>
+
+  <div class="step-indicator">
+    <div class="step completed">
+      <div class="step-circle">&#10003;</div>
+      <span class="step-label">Serviciu</span>
+    </div>
+    <div class="step-line completed"></div>
+    <div class="step active">
+      <div class="step-circle">2</div>
+      <span class="step-label">Detalii</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-circle">3</div>
+      <span class="step-label">Confirmare</span>
+    </div>
+  </div>
+
+  <main class="checkout-content">
+
+    <div class="checkout-left">
+
+      <div class="company-preview">
+        <img class="company-preview-image" src="company-placeholder.png" alt="Companie" id="company-image" />
+        <div class="company-preview-body">
+          <h2 class="company-preview-name" id="company-name">Nume companie</h2>
+          <div class="company-preview-rating">
+            <span class="rating-number" id="company-rating">-</span>
+            <span class="stars" id="company-stars"></span>
+          </div>
+          <p class="company-preview-location" id="company-location">&#128205; Locație indisponibilă</p>
+          <p class="company-preview-description" id="company-description">Nicio descriere disponibilă.</p>
+        </div>
+      </div>
+
+      <div class="booking-details">
+        <h3 class="booking-details-title">Detalii rezervare</h3>
+
+        <div class="detail-row">
+          <span class="detail-label">Data</span>
+          <span class="detail-value" id="checkout-date">Nespecificată</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Ora</span>
+          <div class="hour-dropdown" id="hour-dropdown">
+            <button type="button" class="hour-dropdown-toggle" id="hour-dropdown-toggle">Selectați ora</button>
+            <div class="hour-dropdown-list hidden" id="hour-dropdown-list"></div>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Preț</span>
+          <span class="detail-value price-value" id="checkout-price">-</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="checkout-right" id="checkout-right">
+      <h2 class="checkout-form-title">Introduceți detaliile dvs.</h2>
+
+      <form id="checkout-form">
+        <div class="input-group">
+          <label for="address">Adresă</label>
+          <input type="text" id="address" name="address" placeholder="Introdu adresa" required />
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label for="city">Oraș</label>
+            <input type="text" id="city" name="city" required />
+          </div>
+          <div class="input-group">
+            <label for="postalCode">Cod poștal</label>
+            <input type="text" id="postalCode" name="postalCode" required />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="country">Țară</label>
+          <input type="text" id="country" name="country" required />
+        </div>
+
+        <div class="input-group">
+          <label for="car-select">Selectează mașina</label>
+          <select id="car-select" name="car" required>
+            <option value="">Se încarcă mașinile...</option>
+          </select>
+        </div>
+
+        <p class="form-error" id="form-error"></p>
+
+        <button type="button" class="next-step-btn" id="next-step-btn">
+          <span id="next-step-btn-text">Pasul următor</span>
+        </button>
+      </form>
+    </div>
+
+  </main>
+
+  <script src="Checkout.js"></script>
+</body>
+</html>
