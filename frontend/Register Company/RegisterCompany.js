@@ -1,11 +1,50 @@
+const companyContainer = document.getElementById("company-container");
+const messageBox = document.getElementById("message-box");
+const submitBtn = document.getElementById("company-submit-btn");
+const submitBtnText = document.getElementById("company-submit-btn-text");
+
+function showMessage(text, type) {
+    messageBox.textContent = text;
+    messageBox.classList.remove('success', 'error');
+    messageBox.classList.add(type);
+
+    if (type === 'error') {
+        companyContainer.classList.remove('shake');
+        void companyContainer.offsetWidth;
+        companyContainer.classList.add('shake');
+    }
+}
+
+function setLoading(isLoading) {
+    submitBtn.disabled = isLoading;
+
+    if (isLoading) {
+        submitBtnText.textContent = 'Se înregistrează...';
+        const spinner = document.createElement('span');
+        spinner.className = 'btn-spinner';
+        submitBtn.appendChild(spinner);
+    } else {
+        submitBtnText.textContent = 'Înregistrează Compania';
+        const spinner = submitBtn.querySelector('.btn-spinner');
+        if (spinner) spinner.remove();
+    }
+}
+
 document.getElementById("company-form").addEventListener("submit", async function(e) {
     e.preventDefault();
+
+    messageBox.textContent = '';
+    messageBox.classList.remove('success', 'error');
+
     const payload = {
         name: document.getElementById("name").value,
         address: document.getElementById("address").value,
         contact_info: document.getElementById("contact_info").value,
         description: document.getElementById("description").value 
     };
+
+    setLoading(true);
+
     try {
         const response = await fetch("http://localhost:8000/api/companies/create", {
             method: "POST",
@@ -20,17 +59,18 @@ document.getElementById("company-form").addEventListener("submit", async functio
             localStorage.setItem("company_adress", payload.address);
             localStorage.setItem("company_contact", payload.contact_info);
             localStorage.setItem("company_description", payload.description);
-            alert("Company is made!");
-            window.location.href = "../Menu/Menu.html"; 
+
+            showMessage("Compania a fost înregistrată cu succes!", 'success');
+            setTimeout(() => {
+                window.location.href = "../Menu/Menu.html";
+            }, 800);
         } else {
-            const messageBox = document.getElementById("message-box");
-            messageBox.innerText = "Eroare: " + (result.detail || "Didn't work.");
-            messageBox.style.color = "red";
+            showMessage(result.detail || "Nu am putut înregistra compania.", 'error');
+            setLoading(false);
         }
     } catch (error) {
         console.error("Connexion Error:", error);
-        const messageBox = document.getElementById("message-box");
-        messageBox.innerText = "Connexion error at server.";
-        messageBox.style.color = "red";
+        showMessage("Nu ne putem conecta la server. Încearcă din nou.", 'error');
+        setLoading(false);
     }
 });

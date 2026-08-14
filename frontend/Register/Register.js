@@ -79,7 +79,7 @@ function setLoading(isLoading) {
         spinner.className = 'btn-spinner';
         registerBtn.appendChild(spinner);
     } else {
-        registerBtnText.textContent = 'Register';
+        registerBtnText.textContent = 'Creează cont';
         const spinner = registerBtn.querySelector('.btn-spinner');
         if (spinner) spinner.remove();
     }

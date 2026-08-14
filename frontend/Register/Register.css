@@ -7,34 +7,34 @@
 .input-group select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #cccccc; /* culoarea marginii select-ului - gri deschis, consistent cu restul input-urilor */
+  border: 1px solid #cccccc;
   border-radius: 4px;
   font-size: 14px;
-  color: #333333; /* culoarea textului select-ului - gri închis */
-  background-color: #f7f7f7; /* culoarea fundalului select-ului - gri foarte deschis */
+  color: #333333;
+  background-color: #f7f7f7;
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
 
 .input-group select:focus {
   outline: none;
-  border-color: #5a8dee; /* culoarea marginii select-ului cand e selectat - albastru, accentul site-ului */
+  border-color: #5a8dee;
 }
 
 .company-register-section {
   text-align: center;
   margin-top: 24px;
   padding-top: 18px;
-  border-top: 1px solid #e0e0e0; /* culoarea liniei de delimitare de deasupra secțiunii */
+  border-top: 1px solid #e0e0e0;
 }
 
 .company-register-text {
   font-size: 13px;
-  color: #555555; /* culoarea textului "Ești un service auto nou..." - gri mediu */
+  color: #555555;
 }
 
 .company-register-btn {
-  color: #5a8dee; /* culoarea textului link-ului - albastru, accentul site-ului, identic cu Login */
+  color: #5a8dee;
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
@@ -43,13 +43,12 @@
 }
 
 .company-register-btn:hover {
-  color: #3a6cd4; /* culoarea link-ului la hover - albastru mai închis, identic cu Login */
+  color: #3a6cd4;
 }
 
-/*Indicatorul de putere a parolei*/
 .password-strength {
   height: 4px;
-  background-color: #e0e0e0; /* culoarea fundalului barei, cand e goala */
+  background-color: #e0e0e0;
   border-radius: 2px;
   margin-top: 8px;
   overflow: hidden;
@@ -58,7 +57,7 @@
 .password-strength-bar {
   height: 100%;
   width: 0%;
-  background-color: #d32f2f; /* culoarea implicita a barei - roșu, suprascrisă de JS in functie de putere */
+  background-color: #d32f2f;
   transition: width 0.25s ease, background-color 0.25s ease;
 }
 
@@ -66,5 +65,5 @@
   display: block;
   font-size: 12px;
   margin-top: 4px;
-  color: #888888; /* culoarea implicita a etichetei, suprascrisă de JS in functie de putere */
+  color: #888888;
 }
