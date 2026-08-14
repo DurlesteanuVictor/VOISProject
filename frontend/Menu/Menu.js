@@ -29,8 +29,6 @@ document.addEventListener('click', (event) => {
   if (!event.target.closest('.nav-group')) closeAllMenus();
 });
 
-// --- Setări Calendar ---
-
 const dateBtn = document.getElementById('date-btn');
 const calendarDropdown = document.getElementById('calendar-dropdown');
 const calendarGrid = document.getElementById('calendar-grid');
@@ -116,16 +114,33 @@ function renderCalendar() {
   }
 }
 
-// --- Randare Companii (Backend API) ---
-
 const servicesContainer = document.getElementById('services-container');
 const API_URL = "/api/get-companii"; 
 
-// Event delegation pentru cardurile generate dinamic
 if (servicesContainer) {
   servicesContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('booking-btn')) {
       event.stopPropagation();
+
+      const card = event.target.closest('.card');
+      if (card) {
+        const bookingCompany = {
+          nume: card.dataset.nume || '',
+          pret: card.dataset.pret || '',
+          locatie: card.dataset.locatie || '',
+          descriere: card.dataset.descriere || '',
+          rating: card.dataset.rating || '',
+          stele: card.dataset.stele || ''
+        };
+        localStorage.setItem('checkout_company', JSON.stringify(bookingCompany));
+      }
+
+      if (selectedDate) {
+        localStorage.setItem('checkout_date', selectedDate.toISOString());
+      } else {
+        localStorage.removeItem('checkout_date');
+      }
+
       window.location.href = '../Checkout/Checkout.html';
       return;
     }
@@ -135,7 +150,6 @@ if (servicesContainer) {
   });
 }
 
-// Preia datele din API
 async function incarcaCompaniile() {
   if (!servicesContainer) return;
 
@@ -154,8 +168,6 @@ async function incarcaCompaniile() {
   }
 }
 
-// Generează HTML-ul
-// Generează HTML-ul
 function randeazaCompanii(companii) {
   servicesContainer.innerHTML = ""; 
 
@@ -164,9 +176,10 @@ function randeazaCompanii(companii) {
     return;
   }
 
-  companii.forEach(companie => {
+  companii.forEach((companie, index) => {
+    const animationDelay = (index * 0.06).toFixed(2);
     const cardHTML = `
-      <div class="card">
+      <div class="card" style="animation-delay: ${animationDelay}s;" data-nume="${companie.nume}" data-pret="${companie.pret}" data-locatie="${companie.locatie}" data-descriere="${companie.descriere}" data-rating="${companie.rating}" data-stele="${companie.stele}">
         <div class="card-header">
           <h3>${companie.nume}</h3>
           <div class="rating">
@@ -179,7 +192,7 @@ function randeazaCompanii(companii) {
           <div class="card-content">
             <p class="location-text" style="font-weight: bold; margin-bottom: 5px;">📍 ${companie.locatie}</p>
             <p>${companie.descriere}</p>
-            <button class="booking-btn">Booking</button>
+            <button class="booking-btn">Checkout</button>
           </div>
         </div>
       </div>
@@ -189,8 +202,6 @@ function randeazaCompanii(companii) {
 }
 
 incarcaCompaniile();
-
-// --- Efect Motto (Typewriter) ---
 
 const mottoEl = document.getElementById('page-motto');
 
