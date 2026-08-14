@@ -1,87 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
   <meta charset="UTF-8" />
-  <title>My Profile</title>
+  <title>Profilul meu</title>
   <link rel="stylesheet" href="Profile.css" />
 </head>
 <body>
-  <div class="profile-container">
-    <h1 class="profile-title">My Profile</h1>
+
+  <header class="page-header">
+    <a href="../Menu/Menu.html" class="site-logo">FixFlex</a>
+  </header>
+
+  <div class="profile-container" id="profile-container">
+    <h1 class="profile-title">Profilul meu</h1>
     
-    <div class="avatar-section">
-      <img src="profile-placeholder.png" alt="Profile picture" class="profile-avatar" id="avatar-preview" />
-      <label for="avatar-upload" class="avatar-upload-label">Change photo</label>
+    <div class="avatar-section-left">
+      <img src="profile-placeholder.png" alt="Poză de profil" class="profile-avatar" id="avatar-preview" />
+      <label for="avatar-upload" class="avatar-upload-label">Schimbă poza</label>
       <input type="file" id="avatar-upload" accept="image/*" hidden />
     </div>
 
-    <form id="profile-form">
-      <h2 class="section-title">Personal info</h2>
-      <div class="input-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" readonly />
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion('personal-info-content', this)">
+        <h2>Informații personale</h2>
+        <span class="toggle-icon">+</span>
       </div>
-      <div class="input-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" readonly />
-      </div>
-      <div class="input-group">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone" readonly />
-      </div>
+      <div class="accordion-content" id="personal-info-content">
+        <div class="accordion-content-inner">
+          <form id="profile-form">
+            <div class="input-group">
+              <label for="name">Nume</label>
+              <input type="text" id="name" name="name" value="Ion Popescu" readonly />
+            </div>
+            <div class="input-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" value="ion.popescu@email.com" readonly />
+            </div>
+            <div class="input-group">
+              <label for="phone">Telefon</label>
+              <input type="tel" id="phone" name="phone" value="0700123456" readonly />
+            </div>
 
-      <div id="car-section">
-        <h2 class="section-title">Car details</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="carMake">Make</label>
-            <input type="text" id="carMake" name="carMake" readonly />
-          </div>
-          <div class="input-group">
-            <label for="carModel">Model</label>
-            <input type="text" id="carModel" name="carModel" readonly />
-          </div>
-        </div>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="carYear">Year</label>
-            <input type="number" id="carYear" name="carYear" readonly />
-          </div>
-          <div class="input-group">
-            <label for="carEngine">Engine</label>
-            <input type="text" id="carEngine" name="carEngine" readonly />
-          </div>
+            <p class="form-message" id="profile-message"></p>
+
+            <button type="button" class="profile-btn secondary-btn" id="edit-btn">Modifică profilul</button>
+
+            <div id="action-buttons" class="action-buttons-container">
+              <button type="submit" class="profile-btn save-btn" id="save-btn">
+                <span id="save-btn-text">Salvează modificările</span>
+              </button>
+              <button type="button" class="profile-btn cancel-btn" id="cancel-btn">Anulează</button>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
 
-      <button type="button" class="profile-btn secondary-btn" id="edit-btn">Edit Profile</button>
-      <div id="action-buttons" style="display: none; gap: 10px; margin-top: 28px;">
-        <button type="submit" class="profile-btn save-btn" id="save-btn" style="margin-top: 0;">Save Changes</button>
-        <button type="button" class="profile-btn logout-btn" id="cancel-btn" style="margin-top: 0; background-color: #d32f2f;">Cancel</button>
+    <div class="accordion-item section-my-car">
+      <div class="my-car-main-header">
+        <h2>Mașina mea</h2>
+        <button type="button" class="add-car-btn" onclick="document.getElementById('add-car-form-container').style.display = 'block';">Adaugă</button>
       </div>
-    </form>
+      
+      <div id="add-car-form-container" class="add-car-form-container">
+        <h3>Adaugă o mașină nouă</h3>
+        <form id="add-car-form">
+          <div class="input-row">
+            <div class="input-group">
+              <label for="newCarMake">Marcă</label>
+              <input type="text" id="newCarMake" name="newCarMake" placeholder="ex: Dacia" required />
+            </div>
+            <div class="input-group">
+              <label for="newCarModel">Model</label>
+              <input type="text" id="newCarModel" name="newCarModel" placeholder="ex: Duster" required />
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="newCarYear">An</label>
+              <input type="number" id="newCarYear" name="newCarYear" placeholder="ex: 2022" required />
+            </div>
+            <div class="input-group">
+              <label for="newCarEngine">Motor</label>
+              <input type="text" id="newCarEngine" name="newCarEngine" placeholder="ex: 1.3 TCe" required />
+            </div>
+          </div>
 
-    <h2 class="section-title">Change password</h2>
-    <form id="password-form">
-      <div class="input-group">
-        <label for="currentPassword">Current password</label>
-        <div class="password-wrapper">
-          <input type="password" id="currentPassword" name="currentPassword" required />
-          <button type="button" class="toggle-btn" data-target="currentPassword">Show</button>
+          <p class="form-message" id="add-car-message"></p>
+
+          <div class="add-car-actions">
+            <button type="submit" class="profile-btn save-btn" id="add-car-btn-submit">
+              <span id="add-car-btn-text">Salvează mașina</span>
+            </button>
+            <button type="button" class="profile-btn cancel-btn" onclick="document.getElementById('add-car-form-container').style.display = 'none';">Anulează</button>
+          </div>
+        </form>
+      </div>
+      
+      <div class="inner-car-item">
+        <div class="accordion-header">
+          <h3>Dacia Logan</h3>
+          <div class="car-actions">
+            <button type="button" class="delete-btn">Șterge</button>
+            <span class="toggle-icon" onclick="toggleAccordion('car-1-content', this)">+</span>
+          </div>
+        </div>
+        <div class="accordion-content" id="car-1-content">
+          <div class="accordion-content-inner">
+            <div class="input-row">
+              <div class="input-group">
+                <label>An</label>
+                <input type="number" value="2015" readonly />
+              </div>
+              <div class="input-group">
+                <label>Motor</label>
+                <input type="text" value="1.5 dCi" readonly />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="input-group">
-        <label for="newPassword">New password</label>
-        <div class="password-wrapper">
-          <input type="password" id="newPassword" name="newPassword" required />
-          <button type="button" class="toggle-btn" data-target="newPassword">Show</button>
+
+      <div class="inner-car-item">
+        <div class="accordion-header">
+          <h3>Volkswagen Golf</h3>
+          <div class="car-actions">
+            <button type="button" class="delete-btn">Șterge</button>
+            <span class="toggle-icon" onclick="toggleAccordion('car-2-content', this)">+</span>
+          </div>
+        </div>
+        <div class="accordion-content" id="car-2-content">
+          <div class="accordion-content-inner">
+            <div class="input-row">
+              <div class="input-group">
+                <label>An</label>
+                <input type="number" value="2018" readonly />
+              </div>
+              <div class="input-group">
+                <label>Motor</label>
+                <input type="text" value="2.0 TDI" readonly />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <button type="submit" class="profile-btn">Update password</button>
-    </form>
+    </div>
 
-    <button type="button" class="profile-btn logout-btn" id="logout-btn">Log out</button>
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion('password-content', this)">
+        <h2>Schimbă parola</h2>
+        <span class="toggle-icon">+</span>
+      </div>
+      <div class="accordion-content" id="password-content">
+        <div class="accordion-content-inner">
+          <form id="password-form">
+            <div class="input-group">
+              <label for="currentPassword">Parola curentă</label>
+              <div class="password-wrapper">
+                <input type="password" id="currentPassword" name="currentPassword" required />
+                <button type="button" class="toggle-btn" data-target="currentPassword">Arată</button>
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="newPassword">Parolă nouă</label>
+              <div class="password-wrapper">
+                <input type="password" id="newPassword" name="newPassword" required />
+                <button type="button" class="toggle-btn" data-target="newPassword">Arată</button>
+              </div>
+              <div class="password-strength">
+                <div class="password-strength-bar" id="password-strength-bar"></div>
+              </div>
+              <span class="password-strength-label" id="password-strength-label"></span>
+            </div>
+
+            <p class="form-message" id="password-message"></p>
+
+            <button type="submit" class="profile-btn" id="password-btn">
+              <span id="password-btn-text">Actualizează parola</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion('history-content', this)">
+        <h2>Istoric</h2>
+        <span class="toggle-icon">+</span>
+      </div>
+      <div class="accordion-content" id="history-content">
+        <div class="accordion-content-inner">
+          <p class="history-empty-text">Niciun istoric disponibil.</p>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="profile-btn logout-btn main-logout-btn" id="logout-btn">Deconectare</button>
   </div>
+
+  <div class="modal-overlay hidden" id="confirm-modal">
+    <div class="modal-box">
+      <p class="modal-text" id="confirm-modal-text">Ești sigur?</p>
+      <div class="modal-actions">
+        <button type="button" class="profile-btn cancel-btn" id="confirm-modal-cancel">Anulează</button>
+        <button type="button" class="profile-btn" id="confirm-modal-confirm" style="background-color: #d32f2f;">Șterge</button>
+      </div>
+    </div>
+  </div>
+
   <script src="Profile.js"></script>
 </body>
 </html>
