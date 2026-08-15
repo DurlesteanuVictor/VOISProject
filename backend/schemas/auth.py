@@ -7,7 +7,8 @@ class UserCreate(BaseModel):
     telephoneNumber: str = Field(..., min_length=10, max_length=10)
     role: str
     
-    carName: str | None = None
+    carMake: str | None = None
+    carModel: str | None = None
     carYear: int | None = None
     carEngine: str | None = None
 
@@ -24,23 +25,25 @@ class UserCreate(BaseModel):
         if any(char.isdigit() for char in valoare):
             raise ValueError("User name should have only letters")
         return valoare
-
     
     @model_validator(mode='after')
     def validare_masina_pentru_client(self):
         if self.role == 'user':
-            if not self.carName or not self.carYear or not self.carEngine:
+            if not self.carMake or not self.carModel or not self.carYear or not self.carEngine:
                 raise ValueError("Car details req")
         elif self.role == 'mechanic':
-            self.carName = None
+            self.carMake = None
+            self.carModel = None
             self.carYear = None
-            self.carEngine = None   
+            self.carEngine = None
+            
         return self
 class UserLogin(BaseModel):
     email: str
     password: str
 
 class CarResponse(BaseModel):
+    id: int 
     make: str | None = None
     model: str | None = None
     year: int | None = None
@@ -60,8 +63,14 @@ class UserProfileResponse(BaseModel):
     email: str
     telephoneNumber: str
     role: str
-    car: CarResponse | None = None
+    cars: list[CarResponse] = []
     company: CompanyProfileResponse | None = None
+
+class CarCreate(BaseModel):
+    make: str
+    model: str
+    year: int
+    engine: str
 
 class CarUpdate(BaseModel):
     make: str | None = None

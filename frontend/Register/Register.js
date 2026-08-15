@@ -11,12 +11,11 @@ toggleBtn.addEventListener('click', () => {
 
 registerForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-
+    
     const user = document.getElementById('user').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const telephoneNumber = document.getElementById('telephoneNumber').value;
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.(com|ro)$/;
     
     if (!emailRegex.test(email)) {
@@ -25,44 +24,53 @@ registerForm.addEventListener('submit', async function(event) {
     }
     
     const DataPachet = {
-        user: user,
-        email: email,
-        password: password,
-        telephoneNumber: telephoneNumber,
-        carName: null,
-        carYear: null,
-        carEngine: null
-    };
+            user: user,
+            email: email,
+            password: password,
+            telephoneNumber: telephoneNumber,
+            role: 'user', 
+            carMake: null,
+            carModel: null,
+            carYear: null,
+            carEngine: null
+        };
 
-    const carNameValue = document.getElementById('carName').value;
-    DataPachet.carName = carNameValue !== "" ? carNameValue : null;
+        const carMakeValue = document.getElementById('carMake').value;
+        DataPachet.carMake = carMakeValue !== "" ? carMakeValue : null;
 
-    const carEngineValue = document.getElementById('carEngine').value;
-    DataPachet.carEngine = carEngineValue !== "" ? carEngineValue : null;
+        const carModelValue = document.getElementById('carModel').value;
+        DataPachet.carModel = carModelValue !== "" ? carModelValue : null;
+        
+        const carEngineValue = document.getElementById('carEngine').value;
+        DataPachet.carEngine = carEngineValue !== "" ? carEngineValue : null;
+        
+        const carYearValue = document.getElementById('carYear').value;
+        DataPachet.carYear = carYearValue !== "" ? parseInt(carYearValue) : null;
 
-    const carYearValue = document.getElementById('carYear').value;
-    DataPachet.carYear = carYearValue !== "" ? parseInt(carYearValue) : null;
-
-    try {
-
-        const response = await fetch('http://127.0.0.1:8000/api/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(DataPachet)
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("Account Is Active!");
-            registerForm.reset();
-            window.location.href = "../Login/Login.html";
-        } else {
-            alert("Problem!: " + data.detail);
+        if (!DataPachet.carMake || !DataPachet.carModel || !DataPachet.carEngine || !DataPachet.carYear) {
+            alert("Te rugam sa completezi toate detaliile masinii! Sunt obligatorii.");
+            return;
         }
-    } catch (error) {
-        alert("Server Error!");
-    }
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(DataPachet)
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                //alert("Account Is Active!");
+                //registerForm.reset();
+                window.location.replace("../Login/Login.html");
+            } else {
+                alert("Motivul respingerii:\n" + JSON.stringify(data.detail, null, 2));
+            }
+        } catch (error) {
+            alert("Server Error!");
+        }
 });

@@ -60,9 +60,9 @@ async def register_user(date_intrare: schemas.UserCreate, db: Session = Depends(
     
     if date_intrare.role == 'user':
         masina_noua = models.Car(
-            make=date_intrare.carName,
-            year=date_intrare.carYear,
-            model=date_intrare.carName,
+            make=date_intrare.carMake,
+            model=date_intrare.carModel,
+            year=date_intrare.carYear,                
             engine=date_intrare.carEngine,
             id_user=new_User.id
         )
@@ -90,18 +90,12 @@ async def login_user(credentials: schemas.UserLogin, db: Session = Depends(get_d
 
 @router.get("/profile", response_model=schemas.UserProfileResponse)
 async def get_profile(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
-    car_data = None
-    company_data = None 
+    cars_data = [] 
+    company_data = None
 
     if current_user.role == 'user':
-        car = db.query(models.Car).filter(models.Car.id_user == current_user.id).first()
-        if car:
-            car_data = schemas.CarResponse(
-                make=car.make,
-                model=car.model,
-                year=car.year,
-                engine=car.engine
-            )
+        user_cars = db.query(models.Car).filter(models.Car.id_user == current_user.id).all()
+        cars_data = [schemas.CarResponse(id=c.id, make=c.make, model=c.model, year=c.year, engine=c.engine) for c in user_cars]
     elif current_user.role == 'mechanic' and current_user.id_company:
         company = db.query(models.Company).filter(models.Company.id == current_user.id_company).first()
         if company:
@@ -112,14 +106,14 @@ async def get_profile(current_user: models.User = Depends(get_current_user), db:
                 name=company.name_service,
                 services=servicii_lista,
                 mechanics=mecanici_lista
-            )   
+            )
             
     return schemas.UserProfileResponse(
         user=current_user.user,
         email=current_user.email,
         telephoneNumber=current_user.telephoneNumber,
         role=current_user.role,
-        car=car_data,
+        cars=cars_data, 
         company=company_data 
     )
 
@@ -180,3 +174,29 @@ async def update_password(
     current_user.password = password_data.newPassword
     db.commit()
     return {"message": "Password updated successfully"}
+
+@router.post("/car")
+async def add_car(car_data: schemas.CarCreate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if current_user.role != 'user':
+        raise HTTPException(status_code=403, detail="Doar clientii pot adauga masini.")
+    
+    new_car = models.Car(
+        make=car_data.make, 
+        model=car_data.model, 
+        year=car_data.year, 
+        engine=car_data.engine, 
+        id_user=current_user.id
+    )
+    db.add(new_car)
+    db.commit()
+    return {"message": "Masina adaugata cu succes."}
+
+@router.delete("/car/{car_id}")
+async def delete_car(car_id: int, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    car = db.query(models.Car).filter(models.Car.id == car_id, models.Car.id_user == current_user.id).first()
+    if not car:
+        raise HTTPException(status_code=404, detail="Masina nu a fost gasita.")
+    
+    db.delete(car)
+    db.commit()
+    return {"message": "Masina stearsa cu succes."}

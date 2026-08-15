@@ -30,8 +30,6 @@ document.addEventListener('click', (event) => {
   if (!event.target.closest('.nav-group')) closeAllMenus();
 });
 
-// --- Setări Calendar ---
-
 const dateBtn = document.getElementById('date-btn');
 const calendarDropdown = document.getElementById('calendar-dropdown');
 const calendarGrid = document.getElementById('calendar-grid');
@@ -39,10 +37,10 @@ const calendarMonthLabel = document.getElementById('calendar-month-label');
 const prevMonthBtn = document.getElementById('prev-month');
 const nextMonthBtn = document.getElementById('next-month');
 
-const dayNames = ['L', 'Ma', 'Mi', 'J', 'V', 'S', 'D'];
+const dayNames = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 const monthNames = [
-  'Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie',
-  'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
 let currentDate = new Date();
@@ -51,7 +49,6 @@ let selectedDate = null;
 dateBtn.addEventListener('click', (event) => {
   event.stopPropagation();
   const wasHidden = calendarDropdown.classList.contains('hidden');
-  
   closeAllMenus();
   calendarDropdown.classList.toggle('hidden');
   if (wasHidden) renderCalendar();
@@ -109,15 +106,13 @@ function renderCalendar() {
 
     dayEl.addEventListener('click', () => {
       selectedDate = new Date(year, month, day);
-      dateBtn.textContent = selectedDate.toLocaleDateString('ro-RO');
+      dateBtn.textContent = selectedDate.toLocaleDateString('en-GB');
       renderCalendar();
     });
 
     calendarGrid.appendChild(dayEl);
   }
 }
-
-// --- Location Settings ---
 
 const locationBtn = document.getElementById('location-btn');
 const locationPanel = document.getElementById('location-panel');
@@ -139,7 +134,6 @@ let mapInitialized = false;
 function initLocationMap() {
   if (mapInitialized) return;
   mapInitialized = true;
-
   locationMap = L.map('location-map').setView([DEFAULT_LAT, DEFAULT_LON], 11);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -170,10 +164,8 @@ function setLocationPoint(lat, lon) {
 locationBtn.addEventListener('click', (event) => {
   event.stopPropagation();
   const wasHidden = locationPanel.classList.contains('hidden');
-
   closeAllMenus();
   locationPanel.classList.toggle('hidden');
-
   if (wasHidden) {
     initLocationMap();
     setTimeout(() => locationMap.invalidateSize(), 200);
@@ -208,7 +200,6 @@ locationCurrentBtn.addEventListener('click', () => {
     alert('Your browser does not support location detection.');
     return;
   }
-
   navigator.geolocation.getCurrentPosition(
     (position) => {
       setLocationPoint(position.coords.latitude, position.coords.longitude);
@@ -225,33 +216,47 @@ locationApplyBtn.addEventListener('click', () => {
     lon: locationMarker.getLatLng().lng,
     radiusKm: Number(locationRadiusInput.value)
   };
-
   localStorage.setItem('preferredLocation', JSON.stringify(chosenLocation));
   locationPanel.classList.add('hidden');
-  incarcaCompaniile(); 
+  incarcaCompaniile();
 });
 
 function calculeazaDistanta(lat1, lon1, lat2, lon2) {
-    const R = 6371; 
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-              
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+  const R = 6371; 
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 const servicesContainer = document.getElementById('services-container');
-const API_URL = "http://127.0.0.1:8000/api/companies/all"; 
+const API_URL = "http://127.0.0.1:8000/api/companies/all";
+let companiiIncarcate = []; 
 
-// Event delegation pentru cardurile generate dinamic
 if (servicesContainer) {
   servicesContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('booking-btn')) {
       event.stopPropagation();
+      
+      if (!selectedDate) {
+        alert("Please select a date from the calendar above for booking!");
+        return;
+      }
+      
+      const an = selectedDate.getFullYear();
+      const luna = String(selectedDate.getMonth() + 1).padStart(2, '0');
+      const zi = String(selectedDate.getDate()).padStart(2, '0');
+      const dataFormatata = `${an}-${luna}-${zi}`;
+
+      const companyId = event.target.getAttribute('data-id');
+      const companieSelectata = companiiIncarcate.find(c => c.id == companyId);
+
+      localStorage.setItem('checkout_company', JSON.stringify(companieSelectata));
+      localStorage.setItem('checkout_date', dataFormatata);
+
       window.location.href = '../Checkout/Checkout.html';
       return;
     }
@@ -263,13 +268,15 @@ if (servicesContainer) {
 
 async function incarcaCompaniile() {
   if (!servicesContainer) return;
+
   try {
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Se încarcă serviciile...</p>";
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Loading services...</p>";
     
     const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Eroare rețea");
+    if (!response.ok) throw new Error("Network error");
     
     let companii = await response.json();
+    
     const preferintaSalvata = localStorage.getItem('preferredLocation');
     if (preferintaSalvata) {
         const preferinta = JSON.parse(preferintaSalvata);
@@ -279,18 +286,20 @@ async function incarcaCompaniile() {
             return distanta <= preferinta.radiusKm;
         });
     }
+
+    companiiIncarcate = companii;
     randeazaCompanii(companii);
+
   } catch (error) {
-    console.error("Eroare fetch companii:", error);
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>Nu am putut încărca lista de servicii.</p>";
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>Could not load the services list.</p>";
   }
 }
 
 function randeazaCompanii(companii) {
   servicesContainer.innerHTML = ""; 
-
+  
   if (companii.length === 0) {
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Nicio companie înregistrată momentan.</p>";
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>No company currently registered in the selected area.</p>";
     return;
   }
 
@@ -307,9 +316,9 @@ function randeazaCompanii(companii) {
         </div>
         <div class="card-body">
           <div class="card-content">
-            <p class="location-text" style="font-weight: bold; margin-bottom: 5px;">📍 ${companie.locatie}</p>
+            <p class="location-text" style="font-weight: bold; margin-bottom: 5px;">📌 ${companie.locatie}</p>
             <p>${companie.descriere}</p>
-            <button class="booking-btn">Booking</button>
+            <button class="booking-btn" data-id="${companie.id}">Booking</button>
           </div>
         </div>
       </div>
@@ -320,10 +329,7 @@ function randeazaCompanii(companii) {
 
 incarcaCompaniile();
 
-// --- Efect Motto (Typewriter) ---
-
 const mottoEl = document.getElementById('page-motto');
-
 if (mottoEl) {
   const mottoText = mottoEl.dataset.text;
   let mottoCharIndex = 0;
@@ -335,6 +341,5 @@ if (mottoEl) {
       setTimeout(typeMotto, 60);
     }
   }
-
   typeMotto();
 }

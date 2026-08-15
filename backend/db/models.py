@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, ForeignKey, Integer, String, CheckConstraint
+from sqlalchemy import Column, Float, ForeignKey, Integer, String, CheckConstraint, UniqueConstraint
 from db.database import Base
 from sqlalchemy.orm import relationship
 
@@ -51,3 +51,20 @@ class Mechanic(Base):
     name = Column(String(100), nullable=False)
     id_company = Column(Integer, ForeignKey("company.id", ondelete="CASCADE"))
     company = relationship("Company", back_populates="mechanics", cascade="all")
+
+class Booking(Base):
+    __tablename__ = "bookings"
+    
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    id_user = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    id_company = Column(Integer, ForeignKey("company.id", ondelete="CASCADE"), nullable=False)
+    booking_date = Column(String(10), nullable=False)
+    time_slot = Column(String(5), nullable=False)
+    status = Column(String(20), default="pending")
+
+    user = relationship("User", backref="bookings")
+    company = relationship("Company", backref="bookings")
+
+    __table_args__ = (
+        UniqueConstraint("id_company", "booking_date", "time_slot", name="uix_company_date_time"),
+    )
