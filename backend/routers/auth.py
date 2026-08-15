@@ -90,25 +90,25 @@ async def login_user(credentials: schemas.UserLogin, db: Session = Depends(get_d
 
 @router.get("/profile", response_model=schemas.UserProfileResponse)
 async def get_profile(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
-    car_data = None
+    user_cars = []
     
-    # Dacă utilizatorul este client, căutăm și mașina atașată lui
     if current_user.role == 'user':
-        car = db.query(models.Car).filter(models.Car.id_user == current_user.id).first()
-        if car:
-            car_data = schemas.CarResponse(
+        cars = db.query(models.Car).filter(models.Car.id_user == current_user.id).all()
+        for car in cars:
+            user_cars.append(schemas.CarResponse(
+                id=car.id,
                 make=car.make,
                 model=car.model,
                 year=car.year,
                 engine=car.engine
-            )
+            ))
             
     return schemas.UserProfileResponse(
         user=current_user.user,
         email=current_user.email,
         telephoneNumber=current_user.telephoneNumber,
         role=current_user.role,
-        car=car_data
+        cars=user_cars
     )
 
 @router.put("/profile")
@@ -123,24 +123,7 @@ async def update_profile(
         current_user.email = update_data.email
     if update_data.telephoneNumber:
         current_user.telephoneNumber = update_data.telephoneNumber
-    
-    if current_user.role == 'user' and update_data.car:
-        car = db.query(models.Car).filter(models.Car.id_user == current_user.id).first()
-        if car:
-            if update_data.car.make is not None: car.make = update_data.car.make
-            if update_data.car.model is not None: car.model = update_data.car.model
-            if update_data.car.year is not None: car.year = update_data.car.year
-            if update_data.car.engine is not None: car.engine = update_data.car.engine
-        else:
-            new_car = models.Car(
-                make=update_data.car.make,
-                model=update_data.car.model,
-                year=update_data.car.year,
-                engine=update_data.car.engine,
-                id_user=current_user.id
-            )
-            db.add(new_car)
-    
+        
     db.commit()
     return {"message": "Profile updated successfully"}
 
@@ -165,3 +148,46 @@ async def update_password(
     current_user.password = password_data.newPassword
     db.commit()
     return {"message": "Password updated successfully"}
+
+@router.post("/car", status_code=status.HTTP_201_CREATED)
+async def add_car(
+    car_data: schemas.CarCreate,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if current_user.role != 'user':
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only clients can add cars"
+        )
+        
+    new_car = models.Car(
+        make=car_data.make,
+        model=car_data.model,
+        year=car_data.year,
+        engine=car_data.engine,
+        id_user=current_user.id
+    )
+    db.add(new_car)
+    db.commit()
+    db.refresh(new_car)
+    
+    return {"message": "Car added successfully", "car_id": new_car.id}
+
+@router.delete("/car/{car_id}")
+async def delete_car(
+    car_id: int,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    car = db.query(models.Car).filter(models.Car.id == car_id, models.Car.id_user == current_user.id).first()
+    
+    if not car:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Car not found"
+        )
+        
+    db.delete(car)
+    db.commit()
+    return {"message": "Car deleted successfully"}

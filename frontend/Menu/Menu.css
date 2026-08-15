@@ -6,7 +6,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #f2f2f2; /* culoarea fundalului paginii */
+  background-color: #f2f2f2;
 }
 
 .page-wrapper {
@@ -21,12 +21,12 @@ body {
   font-size: 26px;
   font-weight: bold;
   text-decoration: none;
-  color: #222222; /* culoarea textului butonului MENIU */
+  color: #222222;
   letter-spacing: 1px;
 }
 
 .menu-button:hover {
-  color: #5a8dee; /* culoarea butonului MENIU la hover */
+  color: #5a8dee;
 }
 
 .navbar-row {
@@ -46,8 +46,8 @@ body {
   gap: 36px;
   width: fit-content;
   padding: 18px 34px;
-  background-color: #ffffff; /* culoarea fundalului barei */
-  border: 1px solid #ececec; /* culoarea marginii barei */
+  background-color: #ffffff;
+  border: 1px solid #ececec;
   border-radius: 999px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
@@ -56,12 +56,16 @@ body {
   position: relative;
 }
 
+.location-wrapper {
+  position: relative;
+}
+
 .nav-toggle-btn {
   position: relative;
   background: none;
   border: none;
   font-size: 17px;
-  color: #333333; /* culoarea textului butoanelor din navbar */
+  color: #333333;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -80,7 +84,7 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 100px;
-  background-color: transparent; /* fondul rămâne transparent, efectul apare doar pe text */
+  background-color: transparent;
   z-index: -1;
   transition: all 0.4s;
 }
@@ -104,17 +108,17 @@ body {
 }
 
 .nav-toggle-btn:hover {
-  color: #5a8dee; /* culoarea textului butoanelor la hover */
+  color: #5a8dee;
 }
 
 .arrow {
   font-size: 11px;
-  color: #999999; /* culoarea săgeții de lângă Servicii/About/Contact */
+  color: #999999;
   transition: transform 0.2s ease;
 }
 
 .nav-group.active .nav-toggle-btn {
-  color: #5a8dee; /* culoarea textului butonului cât timp meniul lui e deschis */
+  color: #5a8dee;
 }
 
 .nav-group.active .arrow {
@@ -134,8 +138,8 @@ body {
   border-radius: 50%;
   object-fit: cover;
   display: block;
-  background-color: #dddddd; /* culoarea de fundal cât timp nu există încă o poză reală */
-  border: 1px solid #e0e0e0; /* culoarea conturului avatarului */
+  background-color: #dddddd;
+  border: 1px solid #e0e0e0;
 }
 
 .dropdown-panel {
@@ -143,8 +147,8 @@ body {
   top: calc(100% + 14px);
   left: 0;
   right: 0;
-  background-color: #ffffff; /* culoarea fundalului ferestrei */
-  border: 1px solid #ececec; /* culoarea marginii ferestrei */
+  background-color: #ffffff;
+  border: 1px solid #ececec;
   border-radius: 18px;
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
   z-index: 100;
@@ -166,7 +170,7 @@ body {
 
 .dropdown-title {
   font-size: 19px;
-  color: #111111; /* culoarea titlului din fereastră */
+  color: #111111;
   margin-bottom: 22px;
   text-align: center;
   white-space: nowrap;
@@ -186,13 +190,13 @@ body {
 
 .services-column a {
   text-decoration: none;
-  color: #444444; /* culoarea linkurilor din Servicii */
+  color: #444444;
   font-size: 15px;
   white-space: nowrap;
 }
 
 .services-column a:hover {
-  color: #5a8dee; /* culoarea linkurilor din Servicii la hover */
+  color: #5a8dee;
 }
 
 .about-content {
@@ -211,13 +215,13 @@ body {
 
 .about-text {
   font-size: 14px;
-  color: #666666; /* culoarea textului generic din About */
+  color: #666666;
   line-height: 1.6;
 }
 
 .about-divider {
   width: 1px;
-  background-color: #e0e0e0; /* culoarea liniei de delimitare dintre cele 2 coloane din About */
+  background-color: #e0e0e0;
 }
 
 .contact-details {
@@ -236,14 +240,14 @@ body {
 
 .contact-label {
   font-size: 12px;
-  color: #999999; /* culoarea etichetei (Email / Telefon) */
+  color: #999999;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .contact-value {
   font-size: 14px;
-  color: #222222; /* culoarea valorii (adresa de email / numărul de telefon) */
+  color: #222222;
 }
 
 .calendar-dropdown {
@@ -251,8 +255,8 @@ body {
   top: calc(100% + 14px);
   left: 0;
   width: 260px;
-  background-color: #ffffff; /* culoarea fundalului calendarului */
-  border: 1px solid #ececec; /* culoarea marginii calendarului */
+  background-color: #ffffff;
+  border: 1px solid #ececec;
   border-radius: 10px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   padding: 12px;
@@ -269,13 +273,131 @@ body {
   transform: translateY(0);
 }
 
+.location-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  width: 380px;
+  background-color: #ffffff;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+}
+
+.location-panel:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+#location-map {
+  width: 100%;
+  height: 260px;
+  border-radius: 8px;
+  border: 1px solid #ececec;
+  margin-bottom: 14px;
+}
+
+.location-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.location-radius-row label {
+  display: block;
+  font-size: 13px;
+  color: #555555;
+  margin-bottom: 6px;
+}
+
+.location-radius-row input[type="range"] {
+  width: 100%;
+  accent-color: #5a8dee;
+}
+
+.location-search-row {
+  display: flex;
+  gap: 8px;
+}
+
+.location-search-row input {
+  flex: 1;
+  padding: 9px 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #333333;
+  background-color: #f7f7f7;
+  transition: border-color 0.2s ease;
+}
+
+.location-search-row input:focus {
+  outline: none;
+  border-color: #5a8dee;
+}
+
+.location-search-row button {
+  background-color: #5a8dee;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 9px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.location-search-row button:hover {
+  background-color: #3a6cd4;
+}
+
+.location-current-btn {
+  width: 100%;
+  padding: 9px;
+  background-color: #ffffff;
+  color: #5a8dee;
+  border: 1px solid #5a8dee;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.location-current-btn:hover {
+  background-color: #eef2fd;
+}
+
+.location-apply-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #5a8dee;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.location-apply-btn:hover {
+  background-color: #3a6cd4;
+}
+
 .calendar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
   font-size: 14px;
-  color: #222222; /* culoarea textului lunii/anului afișat */
+  color: #222222;
 }
 
 .calendar-nav-btn {
@@ -283,12 +405,12 @@ body {
   border: none;
   font-size: 14px;
   cursor: pointer;
-  color: #5a8dee; /* culoarea săgeților de navigare */
+  color: #5a8dee;
   padding: 4px 8px;
 }
 
 .calendar-nav-btn:hover {
-  color: #3a6cd4; /* culoarea săgeților la hover */
+  color: #3a6cd4;
 }
 
 .calendar-grid {
@@ -300,7 +422,7 @@ body {
 }
 
 .calendar-day-name {
-  color: #999999; /* culoarea denumirilor zilelor */
+  color: #999999;
   font-weight: bold;
   padding: 4px 0;
 }
@@ -309,11 +431,11 @@ body {
   padding: 6px 0;
   border-radius: 4px;
   cursor: pointer;
-  color: #222222; /* culoarea textului zilelor din lună */
+  color: #222222;
 }
 
 .calendar-day:hover {
-  background-color: #eef2fd; /* culoarea de fundal a zilei la hover */
+  background-color: #eef2fd;
 }
 
 .calendar-day.empty {
@@ -325,8 +447,8 @@ body {
 }
 
 .calendar-day.selected {
-  background-color: #5a8dee; /* culoarea de fundal a zilei selectate */
-  color: #ffffff; /* culoarea textului zilei selectate */
+  background-color: #5a8dee;
+  color: #ffffff;
 }
 
 .page-content {
@@ -335,7 +457,7 @@ body {
   align-items: center;
   padding-top: 180px;
   padding-bottom: 60px;
-  color: #444444; /* culoarea textului din conținutul paginii de test */
+  color: #444444;
   font-size: 16px;
   text-align: center;
 }
@@ -345,7 +467,7 @@ body {
   font-size: 30px;
   font-weight: 700;
   font-style: italic;
-  color: #333333; /* culoarea textului motto-ului */
+  color: #333333;
   margin-bottom: 180px;
   min-height: 28px;
 }
@@ -376,8 +498,8 @@ body {
 }
 
 .card {
-  background-color: #f8f9fa; /* culoarea de fundal a cardului */
-  border: 1px solid #dee2e6; /* culoarea marginii cardului */
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
   border-radius: 8px;
   padding: 3.5vh 25px;
   cursor: pointer;
@@ -397,7 +519,7 @@ body {
 }
 
 .card:hover {
-  background-color: #f1f3f5; /* culoarea de fundal a cardului la hover */
+  background-color: #f1f3f5;
 }
 
 .card-header {
@@ -422,7 +544,7 @@ body {
 
 .card-content {
   overflow: hidden;
-  color: #495057; /* culoarea textului din interiorul cardului */
+  color: #495057;
   font-size: 0.95rem;
 }
 
@@ -447,8 +569,8 @@ body {
 }
 
 .booking-btn {
-  background-color: #007bff; /* culoarea de fundal a butonului de booking */
-  color: white; /* culoarea textului butonului de booking */
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -461,7 +583,7 @@ body {
 }
 
 .booking-btn:hover {
-  background-color: #0056b3; /* culoarea butonului de booking la hover */
+  background-color: #0056b3;
 }
 
 .booking-btn:active {
@@ -478,17 +600,17 @@ body {
 .rating-number {
   font-weight: bold;
   font-size: 1.1rem;
-  color: #333; /* culoarea cifrei de rating */
+  color: #333;
 }
 
 .stars {
-  color: #FFD700; /* culoarea stelelor pline */
+  color: #FFD700;
   font-size: 1.2rem;
   letter-spacing: 2px;
 }
 
 .half-star {
-  background: linear-gradient(90deg, #FFD700 50%, #d3d3d3 50%); /* auriu pentru jumătatea plină, gri pentru jumătatea goală a stelei */
+  background: linear-gradient(90deg, #FFD700 50%, #d3d3d3 50%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
