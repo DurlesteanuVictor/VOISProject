@@ -4,21 +4,21 @@ const checkoutDateRaw = localStorage.getItem('checkout_date');
 if (companyRaw) {
   const company = JSON.parse(companyRaw);
 
-  document.getElementById('company-name').textContent = company.nume || 'Nume companie';
+  document.getElementById('company-name').textContent = company.nume || 'Company name';
   document.getElementById('company-rating').textContent = company.rating || '-';
   document.getElementById('company-stars').textContent = company.stele || '';
   document.getElementById('company-location').textContent = company.locatie
     ? `\u{1F4CD} ${company.locatie}`
-    : 'Locație indisponibilă';
-  document.getElementById('company-description').textContent = company.descriere || 'Nicio descriere disponibilă.';
+    : 'Location unavailable';
+  document.getElementById('company-description').textContent = company.descriere || 'No description available.';
   document.getElementById('checkout-price').textContent = company.pret || '-';
 }
 
 if (checkoutDateRaw) {
   const parsedDate = new Date(checkoutDateRaw);
-  document.getElementById('checkout-date').textContent = parsedDate.toLocaleDateString('ro-RO');
+  document.getElementById('checkout-date').textContent = parsedDate.toLocaleDateString('en-GB');
 } else {
-  document.getElementById('checkout-date').textContent = 'Nespecificată';
+  document.getElementById('checkout-date').textContent = 'Not specified';
 }
 
 const hourDropdown = document.getElementById('hour-dropdown');
@@ -61,7 +61,7 @@ async function incarcaMasinile() {
   const token = localStorage.getItem('access_token');
 
   if (!token) {
-    carSelect.innerHTML = '<option value="">Autentifică-te pentru a-ți vedea mașinile</option>';
+    carSelect.innerHTML = '<option value="">Log in to see your cars</option>';
     return;
   }
 
@@ -73,7 +73,7 @@ async function incarcaMasinile() {
       }
     });
 
-    if (!response.ok) throw new Error('Eroare la încărcarea profilului');
+    if (!response.ok) throw new Error('Error loading profile');
 
     const data = await response.json();
     carSelect.innerHTML = '';
@@ -82,15 +82,15 @@ async function incarcaMasinile() {
       data.cars.forEach((car, index) => {
         const option = document.createElement('option');
         option.value = car.id || index;
-        option.textContent = `${car.make || ''} ${car.model || ''}`.trim() || `Mașina ${index + 1}`;
+        option.textContent = `${car.make || ''} ${car.model || ''}`.trim() || `Car ${index + 1}`;
         carSelect.appendChild(option);
       });
     } else {
-      carSelect.innerHTML = '<option value="">Nicio mașină adăugată în profil</option>';
+      carSelect.innerHTML = '<option value="">No car added to your profile</option>';
     }
   } catch (error) {
-    console.error('Eroare la încărcarea mașinilor:', error);
-    carSelect.innerHTML = '<option value="">Nu am putut încărca mașinile</option>';
+    console.error('Error loading cars:', error);
+    carSelect.innerHTML = '<option value="">Could not load cars</option>';
   }
 }
 
@@ -117,12 +117,12 @@ function setNextStepLoading(isLoading) {
   nextStepBtn.disabled = isLoading;
 
   if (isLoading) {
-    nextStepBtnText.textContent = 'Se procesează...';
+    nextStepBtnText.textContent = 'Processing...';
     const spinner = document.createElement('span');
     spinner.className = 'btn-spinner';
     nextStepBtn.appendChild(spinner);
   } else {
-    nextStepBtnText.textContent = 'Pasul următor';
+    nextStepBtnText.textContent = 'Next Step';
     const spinner = nextStepBtn.querySelector('.btn-spinner');
     if (spinner) spinner.remove();
   }
@@ -136,20 +136,20 @@ nextStepBtn.addEventListener('click', () => {
   const postalCode = document.getElementById('postalCode').value.trim();
   const country = document.getElementById('country').value.trim();
   const carValue = carSelect.value;
-  const hourSelected = hourToggle.textContent !== 'Selectați ora';
+  const hourSelected = hourToggle.textContent !== 'Select a time';
 
   if (!address || !city || !postalCode || !country) {
-    showFormError('Completează toate câmpurile de adresă.');
+    showFormError('Please fill in all address fields.');
     return;
   }
 
   if (!carValue) {
-    showFormError('Selectează o mașină.');
+    showFormError('Please select a car.');
     return;
   }
 
   if (!hourSelected) {
-    showFormError('Selectează o oră pentru programare.');
+    showFormError('Please select a time for your appointment.');
     return;
   }
 

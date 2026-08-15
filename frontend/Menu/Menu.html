@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ro">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meniu</title>
+    <title>Menu</title>
     <link rel="stylesheet" href="Menu.css" />
     <link
       rel="stylesheet"
@@ -18,7 +18,7 @@
         <nav class="navbar">
           <div class="nav-group date-wrapper">
             <button type="button" id="date-btn" class="nav-toggle-btn">
-              Data
+              Date
             </button>
 
             <div id="calendar-dropdown" class="calendar-dropdown hidden">
@@ -41,29 +41,29 @@
               class="nav-toggle-btn"
               data-menu-target="servicii"
             >
-              Servicii <span class="arrow">&#9660;</span>
+              Services <span class="arrow">&#9660;</span>
             </button>
 
             <div class="dropdown-panel" id="servicii">
               <div class="dropdown-panel-content">
-                <h3 class="dropdown-title">Categorie generică</h3>
+                <h3 class="dropdown-title">Generic Category</h3>
                 <div class="services-grid">
                   <div class="services-column">
-                    <a href="#">Serviciu 1</a>
-                    <a href="#">Serviciu 2</a>
-                    <a href="#">Serviciu 3</a>
-                    <a href="#">Serviciu 4</a>
+                    <a href="#">Service 1</a>
+                    <a href="#">Service 2</a>
+                    <a href="#">Service 3</a>
+                    <a href="#">Service 4</a>
                   </div>
                   <div class="services-column">
-                    <a href="#">Serviciu 5</a>
-                    <a href="#">Serviciu 6</a>
-                    <a href="#">Serviciu 7</a>
-                    <a href="#">Serviciu 8</a>
+                    <a href="#">Service 5</a>
+                    <a href="#">Service 6</a>
+                    <a href="#">Service 7</a>
+                    <a href="#">Service 8</a>
                   </div>
                   <div class="services-column">
-                    <a href="#">Serviciu 9</a>
-                    <a href="#">Serviciu 10</a>
-                    <a href="#">Serviciu 11</a>
+                    <a href="#">Service 9</a>
+                    <a href="#">Service 10</a>
+                    <a href="#">Service 11</a>
                   </div>
                 </div>
               </div>
@@ -72,7 +72,7 @@
 
           <div class="nav-group location-wrapper">
             <button type="button" id="location-btn" class="nav-toggle-btn">
-              Schimbă locația
+              Change Location
             </button>
 
             <div id="location-panel" class="location-panel hidden">
@@ -81,7 +81,7 @@
               <div class="location-controls">
                 <div class="location-radius-row">
                   <label for="location-radius"
-                    >Rază: <span id="location-radius-value">25</span> km</label
+                    >Radius: <span id="location-radius-value">25</span> km</label
                   >
                   <input
                     type="range"
@@ -96,9 +96,9 @@
                   <input
                     type="text"
                     id="location-address"
-                    placeholder="Introdu un oraș sau o adresă"
+                    placeholder="Enter a city or address"
                   />
-                  <button type="button" id="location-search-btn">Caută</button>
+                  <button type="button" id="location-search-btn">Search</button>
                 </div>
 
                 <button
@@ -106,7 +106,7 @@
                   id="location-current-btn"
                   class="location-current-btn"
                 >
-                  Folosește locația mea curentă
+                  Use my current location
                 </button>
 
                 <button
@@ -114,7 +114,7 @@
                   id="location-apply-btn"
                   class="location-apply-btn"
                 >
-                  Aplică
+                  Apply
                 </button>
               </div>
             </div>
@@ -126,26 +126,28 @@
               class="nav-toggle-btn"
               data-menu-target="about"
             >
-              Despre <span class="arrow">&#9660;</span>
+              About <span class="arrow">&#9660;</span>
             </button>
 
             <div class="dropdown-panel" id="about">
               <div class="dropdown-panel-content about-content">
                 <div class="about-column">
-                  <h3 class="dropdown-title">Titlu generic 1</h3>
+                  <h3 class="dropdown-title">Why FixFlex</h3>
                   <p class="about-text">
-                    Text generic despre această secțiune. Va fi înlocuit
-                    ulterior cu conținutul real.
+                    Real-time availability, upfront pricing, and reviews from
+                    actual customers — everything you need to choose the
+                    right mechanic, without the guesswork.
                   </p>
                 </div>
 
                 <div class="about-divider"></div>
 
                 <div class="about-column">
-                  <h3 class="dropdown-title">Titlu generic 2</h3>
+                  <h3 class="dropdown-title">Our Mission</h3>
                   <p class="about-text">
-                    Text generic despre această secțiune. Va fi înlocuit
-                    ulterior cu conținutul real.
+                    We connect drivers with trusted local mechanics, making
+                    car repairs simple, transparent, and fast — no more
+                    endless phone calls or guessing who's reliable.
                   </p>
                 </div>
               </div>
@@ -165,11 +167,11 @@
               <div class="dropdown-panel-content contact-details">
                 <div class="contact-row">
                   <span class="contact-label">Email</span>
-                  <span class="contact-value">contact@site-generic.ro</span>
+                  <span class="contact-value">contact@fixflex.com</span>
                 </div>
                 <div class="contact-row">
-                  <span class="contact-label">Telefon</span>
-                  <span class="contact-value">+40 700 000 000</span>
+                  <span class="contact-label">Phone</span>
+                  <span class="contact-value">+40 722 345 678</span>
                 </div>
               </div>
             </div>
@@ -178,7 +180,7 @@
       </div>
 
       <a href="../Profile/Profile.html" class="account-avatar-link">
-        <img src="profile-placeholder.png" alt="Cont" class="account-avatar" />
+        <img src="profile-placeholder.png" alt="Account" class="account-avatar" />
       </a>
     </div>
 
@@ -186,7 +188,7 @@
       <p
         class="page-motto"
         id="page-motto"
-        data-text="FixFlex – reparații auto, programate exact cum vrei tu."
+        data-text="FixFlex – car repairs, scheduled exactly your way."
       ></p>
 
       <div class="grid-container" id="services-container"></div>

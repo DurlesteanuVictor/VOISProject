@@ -33,7 +33,7 @@ function setLoading(isLoading) {
     loginBtn.disabled = isLoading;
 
     if (isLoading) {
-        loginBtnText.textContent = 'Se conectează...';
+        loginBtnText.textContent = 'Logging in...';
         const spinner = document.createElement('span');
         spinner.className = 'btn-spinner';
         loginBtn.appendChild(spinner);
@@ -73,11 +73,11 @@ loginForm.addEventListener('submit', async (event) => {
                 window.location.href = "../Menu/Menu.html";
             }
         } else {
-            showError(data.detail || 'Email sau parolă incorectă.');
+            showError(data.detail || 'Incorrect email or password.');
             setLoading(false);
         }
     } catch (error) {
-        showError('Nu ne putem conecta la server. Încearcă din nou.');
+        showError('Could not connect to the server. Please try again.');
         setLoading(false);
     }
 });

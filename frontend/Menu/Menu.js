@@ -37,10 +37,10 @@ const calendarMonthLabel = document.getElementById('calendar-month-label');
 const prevMonthBtn = document.getElementById('prev-month');
 const nextMonthBtn = document.getElementById('next-month');
 
-const dayNames = ['L', 'Ma', 'Mi', 'J', 'V', 'S', 'D'];
+const dayNames = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 const monthNames = [
-  'Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie',
-  'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
 let currentDate = new Date();
@@ -107,7 +107,7 @@ function renderCalendar() {
 
     dayEl.addEventListener('click', () => {
       selectedDate = new Date(year, month, day);
-      dateBtn.textContent = selectedDate.toLocaleDateString('ro-RO');
+      dateBtn.textContent = selectedDate.toLocaleDateString('en-GB');
       renderCalendar();
     });
 
@@ -189,19 +189,19 @@ locationSearchBtn.addEventListener('click', () => {
     .then((response) => response.json())
     .then((results) => {
       if (results.length === 0) {
-        alert('Locația nu a fost găsită. Încearcă o altă adresă.');
+        alert('Location not found. Try a different address.');
         return;
       }
       setLocationPoint(parseFloat(results[0].lat), parseFloat(results[0].lon));
     })
     .catch(() => {
-      alert('Nu am putut căuta acea adresă acum.');
+      alert('Could not search for that address right now.');
     });
 });
 
 locationCurrentBtn.addEventListener('click', () => {
   if (!navigator.geolocation) {
-    alert('Browserul tău nu suportă detectarea locației.');
+    alert('Your browser does not support location detection.');
     return;
   }
 
@@ -210,7 +210,7 @@ locationCurrentBtn.addEventListener('click', () => {
       setLocationPoint(position.coords.latitude, position.coords.longitude);
     },
     () => {
-      alert('Nu am putut obține locația ta curentă.');
+      alert('Could not get your current location.');
     }
   );
 });
@@ -223,7 +223,7 @@ locationApplyBtn.addEventListener('click', () => {
   };
 
   localStorage.setItem('preferredLocation', JSON.stringify(chosenLocation));
-  alert('Locație salvată! Filtrarea companiilor după distanță nu e încă legată de backend.');
+  alert('Location saved! Filtering companies by distance is not connected to the backend yet.');
   locationPanel.classList.add('hidden');
 });
 
@@ -267,17 +267,17 @@ async function incarcaCompaniile() {
   if (!servicesContainer) return;
 
   try {
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Se încarcă serviciile...</p>";
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Loading services...</p>";
 
     const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Eroare rețea");
+    if (!response.ok) throw new Error("Network error");
 
     const companii = await response.json();
     randeazaCompanii(companii);
 
   } catch (error) {
-    console.error("Eroare fetch companii:", error);
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>Nu am putut încărca lista de servicii.</p>";
+    console.error("Error fetching companies:", error);
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>Could not load the list of services.</p>";
   }
 }
 
@@ -285,7 +285,7 @@ function randeazaCompanii(companii) {
   servicesContainer.innerHTML = "";
 
   if (companii.length === 0) {
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Nicio companie înregistrată momentan.</p>";
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>No companies registered at the moment.</p>";
     return;
   }
 

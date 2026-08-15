@@ -19,12 +19,12 @@ function setLoading(isLoading) {
     submitBtn.disabled = isLoading;
 
     if (isLoading) {
-        submitBtnText.textContent = 'Se înregistrează...';
+        submitBtnText.textContent = 'Registering...';
         const spinner = document.createElement('span');
         spinner.className = 'btn-spinner';
         submitBtn.appendChild(spinner);
     } else {
-        submitBtnText.textContent = 'Înregistrează Compania';
+        submitBtnText.textContent = 'Register Company';
         const spinner = submitBtn.querySelector('.btn-spinner');
         if (spinner) spinner.remove();
     }
@@ -60,17 +60,17 @@ document.getElementById("company-form").addEventListener("submit", async functio
             localStorage.setItem("company_contact", payload.contact_info);
             localStorage.setItem("company_description", payload.description);
 
-            showMessage("Compania a fost înregistrată cu succes!", 'success');
+            showMessage("Company registered successfully!", 'success');
             setTimeout(() => {
                 window.location.href = "../Menu/Menu.html";
             }, 800);
         } else {
-            showMessage(result.detail || "Nu am putut înregistra compania.", 'error');
+            showMessage(result.detail || "Could not register the company.", 'error');
             setLoading(false);
         }
     } catch (error) {
         console.error("Connexion Error:", error);
-        showMessage("Nu ne putem conecta la server. Încearcă din nou.", 'error');
+        showMessage("Could not connect to the server. Please try again.", 'error');
         setLoading(false);
     }
 });

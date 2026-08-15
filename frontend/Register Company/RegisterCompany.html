@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Înregistrează-ți compania</title>
+  <title>Register your Company</title>
   <link rel="stylesheet" href="../Login/Login.css" />
   <link rel="stylesheet" href="../Register/Register.css" />
   <link rel="stylesheet" href="RegisterCompany.css" />
 </head>
 <body>
   <div class="login-container register-container" id="company-container">
-    <h1 class="login-title">Înregistrează-ți compania</h1>
+    <h1 class="login-title">Register your Company</h1>
     <form id="company-form">
       <div class="input-group">
-        <label for="name">Numele companiei</label>
-        <input type="text" id="name" required minlength="2" placeholder="ex: AutoService SRL" />
+        <label for="name">Company Name</label>
+        <input type="text" id="name" required minlength="2" placeholder="e.g. AutoService Inc." />
       </div>
       <div class="input-group">
-        <label for="address">Adresă</label>
-        <input type="text" id="address" required minlength="5" placeholder="Str. Exemplu nr. 1" />
+        <label for="address">Address</label>
+        <input type="text" id="address" required minlength="5" placeholder="123 Example St." />
       </div>
       <div class="input-group">
-        <label for="contact_info">Telefon / Email</label>
-        <input type="text" id="contact_info" required placeholder="contact@service.ro" />
+        <label for="contact_info">Phone / Email</label>
+        <input type="text" id="contact_info" required placeholder="contact@service.com" />
       </div>
       <div class="input-group">
-        <label for="description">Descrierea companiei</label>
-        <textarea id="description" rows="4" class="company-textarea" placeholder="Scrie o scurtă descriere despre service..."></textarea>
+        <label for="description">Company Description</label>
+        <textarea id="description" rows="4" class="company-textarea" placeholder="Write a short description of your service..."></textarea>
       </div>
       <button type="submit" class="login-btn" id="company-submit-btn">
-        <span id="company-submit-btn-text">Înregistrează Compania</span>
+        <span id="company-submit-btn-text">Register Company</span>
       </button>
     </form>
     <p id="message-box"></p>

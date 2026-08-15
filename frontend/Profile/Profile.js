@@ -95,10 +95,10 @@ async function loadProfileData() {
                 renderCars(data.cars);
             }
         } else {
-            showMessage(profileMessage, 'Nu am putut încărca profilul.', 'error');
+            showMessage(profileMessage, 'Could not load the profile.', 'error');
         }
     } catch (error) {
-        console.error("Eroare de conexiune:", error);
+        console.error("Connection error:", error);
     }
 }
 
@@ -112,7 +112,7 @@ function renderCars(cars) {
                 <div class="accordion-header">
                     <h3>${car.make || ''} ${car.model || ''}</h3>
                     <div class="car-actions">
-                        <button type="button" class="delete-btn" onclick="event.stopPropagation(); deleteCar(${car.id})">Șterge</button>
+                        <button type="button" class="delete-btn" onclick="event.stopPropagation(); deleteCar(${car.id})">Delete</button>
                         <span class="toggle-icon" onclick="toggleAccordion('${contentId}', this)">+</span>
                     </div>
                 </div>
@@ -120,11 +120,11 @@ function renderCars(cars) {
                     <div class="accordion-content-inner">
                         <div class="input-row">
                             <div class="input-group">
-                                <label>An</label>
+                                <label>Year</label>
                                 <input type="number" value="${car.year || ''}" readonly />
                             </div>
                             <div class="input-group">
-                                <label>Motor</label>
+                                <label>Engine</label>
                                 <input type="text" value="${car.engine || ''}" readonly />
                             </div>
                         </div>
@@ -180,7 +180,7 @@ profileForm.addEventListener('submit', async (event) => {
         telephoneNumber: document.getElementById('phone').value
     };
 
-    setBtnLoading(saveBtn, saveBtnText, true, 'Se salvează...', 'Salvează modificările');
+    setBtnLoading(saveBtn, saveBtnText, true, 'Saving...', 'Save Changes');
 
     try {
         const response = await fetch(`${API_BASE_URL}/profile`, {
@@ -193,7 +193,7 @@ profileForm.addEventListener('submit', async (event) => {
         });
 
         if (response.ok) {
-            showMessage(profileMessage, 'Profilul a fost actualizat cu succes!', 'success');
+            showMessage(profileMessage, 'Profile updated successfully!', 'success');
             
             formInputs.forEach(input => {
                 input.setAttribute('readonly', true);
@@ -204,12 +204,12 @@ profileForm.addEventListener('submit', async (event) => {
             actionButtons.style.display = 'none';
         } else {
             const data = await response.json();
-            showMessage(profileMessage, data.detail || 'Verifică datele introduse.', 'error');
+            showMessage(profileMessage, data.detail || 'Please check the entered data.', 'error');
         }
     } catch (error) {
-        showMessage(profileMessage, 'Eroare de conexiune cu serverul!', 'error');
+        showMessage(profileMessage, 'Server connection error!', 'error');
     } finally {
-        setBtnLoading(saveBtn, saveBtnText, false, 'Se salvează...', 'Salvează modificările');
+        setBtnLoading(saveBtn, saveBtnText, false, 'Saving...', 'Save Changes');
     }
 });
 
@@ -232,7 +232,7 @@ addCarForm.addEventListener('submit', async (event) => {
         engine: document.getElementById('newCarEngine').value
     };
 
-    setBtnLoading(addCarBtnSubmit, addCarBtnText, true, 'Se salvează...', 'Salvează mașina');
+    setBtnLoading(addCarBtnSubmit, addCarBtnText, true, 'Saving...', 'Save Car');
 
     try {
         const response = await fetch(`${API_BASE_URL}/car`, {
@@ -250,12 +250,12 @@ addCarForm.addEventListener('submit', async (event) => {
             loadProfileData();
         } else {
             const data = await response.json();
-            showMessage(addCarMessage, 'Eroare la adăugarea mașinii: ' + (data.detail || 'Date invalide.'), 'error');
+            showMessage(addCarMessage, 'Error adding car: ' + (data.detail || 'Invalid data.'), 'error');
         }
     } catch (error) {
-        showMessage(addCarMessage, 'Eroare de conexiune cu serverul!', 'error');
+        showMessage(addCarMessage, 'Server connection error!', 'error');
     } finally {
-        setBtnLoading(addCarBtnSubmit, addCarBtnText, false, 'Se salvează...', 'Salvează mașina');
+        setBtnLoading(addCarBtnSubmit, addCarBtnText, false, 'Saving...', 'Save Car');
     }
 });
 
@@ -293,7 +293,7 @@ window.deleteCar = async function(carId) {
     const token = localStorage.getItem('access_token');
     if (!token) return;
 
-    const confirmed = await showConfirmModal('Ești sigur că vrei să ștergi această mașină?');
+    const confirmed = await showConfirmModal('Are you sure you want to delete this car?');
     if (!confirmed) return;
 
     try {
@@ -308,10 +308,10 @@ window.deleteCar = async function(carId) {
             loadProfileData();
         } else {
             const data = await response.json();
-            showMessage(profileMessage, 'Eroare la ștergerea mașinii: ' + (data.detail || 'Nu a fost găsită.'), 'error');
+            showMessage(profileMessage, 'Error deleting car: ' + (data.detail || 'Not found.'), 'error');
         }
     } catch (error) {
-        showMessage(profileMessage, 'Eroare de conexiune cu serverul!', 'error');
+        showMessage(profileMessage, 'Server connection error!', 'error');
     }
 };
 
@@ -364,15 +364,15 @@ newPasswordInput.addEventListener('input', () => {
     if (score <= 2) {
         width = '33%';
         color = '#d32f2f';
-        text = 'Parolă slabă';
+        text = 'Weak password';
     } else if (score <= 3) {
         width = '66%';
         color = '#e0a800';
-        text = 'Parolă medie';
+        text = 'Medium password';
     } else {
         width = '100%';
         color = '#2e7d32';
-        text = 'Parolă puternică';
+        text = 'Strong password';
     }
 
     passwordStrengthBar.style.width = width;
@@ -393,11 +393,11 @@ passwordForm.addEventListener('submit', async (event) => {
     const newPassword = newPasswordInput.value;
     
     if (currentPassword === newPassword) {
-        showMessage(passwordMessage, 'Nu poți folosi aceeași parolă.', 'error');
+        showMessage(passwordMessage, 'You cannot use the same password.', 'error');
         return;
     }
 
-    setBtnLoading(passwordBtn, passwordBtnText, true, 'Se actualizează...', 'Actualizează parola');
+    setBtnLoading(passwordBtn, passwordBtnText, true, 'Updating...', 'Update Password');
     
     try {
         const response = await fetch(`${API_BASE_URL}/password`, {
@@ -413,18 +413,18 @@ passwordForm.addEventListener('submit', async (event) => {
         });
         
         if (response.ok) {
-            showMessage(passwordMessage, 'Parola a fost actualizată cu succes!', 'success');
+            showMessage(passwordMessage, 'Password updated successfully!', 'success');
             passwordForm.reset();
             passwordStrengthBar.style.width = '0%';
             passwordStrengthLabel.textContent = '';
         } else {
             const data = await response.json();
-            showMessage(passwordMessage, data.detail || 'Eroare la actualizarea parolei.', 'error');
+            showMessage(passwordMessage, data.detail || 'Error updating password.', 'error');
         }
     } catch (error) {
-        showMessage(passwordMessage, 'Eroare de conexiune cu serverul!', 'error');
+        showMessage(passwordMessage, 'Server connection error!', 'error');
     } finally {
-        setBtnLoading(passwordBtn, passwordBtnText, false, 'Se actualizează...', 'Actualizează parola');
+        setBtnLoading(passwordBtn, passwordBtnText, false, 'Updating...', 'Update Password');
     }
 });
 
@@ -433,7 +433,7 @@ document.querySelectorAll('.toggle-btn').forEach((btn) => {
         const targetInput = document.getElementById(btn.dataset.target);
         const isHidden = targetInput.type === 'password';
         targetInput.type = isHidden ? 'text' : 'password';
-        btn.textContent = isHidden ? 'Ascunde' : 'Arată';
+        btn.textContent = isHidden ? 'Hide' : 'Show';
     });
 });
 

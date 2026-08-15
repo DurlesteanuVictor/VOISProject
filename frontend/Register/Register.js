@@ -10,7 +10,7 @@ const registerBtnText = document.getElementById('register-btn-text');
 toggleBtn.addEventListener('click', () => {
     const isHidden = passwordInput.type === 'password';
     passwordInput.type = isHidden ? 'text' : 'password';
-    toggleBtn.textContent = isHidden ? 'Ascunde' : 'Arată';
+    toggleBtn.textContent = isHidden ? 'Hide' : 'Show';
 });
 
 const passwordStrengthBar = document.getElementById('password-strength-bar');
@@ -41,15 +41,15 @@ passwordInput.addEventListener('input', () => {
     if (score <= 2) {
         width = '33%';
         color = '#d32f2f';
-        text = 'Parolă slabă';
+        text = 'Weak password';
     } else if (score <= 3) {
         width = '66%';
         color = '#e0a800';
-        text = 'Parolă medie';
+        text = 'Medium password';
     } else {
         width = '100%';
         color = '#2e7d32';
-        text = 'Parolă puternică';
+        text = 'Strong password';
     }
 
     passwordStrengthBar.style.width = width;
@@ -74,12 +74,12 @@ function setLoading(isLoading) {
     registerBtn.disabled = isLoading;
 
     if (isLoading) {
-        registerBtnText.textContent = 'Se creează contul...';
+        registerBtnText.textContent = 'Creating account...';
         const spinner = document.createElement('span');
         spinner.className = 'btn-spinner';
         registerBtn.appendChild(spinner);
     } else {
-        registerBtnText.textContent = 'Creează cont';
+        registerBtnText.textContent = 'Create Account';
         const spinner = registerBtn.querySelector('.btn-spinner');
         if (spinner) spinner.remove();
     }
@@ -98,7 +98,7 @@ registerForm.addEventListener('submit', async function(event) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.(com|ro)$/;
 
     if (!emailRegex.test(email)) {
-        showError('Introdu o adresă de email validă.');
+        showError('Please enter a valid email address.');
         return;
     }
 
@@ -139,11 +139,11 @@ registerForm.addEventListener('submit', async function(event) {
             registerForm.reset();
             window.location.href = "../Login/Login.html";
         } else {
-            showError(data.detail || 'Nu am putut crea contul. Verifică datele introduse.');
+            showError(data.detail || 'Could not create the account. Please check the entered data.');
             setLoading(false);
         }
     } catch (error) {
-        showError('Nu ne putem conecta la server. Încearcă din nou.');
+        showError('Could not connect to the server. Please try again.');
         setLoading(false);
     }
 });
