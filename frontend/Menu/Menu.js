@@ -250,6 +250,13 @@ const API_URL = "http://127.0.0.1:8000/api/companies/all";
 // Event delegation pentru cardurile generate dinamic
 if (servicesContainer) {
   servicesContainer.addEventListener('click', (event) => {
+    const ratingClicked = event.target.closest('.rating');
+    if (ratingClicked) {
+      event.stopPropagation();
+      openReviewModal(ratingClicked.dataset.companyId);
+      return;
+    }
+
     if (event.target.classList.contains('booking-btn')) {
       event.stopPropagation();
       window.location.href = '../Checkout/Checkout.html';
@@ -296,12 +303,13 @@ function randeazaCompanii(companii) {
 
   companii.forEach(companie => {
     const cardHTML = `
-      <div class="card">
+      <div class="card" data-company-id="${companie.id}">
         <div class="card-header">
           <h3>${companie.nume}</h3>
-          <div class="rating">
+          <div class="rating" data-company-id="${companie.id}">
             <span class="rating-number">${companie.rating}</span>
             <span class="stars">${companie.stele}</span>
+            <span class="review-count">(0)</span>
           </div>
           <span class="price">${companie.pret}</span>
         </div>
@@ -316,6 +324,8 @@ function randeazaCompanii(companii) {
     `;
     servicesContainer.insertAdjacentHTML('beforeend', cardHTML);
   });
+
+  applyStoredReviews();
 }
 
 incarcaCompaniile();
@@ -337,4 +347,115 @@ if (mottoEl) {
   }
 
   typeMotto();
+}
+// --- Reviews ---
+
+const reviewModalOverlay = document.getElementById('review-modal-overlay');
+const reviewCancelBtn = document.getElementById('review-cancel-btn');
+const reviewSubmitBtn = document.getElementById('review-submit-btn');
+
+let activeReviewCompanyId = null;
+
+function openReviewModal(companyId) {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    alert('Please log in to leave a review.');
+    window.location.href = '../Login/Login.html';
+    return;
+  }
+
+  activeReviewCompanyId = companyId;
+
+  document.querySelectorAll('.review-stars').forEach((starsRow) => {
+    starsRow.dataset.value = '0';
+    updateStarsDisplay(starsRow, 0);
+  });
+
+  reviewModalOverlay.classList.remove('hidden');
+}
+
+function closeReviewModal() {
+  reviewModalOverlay.classList.add('hidden');
+  activeReviewCompanyId = null;
+}
+
+function updateStarsDisplay(starsRow, value) {
+  starsRow.querySelectorAll('.review-star').forEach((starEl) => {
+    const starNumber = Number(starEl.dataset.star);
+    starEl.classList.toggle('filled', starNumber <= value);
+  });
+}
+
+document.querySelectorAll('.review-stars').forEach((starsRow) => {
+  starsRow.querySelectorAll('.review-star').forEach((starEl) => {
+    starEl.addEventListener('click', () => {
+      const value = Number(starEl.dataset.star);
+      starsRow.dataset.value = value;
+      updateStarsDisplay(starsRow, value);
+    });
+  });
+});
+
+reviewCancelBtn.addEventListener('click', closeReviewModal);
+
+reviewSubmitBtn.addEventListener('click', () => {
+  const starsRows = document.querySelectorAll('.review-stars');
+  let total = 0;
+  let unanswered = false;
+
+  starsRows.forEach((starsRow) => {
+    const value = Number(starsRow.dataset.value);
+    if (value === 0) unanswered = true;
+    total += value;
+  });
+
+  if (unanswered) {
+    alert('Please rate all categories before submitting.');
+    return;
+  }
+
+  const thisReviewAverage = total / starsRows.length;
+  saveReview(activeReviewCompanyId, thisReviewAverage);
+  updateCardDisplay(activeReviewCompanyId);
+  closeReviewModal();
+});
+
+function getStoredReviews() {
+  const raw = localStorage.getItem('companyReviews');
+  return raw ? JSON.parse(raw) : {};
+}
+
+function saveReview(companyId, averageForThisReview) {
+  const allReviews = getStoredReviews();
+  const existing = allReviews[companyId] || { totalScore: 0, count: 0 };
+
+  existing.totalScore += averageForThisReview;
+  existing.count += 1;
+
+  allReviews[companyId] = existing;
+  localStorage.setItem('companyReviews', JSON.stringify(allReviews));
+}
+
+function starsToText(rating) {
+  const roundedRating = Math.round(rating);
+  return '★'.repeat(roundedRating) + '☆'.repeat(5 - roundedRating);
+}
+
+function updateCardDisplay(companyId) {
+  const allReviews = getStoredReviews();
+  const companyReviews = allReviews[companyId];
+  if (!companyReviews) return;
+
+  const average = companyReviews.totalScore / companyReviews.count;
+  const ratingEl = document.querySelector(`.rating[data-company-id="${companyId}"]`);
+  if (!ratingEl) return;
+
+  ratingEl.querySelector('.rating-number').textContent = average.toFixed(1);
+  ratingEl.querySelector('.stars').textContent = starsToText(average);
+  ratingEl.querySelector('.review-count').textContent = `(${companyReviews.count})`;
+}
+
+function applyStoredReviews() {
+  const allReviews = getStoredReviews();
+  Object.keys(allReviews).forEach((companyId) => updateCardDisplay(companyId));
 }
