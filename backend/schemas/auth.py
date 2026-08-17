@@ -63,6 +63,7 @@ class UserProfileResponse(BaseModel):
     email: str
     telephoneNumber: str
     role: str
+    avatar_url: str | None = None
     cars: list[CarResponse] = []
     company: CompanyProfileResponse | None = None
 

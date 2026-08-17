@@ -24,10 +24,11 @@ async function loadProfileData() {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/profile`, {
+        const response = await fetch(`${API_BASE_URL}/profile?t=` + new Date().getTime(), {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Cache-Control': 'no-cache'
             }
         });
 
@@ -37,6 +38,10 @@ async function loadProfileData() {
             document.getElementById('name').value = data.user;
             document.getElementById('email').value = data.email;
             document.getElementById('phone').value = data.telephoneNumber;
+
+            if (data.avatar_url) {
+                document.getElementById('avatar-preview').src = data.avatar_url;
+            }
 
             if (data.role === 'mechanic') {
                 myCarSection.style.display = 'none';
@@ -53,7 +58,6 @@ async function loadProfileData() {
 
 function renderCars(cars) {
     carsListContainer.innerHTML = '';
-
     cars.forEach(car => {
         const contentId = `car-${car.id}-content`;
         const carHtml = `
@@ -257,7 +261,7 @@ logoutBtn.addEventListener('click', () => {
     window.location.href = '../Login/Login.html';
 });
 
-avatarUpload.addEventListener('change', () => {
+avatarUpload.addEventListener('change', async () => {
     const file = avatarUpload.files[0];
     if (!file) return;
 
@@ -266,6 +270,31 @@ avatarUpload.addEventListener('change', () => {
       avatarPreview.src = reader.result;
     };
     reader.readAsDataURL(file);
+
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/upload-avatar`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            avatarPreview.src = data.avatar_url;
+        } else {
+            alert("Error uploading avatar to the server.");
+        }
+    } catch (error) {
+        alert("Server connection error during upload.");
+    }
 });
 
 document.querySelectorAll('.toggle-btn').forEach((btn) => {
@@ -278,10 +307,14 @@ document.querySelectorAll('.toggle-btn').forEach((btn) => {
     });
 });
 
+// ==========================================
+// BOOKINGS WORKFLOW
+// ==========================================
 const bookingsContainer = document.getElementById('bookings-list-container');
 
 async function loadMyBookings() {
     const token = localStorage.getItem('access_token');
+    const userRole = localStorage.getItem('role'); 
     if (!token || !bookingsContainer) return;
 
     try {
@@ -314,30 +347,59 @@ async function loadMyBookings() {
                 const esteInTrecut = bookingDate < azi;
                 const esteIncheiata = booking.status === 'cancelled' || booking.status === 'completed';
 
-                let statusColor = '#0096FF';
+                let statusColor = '#f0ad4e'; 
                 let statusDisplay = 'PENDING';
                 
-                if (booking.status === 'cancelled') {
+                if (booking.status === 'confirmed') {
+                    statusColor = '#5a8dee';
+                    statusDisplay = 'ACCEPTED';
+                } else if (booking.status === 'cancelled') {
                     statusColor = '#d32f2f';
                     statusDisplay = 'CANCELLED';
-                }
-                if (booking.status === 'completed') {
+                } else if (booking.status === 'completed') {
                     statusColor = '#28a745';
-                    statusDisplay = 'COMPLETED';
+                    statusDisplay = 'FINISHED';
+                }
+
+                // Generare butoane specifice in functie de rol
+                let actionButtonsHtml = '';
+                
+                if (!esteInTrecut && !esteIncheiata) {
+                    if (userRole === 'user') {
+                        if (booking.status === 'pending' || booking.status === 'confirmed') {
+                            actionButtonsHtml = `<button onclick="updateBookingStatus(${booking.id}, 'cancelled')" style="background-color: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 4px;">Cancel</button>`;
+                        }
+                    } else if (userRole === 'mechanic') {
+                        if (booking.status === 'pending') {
+                            actionButtonsHtml = `
+                                <button onclick="updateBookingStatus(${booking.id}, 'confirmed')" style="background-color: #5a8dee; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 4px; margin-right: 5px;">Accept</button>
+                                <button onclick="updateBookingStatus(${booking.id}, 'cancelled')" style="background-color: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 4px;">Reject</button>
+                            `;
+                        } else if (booking.status === 'confirmed') {
+                            actionButtonsHtml = `
+                                <button onclick="updateBookingStatus(${booking.id}, 'completed')" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 4px; margin-right: 5px;">Finish</button>
+                                <button onclick="updateBookingStatus(${booking.id}, 'cancelled')" style="background-color: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 4px;">Cancel</button>
+                            `;
+                        }
+                    }
                 }
 
                 const bHtml = `
-                    <div class="inner-car-item" style="padding: 10px 0;">
+                    <div class="inner-car-item" style="padding: 12px 0;">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <h3 style="font-size: 15px; color: #000;">${booking.company_name}</h3>
+                                <h3 style="font-size: 15px; color: #000; margin-bottom: 4px;">
+                                    ${userRole === 'user' ? booking.company_name : 'Client: ' + booking.user_name}
+                                </h3>
                                 <p style="font-size: 13px; color: #666;">Date: ${booking.booking_date} | Time: ${booking.time_slot}</p>
                             </div>
                             <div style="text-align: right;">
-                                <div style="font-size: 12px; font-weight: bold; color: ${statusColor}; margin-bottom: 5px;">
+                                <div style="font-size: 13px; font-weight: bold; color: ${statusColor};">
                                     ${statusDisplay}
                                 </div>
-                                ${(!esteInTrecut && !esteIncheiata) ? `<button onclick="anuleazaRezervarea(${booking.id})" style="background-color: #d32f2f; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">Cancel</button>` : ''}
+                                <div>
+                                    ${actionButtonsHtml}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -362,8 +424,13 @@ async function loadMyBookings() {
     }
 }
 
-window.anuleazaRezervarea = async function(bookingId) {
-    if (!confirm("Are you sure you want to cancel this booking?")) return;
+window.updateBookingStatus = async function(bookingId, newStatus) {
+    let confirmMessage = "Are you sure you want to proceed?";
+    if (newStatus === 'cancelled') confirmMessage = "Are you sure you want to cancel/reject this booking?";
+    if (newStatus === 'confirmed') confirmMessage = "Are you sure you want to accept this booking?";
+    if (newStatus === 'completed') confirmMessage = "Mark this booking as finished?";
+
+    if (!confirm(confirmMessage)) return;
 
     const token = localStorage.getItem('access_token');
     try {
@@ -373,15 +440,14 @@ window.anuleazaRezervarea = async function(bookingId) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ status: "cancelled" })
+            body: JSON.stringify({ status: newStatus })
         });
 
         if (response.ok) {
-            alert("The booking has been cancelled.");
-            loadMyBookings();
+            loadMyBookings(); 
         } else {
             const data = await response.json();
-            alert(data.detail || "Cancellation error.");
+            alert(data.detail || "Error updating status.");
         }
     } catch (error) {
         alert("Server connection error.");
@@ -389,5 +455,4 @@ window.anuleazaRezervarea = async function(bookingId) {
 }
 
 loadMyBookings();
-
 loadProfileData();

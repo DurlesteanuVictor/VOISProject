@@ -7,6 +7,9 @@ from schemas import auth as schemas
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from core.config import SECRET_KEY, ALGORITHM
+from fastapi import UploadFile, File
+import shutil
+import uuid
 
 router = APIRouter(
     prefix="/api/auth",
@@ -113,6 +116,7 @@ async def get_profile(current_user: models.User = Depends(get_current_user), db:
         email=current_user.email,
         telephoneNumber=current_user.telephoneNumber,
         role=current_user.role,
+        avatar_url=current_user.avatar_url,
         cars=cars_data, 
         company=company_data 
     )
@@ -200,3 +204,20 @@ async def delete_car(car_id: int, current_user: models.User = Depends(get_curren
     db.delete(car)
     db.commit()
     return {"message": "Masina stearsa cu succes."}
+
+@router.post("/upload-avatar")
+async def upload_avatar(
+    file: UploadFile = File(...), 
+    current_user: models.User = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    file_extension = file.filename.split(".")[-1]
+    unique_filename = f"{current_user.id}_{uuid.uuid4().hex}.{file_extension}"
+    file_path = f"uploads/avatars/{unique_filename}"
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    file_url = f"http://127.0.0.1:8000/avatars/{unique_filename}"
+    current_user.avatar_url = file_url
+    db.commit()
+
+    return {"message": "Avatar incarcat cu succes", "avatar_url": file_url}

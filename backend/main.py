@@ -3,9 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, companies, bookings
 from db.database import engine, Base
 from db import models
+from fastapi.staticfiles import StaticFiles
+import os
+
+os.makedirs("uploads/avatars", exist_ok=True)
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Aplicație Căutare Mecanici API")
+
 models.Base.metadata.create_all(bind=engine)
+app.mount("/avatars", StaticFiles(directory="uploads/avatars"), name="avatars")
 
 app.add_middleware(
     CORSMiddleware,

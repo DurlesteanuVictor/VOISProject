@@ -1,76 +1,140 @@
-const carDetailsSection = document.getElementById('car-details-section');
 const registerForm = document.getElementById('register-form');
 const passwordInput = document.getElementById('password');
 const toggleBtn = document.getElementById('toggle-password');
+const registerContainer = document.getElementById('register-container');
+const formError = document.getElementById('form-error');
+const registerBtn = document.getElementById('register-btn');
+const registerBtnText = document.getElementById('register-btn-text');
 
 toggleBtn.addEventListener('click', () => {
     const isHidden = passwordInput.type === 'password';
     passwordInput.type = isHidden ? 'text' : 'password';
-    toggleBtn.textContent = isHidden ? 'Ascunde' : 'Arată';
+    toggleBtn.textContent = isHidden ? 'Hide' : 'Show';
 });
 
-registerForm.addEventListener('submit', async function(event) {
-    event.preventDefault();
-    
-    const user = document.getElementById('user').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const telephoneNumber = document.getElementById('telephoneNumber').value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.(com|ro)$/;
-    
-    if (!emailRegex.test(email)) {
-        alert("Introduce a valid email");
-        return; 
+// Sistem vizual pentru puterea parolei
+const passwordStrengthBar = document.getElementById('password-strength-bar');
+const passwordStrengthLabel = document.getElementById('password-strength-label');
+
+function getPasswordScore(password) {
+    let score = 0;
+    if (password.length >= 6) score++;
+    if (password.length >= 10) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    return score;
+}
+
+passwordInput.addEventListener('input', () => {
+    const value = passwordInput.value;
+    if (value === '') {
+        passwordStrengthBar.style.width = '0%';
+        passwordStrengthLabel.textContent = '';
+        return;
     }
     
+    const score = getPasswordScore(value);
+    let width, color, text;
+    
+    if (score <= 2) {
+        width = '33%'; color = '#d32f2f'; text = 'Weak password';
+    } else if (score <= 3) {
+        width = '66%'; color = '#e0a800'; text = 'Medium password';
+    } else {
+        width = '100%'; color = '#2e7d32'; text = 'Strong password';
+    }
+    
+    passwordStrengthBar.style.width = width;
+    passwordStrengthBar.style.backgroundColor = color;
+    passwordStrengthLabel.textContent = text;
+    passwordStrengthLabel.style.color = color;
+});
+
+// Functii de UI pentru erori si loading
+function showError(message) {
+    formError.textContent = message;
+    registerContainer.classList.remove('shake');
+    void registerContainer.offsetWidth;
+    registerContainer.classList.add('shake');
+}
+
+function clearError() {
+    formError.textContent = '';
+}
+
+function setLoading(isLoading) {
+    registerBtn.disabled = isLoading;
+    if (isLoading) {
+        registerBtnText.textContent = 'Creating account...';
+        const spinner = document.createElement('span');
+        spinner.className = 'btn-spinner';
+        registerBtn.appendChild(spinner);
+    } else {
+        registerBtnText.textContent = 'Create Account';
+        const spinner = registerBtn.querySelector('.btn-spinner');
+        if (spinner) spinner.remove();
+    }
+}
+
+// Logica de Inregistrare Client
+registerForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    clearError();
+    
+    const email = document.getElementById('email').value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!emailRegex.test(email)) {
+        showError('Please enter a valid email address.');
+        return;
+    }
+    
+    // Extragere si validare date masina
+    const carMakeValue = document.getElementById('carMake').value.trim();
+    const carModelValue = document.getElementById('carModel').value.trim();
+    const carYearValue = document.getElementById('carYear').value.trim();
+    const carEngineValue = document.getElementById('carEngine').value.trim();
+
+    if (!carMakeValue || !carModelValue || !carEngineValue || !carYearValue) {
+        showError("Please fill in all the car details! They are required.");
+        return;
+    }
+
+    // Asamblare pachet exact pe structura asteptata de backend
     const DataPachet = {
-            user: user,
-            email: email,
-            password: password,
-            telephoneNumber: telephoneNumber,
-            role: 'user', 
-            carMake: null,
-            carModel: null,
-            carYear: null,
-            carEngine: null
-        };
-
-        const carMakeValue = document.getElementById('carMake').value;
-        DataPachet.carMake = carMakeValue !== "" ? carMakeValue : null;
-
-        const carModelValue = document.getElementById('carModel').value;
-        DataPachet.carModel = carModelValue !== "" ? carModelValue : null;
+        user: document.getElementById('user').value.trim(),
+        email: email,
+        password: document.getElementById('password').value,
+        telephoneNumber: document.getElementById('telephoneNumber').value.trim(),
+        role: 'user',
+        carMake: carMakeValue,
+        carModel: carModelValue,
+        carYear: parseInt(carYearValue),
+        carEngine: carEngineValue
+    };
+    
+    setLoading(true);
+    
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(DataPachet)
+        });
         
-        const carEngineValue = document.getElementById('carEngine').value;
-        DataPachet.carEngine = carEngineValue !== "" ? carEngineValue : null;
-        
-        const carYearValue = document.getElementById('carYear').value;
-        DataPachet.carYear = carYearValue !== "" ? parseInt(carYearValue) : null;
-
-        if (!DataPachet.carMake || !DataPachet.carModel || !DataPachet.carEngine || !DataPachet.carYear) {
-            alert("Te rugam sa completezi toate detaliile masinii! Sunt obligatorii.");
-            return;
-        }
-
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(DataPachet)
-            });
-            
+        if (response.ok) {
+            registerForm.reset();
+            window.location.replace("../Login/Login.html");
+        } else {
             const data = await response.json();
-            
-            if (response.ok) {
-                //alert("Account Is Active!");
-                //registerForm.reset();
-                window.location.replace("../Login/Login.html");
-            } else {
-                alert("Motivul respingerii:\n" + JSON.stringify(data.detail, null, 2));
-            }
-        } catch (error) {
-            alert("Server Error!");
+            showError(data.detail || 'Could not create the account. Please check the entered data.');
+            setLoading(false);
         }
+    } catch (error) {
+        showError('Could not connect to the server. Please try again.');
+        setLoading(false);
+    }
 });

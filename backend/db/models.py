@@ -14,6 +14,8 @@ class User(Base):
     # carYear = Column(Integer, nullable=True)
     # carEngine = Column(String(20), nullable=True)
 
+    avatar_url = Column(String, nullable=True)
+    
     id_company = Column(Integer, ForeignKey("company.id"))
     company = relationship("Company")
     car = relationship("Car", back_populates="owner")

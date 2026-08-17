@@ -1,5 +1,4 @@
 const menuLink = document.getElementById('menu-link');
-
 menuLink.addEventListener('click', (event) => {
   event.preventDefault();
   window.location.reload();
@@ -9,7 +8,6 @@ function toggleMenu(menuId) {
   const menu = document.getElementById(menuId);
   const navGroup = menu.parentElement;
   const isActive = navGroup.classList.contains('active');
-
   closeAllMenus();
   if (!isActive) navGroup.classList.add('active');
 }
@@ -67,34 +65,32 @@ nextMonthBtn.addEventListener('click', () => {
 function renderCalendar() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-
   calendarMonthLabel.textContent = `${monthNames[month]} ${year}`;
   calendarGrid.innerHTML = '';
-
+  
   dayNames.forEach((name) => {
     const nameEl = document.createElement('div');
     nameEl.className = 'calendar-day-name';
     nameEl.textContent = name;
     calendarGrid.appendChild(nameEl);
   });
-
+  
   const firstDayOfMonth = new Date(year, month, 1);
   const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
-
   let startOffset = firstDayOfMonth.getDay() - 1;
   if (startOffset < 0) startOffset = 6;
-
+  
   for (let i = 0; i < startOffset; i++) {
     const emptyEl = document.createElement('div');
     emptyEl.className = 'calendar-day empty';
     calendarGrid.appendChild(emptyEl);
   }
-
+  
   for (let day = 1; day <= totalDaysInMonth; day++) {
     const dayEl = document.createElement('div');
     dayEl.className = 'calendar-day';
     dayEl.textContent = day;
-
+    
     if (
       selectedDate &&
       selectedDate.getFullYear() === year &&
@@ -103,13 +99,13 @@ function renderCalendar() {
     ) {
       dayEl.classList.add('selected');
     }
-
+    
     dayEl.addEventListener('click', () => {
       selectedDate = new Date(year, month, day);
       dateBtn.textContent = selectedDate.toLocaleDateString('en-GB');
       renderCalendar();
     });
-
+    
     calendarGrid.appendChild(dayEl);
   }
 }
@@ -125,7 +121,6 @@ const locationApplyBtn = document.getElementById('location-apply-btn');
 
 const DEFAULT_LAT = 47.1585;
 const DEFAULT_LON = 27.6014;
-
 let locationMap = null;
 let locationMarker = null;
 let locationCircle = null;
@@ -135,21 +130,17 @@ function initLocationMap() {
   if (mapInitialized) return;
   mapInitialized = true;
   locationMap = L.map('location-map').setView([DEFAULT_LAT, DEFAULT_LON], 11);
-
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(locationMap);
-
   L.control.scale({ metric: true, imperial: false }).addTo(locationMap);
-
   locationMarker = L.marker([DEFAULT_LAT, DEFAULT_LON]).addTo(locationMap);
   locationCircle = L.circle([DEFAULT_LAT, DEFAULT_LON], {
     radius: locationRadiusInput.value * 1000,
-    color: '#0096FF',
-    fillColor: '#0096FF',
+    color: '#5a8dee',
+    fillColor: '#5a8dee',
     fillOpacity: 0.15
   }).addTo(locationMap);
-
   locationMap.on('click', (event) => {
     setLocationPoint(event.latlng.lat, event.latlng.lng);
   });
@@ -180,7 +171,6 @@ locationRadiusInput.addEventListener('input', () => {
 locationSearchBtn.addEventListener('click', () => {
   const query = locationAddressInput.value.trim();
   if (!query) return;
-
   fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
     .then((response) => response.json())
     .then((results) => {
@@ -217,9 +207,49 @@ locationApplyBtn.addEventListener('click', () => {
     radiusKm: Number(locationRadiusInput.value)
   };
   localStorage.setItem('preferredLocation', JSON.stringify(chosenLocation));
+  alert('Location saved! Filtering companies by distance is not connected to the backend yet.');
   locationPanel.classList.add('hidden');
-  incarcaCompaniile();
 });
+
+const servicesContainer = document.getElementById('services-container');
+// RESTAURAT LINK-UL REAL CATRE API
+const API_URL = "http://127.0.0.1:8000/api/companies/all";
+let companiiIncarcate = [];
+
+if (servicesContainer) {
+  servicesContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('booking-btn')) {
+      event.stopPropagation();
+      const card = event.target.closest('.card');
+      if (card) {
+        const bookingCompany = {
+          id: card.dataset.id || '', // NE ASIGURĂM CĂ ID-UL AJUNGE ÎN CHECKOUT
+          nume: card.dataset.nume || '',
+          pret: card.dataset.pret || '',
+          locatie: card.dataset.locatie || '',
+          descriere: card.dataset.descriere || '',
+          rating: card.dataset.rating || '',
+          stele: card.dataset.stele || ''
+        };
+        localStorage.setItem('checkout_company', JSON.stringify(bookingCompany));
+      }
+      if (selectedDate) {
+        // format YYYY-MM-DD asteptat de backend
+        const an = selectedDate.getFullYear();
+        const luna = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const zi = String(selectedDate.getDate()).padStart(2, '0');
+        const dataFormatata = `${an}-${luna}-${zi}`;
+        localStorage.setItem('checkout_date', dataFormatata);
+      } else {
+        localStorage.removeItem('checkout_date');
+      }
+      window.location.href = '../Checkout/Checkout.html';
+      return;
+    }
+    const clickedCard = event.target.closest('.card');
+    if (clickedCard) clickedCard.classList.toggle('open');
+  });
+}
 
 function calculeazaDistanta(lat1, lon1, lat2, lon2) {
   const R = 6371; 
@@ -232,46 +262,10 @@ function calculeazaDistanta(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-const servicesContainer = document.getElementById('services-container');
-const API_URL = "http://127.0.0.1:8000/api/companies/all";
-let companiiIncarcate = []; 
-
-if (servicesContainer) {
-  servicesContainer.addEventListener('click', (event) => {
-    if (event.target.classList.contains('booking-btn')) {
-      event.stopPropagation();
-      
-      if (!selectedDate) {
-        alert("Please select a date from the calendar above for booking!");
-        return;
-      }
-      
-      const an = selectedDate.getFullYear();
-      const luna = String(selectedDate.getMonth() + 1).padStart(2, '0');
-      const zi = String(selectedDate.getDate()).padStart(2, '0');
-      const dataFormatata = `${an}-${luna}-${zi}`;
-
-      const companyId = event.target.getAttribute('data-id');
-      const companieSelectata = companiiIncarcate.find(c => c.id == companyId);
-
-      localStorage.setItem('checkout_company', JSON.stringify(companieSelectata));
-      localStorage.setItem('checkout_date', dataFormatata);
-
-      window.location.href = '../Checkout/Checkout.html';
-      return;
-    }
-
-    const clickedCard = event.target.closest('.card');
-    if (clickedCard) clickedCard.classList.toggle('open');
-  });
-}
-
 async function incarcaCompaniile() {
   if (!servicesContainer) return;
-
   try {
     servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>Loading services...</p>";
-    
     const response = await fetch(API_URL);
     if (!response.ok) throw new Error("Network error");
     
@@ -286,26 +280,27 @@ async function incarcaCompaniile() {
             return distanta <= preferinta.radiusKm;
         });
     }
-
+    
     companiiIncarcate = companii;
     randeazaCompanii(companii);
-
   } catch (error) {
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>Could not load the services list.</p>";
+    console.error("Error fetching companies:", error);
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>Could not load the list of services.</p>";
   }
 }
 
 function randeazaCompanii(companii) {
-  servicesContainer.innerHTML = ""; 
-  
+  servicesContainer.innerHTML = "";
   if (companii.length === 0) {
-    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>No company currently registered in the selected area.</p>";
+    servicesContainer.innerHTML = "<p style='text-align:center; width:100%;'>No companies registered at the moment.</p>";
     return;
   }
-
-  companii.forEach(companie => {
+  
+  companii.forEach((companie, index) => {
+    const animationDelay = (index * 0.06).toFixed(2);
+    // ADAUGAT data-id="${companie.id}" ca sa functioneze checkout-ul!
     const cardHTML = `
-      <div class="card">
+      <div class="card" style="animation-delay: ${animationDelay}s;" data-id="${companie.id}" data-nume="${companie.nume}" data-pret="${companie.pret}" data-locatie="${companie.locatie}" data-descriere="${companie.descriere}" data-rating="${companie.rating}" data-stele="${companie.stele}">
         <div class="card-header">
           <h3>${companie.nume}</h3>
           <div class="rating">
@@ -316,9 +311,9 @@ function randeazaCompanii(companii) {
         </div>
         <div class="card-body">
           <div class="card-content">
-            <p class="location-text" style="font-weight: bold; margin-bottom: 5px;">📌 ${companie.locatie}</p>
+            <p class="location-text" style="font-weight: bold; margin-bottom: 5px;">📍 ${companie.locatie}</p>
             <p>${companie.descriere}</p>
-            <button class="booking-btn" data-id="${companie.id}">Booking</button>
+            <button class="booking-btn">Checkout</button>
           </div>
         </div>
       </div>
@@ -333,7 +328,6 @@ const mottoEl = document.getElementById('page-motto');
 if (mottoEl) {
   const mottoText = mottoEl.dataset.text;
   let mottoCharIndex = 0;
-
   function typeMotto() {
     if (mottoCharIndex <= mottoText.length) {
       mottoEl.textContent = mottoText.slice(0, mottoCharIndex);
@@ -343,3 +337,33 @@ if (mottoEl) {
   }
   typeMotto();
 }
+
+// RESTAURAT FUNCTIA NOASTRA DE AVATAR!
+async function incarcaAvatarUtilizator() {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/auth/profile?t=" + new Date().getTime(), {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Cache-Control': 'no-cache'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.avatar_url) {
+                const avatarImg = document.querySelector('.account-avatar');
+                if (avatarImg) {
+                    avatarImg.src = data.avatar_url;
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Eroare la incarcarea pozei de profil in meniu:", error);
+    }
+}
+
+incarcaAvatarUtilizator();

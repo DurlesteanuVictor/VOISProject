@@ -1,4 +1,3 @@
-/*Dimensiuni de baza a cutiei de autentificare*/
 * {
   margin: 0;
   padding: 0;
@@ -6,56 +5,77 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif; /* font text (autentificare, utilizator, etc) */
+  font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center; 
-  /* toate de mai sus is pentru centralizare */
-  background-color: #f2f2f2;  /* culoarea fundalului paginii */
+  justify-content: center;
+  background-color: #f2f2f2;
 }
 
-/*Card-ul de login*/
 .login-container {
-  background-color: #ffffff; /* culoarea fundalului cutiei de login (e mai deschisa ca fundalul paginii in sine) */
+  background-color: #ffffff;
   padding: 40px 32px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* umbra din jurul cutiei */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 360px;
+  animation: login-fade-in 0.4s ease;
+}
+
+@keyframes login-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-container.shake {
+  animation: login-shake 0.4s ease;
+}
+
+@keyframes login-shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
 }
 
 .login-title {
   text-align: center;
   margin-bottom: 24px;
-  color: #000000 ; /* culoarea titlului "Autentificare" */
+  color: #222222;
 }
 
-/*Grupurile de input (username + password)*/
 .input-group {
-  margin-bottom: 18px; /* distanta intre text-box-uri */
+  margin-bottom: 18px;
 }
 
 .input-group label {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
-  color: #800080; /* culoarea textului label-urilor (Utilizator / Parolă) - mov */
+  color: #555555;
 }
 
 .input-group input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #FFC0CB ; /* culoarea marginii input-urilor - roz */
+  border: 1px solid #cccccc;
   border-radius: 4px;
   font-size: 14px;
-  color: #0000FF; /* culoarea textului scris de utilizator - albastru */
-  background-color: #eeeeee; /* culoarea fundalului input-urilor - rosu */
+  color: #333333;
+  background-color: #f7f7f7;
+  transition: border-color 0.2s ease;
 }
 
 .input-group input:focus {
   outline: none;
-  border-color: #FFFF00 ; /* culoarea marginii input-ului cand il alegi (daca apesi pe spatiul pentru utilizator) - galben */
+  border-color: #5a8dee;
 }
 
 .password-wrapper {
@@ -66,7 +86,7 @@ body {
 
 .password-wrapper input {
   flex: 1;
-  padding-right: 70px; /* spațiu pentru butonul din dreapta */
+  padding-right: 70px;
 }
 
 .toggle-btn {
@@ -74,31 +94,64 @@ body {
   right: 8px;
   background: none;
   border: none;
-  color: #0000FF; /* culoarea textului butonului Arată/Ascunde - albastru */
+  color: #5a8dee;
   font-size: 13px;
   cursor: pointer;
   padding: 4px 6px;
 }
 
 .toggle-btn:hover {
-  color: #00FFFF; /* culoarea butonului Arată/Ascunde cand tii cursorul pe el - albastru mai deschis */
+  color: #3a6cd4;
 }
 
-/*Butonul de login*/
+.form-error {
+  min-height: 16px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #d32f2f;
+  text-align: center;
+}
+
 .login-btn {
   width: 100%;
   padding: 12px;
   margin-top: 8px;
-  background-color: #0096FF; /* culoarea de fundal a butonului de Login - albastru deschis */
-  color: #ffffff; /* culoarea textului de pe butonul de Login - alb */
+  background-color: #5a8dee;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   font-size: 15px;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .login-btn:hover {
-  background-color: #0044ff; /* culoarea butonului de Login cand tii cursorul pe el - indigo */
+  background-color: #3a6cd4;
+  transform: translateY(-1px);
+}
+
+.login-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+  transform: none;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  vertical-align: middle;
+  animation: btn-spin 0.6s linear infinite;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .register-redirect {
@@ -108,11 +161,11 @@ body {
 
 .redirect-text {
   font-size: 14px;
-  color: #000000;
+  color: #555555;
 }
 
 .redirect-link {
-  color: #0096FF;
+  color: #5a8dee;
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
@@ -121,5 +174,5 @@ body {
 }
 
 .redirect-link:hover {
-  color: #0044ff;
+  color: #3a6cd4;
 }

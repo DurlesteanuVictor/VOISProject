@@ -6,25 +6,25 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #f2f2f2; /* culoarea fundalului paginii */
+  background-color: #f2f2f2;
 }
 
 .checkout-header {
   padding: 24px 40px;
-  background-color: #ffffff; /* culoarea fundalului header-ului */
-  border-bottom: 1px solid #ececec; /* culoarea liniei de jos a header-ului */
+  background-color: #ffffff;
+  border-bottom: 1px solid #ececec;
 }
 
 .checkout-logo {
   font-size: 24px;
   font-weight: bold;
   text-decoration: none;
-  color: #222222; /* culoarea textului logo-ului FixFlex */
+  color: #222222;
   letter-spacing: 1px;
 }
 
 .checkout-logo:hover {
-  color: #5a8dee; /* culoarea logo-ului la hover - albastru, accentul site-ului */
+  color: #5a8dee;
 }
 
 .step-indicator {
@@ -51,46 +51,46 @@ body {
   justify-content: center;
   font-size: 15px;
   font-weight: bold;
-  background-color: #e0e0e0; /* culoarea fundalului bulinei pentru pasul viitor, neactiv */
-  color: #888888; /* culoarea textului bulinei pentru pasul viitor, neactiv */
-  border: 2px solid #e0e0e0; /* culoarea marginii bulinei pentru pasul viitor, neactiv */
+  background-color: #e0e0e0;
+  color: #888888;
+  border: 2px solid #e0e0e0;
 }
 
 .step-label {
   font-size: 13px;
-  color: #888888; /* culoarea textului etichetei pentru pasul viitor, neactiv */
+  color: #888888;
 }
 
 .step.completed .step-circle {
-  background-color: #5a8dee; /* culoarea de fundal a bulinei completate */
-  border-color: #5a8dee; /* culoarea marginii bulinei completate */
-  color: #ffffff; /* culoarea textului/bifei bulinei completate */
+  background-color: #5a8dee;
+  border-color: #5a8dee;
+  color: #ffffff;
 }
 
 .step.completed .step-label {
-  color: #333333; /* culoarea textului etichetei pentru pasul completat */
+  color: #333333;
 }
 
 .step.active .step-circle {
-  background-color: #ffffff; /* culoarea de fundal a bulinei active (pasul curent) */
-  border-color: #5a8dee; /* culoarea marginii bulinei active */
-  color: #5a8dee; /* culoarea textului bulinei active */
+  background-color: #ffffff;
+  border-color: #5a8dee;
+  color: #5a8dee;
 }
 
 .step.active .step-label {
-  color: #222222; /* culoarea textului etichetei pentru pasul activ */
+  color: #222222;
   font-weight: bold;
 }
 
 .step-line {
   width: 70px;
   height: 2px;
-  background-color: #e0e0e0; /* culoarea liniei dintre buline, neparcursă */
+  background-color: #e0e0e0;
   margin-bottom: 22px;
 }
 
 .step-line.completed {
-  background-color: #5a8dee; /* culoarea liniei dintre buline, deja parcursă */
+  background-color: #5a8dee;
 }
 
 .checkout-content {
@@ -110,34 +110,17 @@ body {
   gap: 20px;
 }
 
-/*Animația de apariție pentru cele 3 panouri, cu un mic decalaj între ele*/
-.company-preview,
-.booking-details,
-.checkout-right {
+.company-preview, .booking-details, .checkout-right {
   animation: checkout-fade-in 0.4s ease backwards;
 }
 
-.company-preview {
-  animation-delay: 0s;
-}
-
-.booking-details {
-  animation-delay: 0.08s;
-}
-
-.checkout-right {
-  animation-delay: 0.16s;
-}
+.company-preview { animation-delay: 0s; }
+.booking-details { animation-delay: 0.08s; }
+.checkout-right { animation-delay: 0.16s; }
 
 @keyframes checkout-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .checkout-right.shake {
@@ -153,22 +136,22 @@ body {
 
 .checkout-right {
   flex: 1.4;
-  background-color: #ffffff; /* culoarea fundalului panoului de detalii client */
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* umbra panoului din dreapta */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   padding: 32px;
 }
 
 .checkout-form-title {
   font-size: 19px;
-  color: #111111; /* culoarea titlului "Introduceți detaliile dvs." */
+  color: #111111;
   margin-bottom: 24px;
 }
 
 .company-preview {
-  background-color: #ffffff; /* culoarea fundalului cardului de preview companie */
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* umbra cardului de preview */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
@@ -177,7 +160,7 @@ body {
   height: 160px;
   object-fit: cover;
   display: block;
-  background-color: #dddddd; /* culoarea de fundal cât timp nu există o poză reală */
+  background-color: #dddddd;
 }
 
 .company-preview-body {
@@ -186,7 +169,7 @@ body {
 
 .company-preview-name {
   font-size: 18px;
-  color: #111111; /* culoarea numelui companiei */
+  color: #111111;
   margin-bottom: 8px;
 }
 
@@ -200,37 +183,37 @@ body {
 .company-preview-rating .rating-number {
   font-weight: bold;
   font-size: 14px;
-  color: #333333; /* culoarea cifrei de rating */
+  color: #333333;
 }
 
 .company-preview-rating .stars {
-  color: #FFD700; /* culoarea stelelor */
+  color: #FFD700;
   font-size: 14px;
   letter-spacing: 1px;
 }
 
 .company-preview-location {
   font-size: 13px;
-  color: #666666; /* culoarea textului locației */
+  color: #666666;
   margin-bottom: 10px;
 }
 
 .company-preview-description {
   font-size: 13px;
-  color: #666666; /* culoarea textului descrierii */
+  color: #666666;
   line-height: 1.5;
 }
 
 .booking-details {
-  background-color: #ffffff; /* culoarea fundalului cardului de detalii rezervare */
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* umbra cardului de detalii */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   padding: 20px;
 }
 
 .booking-details-title {
   font-size: 16px;
-  color: #111111; /* culoarea titlului "Detalii rezervare" */
+  color: #111111;
   margin-bottom: 16px;
 }
 
@@ -239,7 +222,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0; /* culoarea liniei dintre rândurile de detalii */
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .detail-row:last-child {
@@ -248,19 +231,19 @@ body {
 
 .detail-label {
   font-size: 13px;
-  color: #888888; /* culoarea etichetei (Data / Ora / Preț) */
+  color: #888888;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .detail-value {
   font-size: 14px;
-  color: #222222; /* culoarea valorii detaliului */
+  color: #222222;
   font-weight: bold;
 }
 
 .price-value {
-  color: #5a8dee; /* culoarea valorii prețului */
+  color: #5a8dee;
 }
 
 .hour-dropdown {
@@ -270,18 +253,18 @@ body {
 .hour-dropdown-toggle {
   min-width: 150px;
   padding: 6px 10px;
-  border: 1px solid #cccccc; /* culoarea marginii dropdown-ului de oră - gri deschis, consistent cu restul formularelor */
+  border: 1px solid #cccccc;
   border-radius: 4px;
   font-size: 13px;
-  color: #333333; /* culoarea textului dropdown-ului de oră */
-  background-color: #f7f7f7; /* culoarea fundalului dropdown-ului de oră */
+  color: #333333;
+  background-color: #f7f7f7;
   cursor: pointer;
   text-align: left;
   transition: border-color 0.2s ease;
 }
 
 .hour-dropdown-toggle:hover {
-  border-color: #5a8dee; /* culoarea marginii dropdown-ului la hover - albastru, accentul site-ului */
+  border-color: #5a8dee;
 }
 
 .hour-dropdown-list {
@@ -291,10 +274,10 @@ body {
   width: 190px;
   max-height: 230px;
   overflow-y: auto;
-  background-color: #ffffff; /* culoarea fundalului listei de ore */
-  border: 1px solid #ececec; /* culoarea marginii listei de ore */
+  background-color: #ffffff;
+  border: 1px solid #ececec;
   border-radius: 8px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1); /* umbra listei de ore */
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
   z-index: 50;
 }
 
@@ -305,17 +288,17 @@ body {
 .hour-option {
   padding: 8px 12px;
   font-size: 13px;
-  color: #333333; /* culoarea textului unei ore disponibile */
+  color: #333333;
   cursor: pointer;
 }
 
 .hour-option:hover {
-  background-color: #eef2fd; /* culoarea de fundal a orei la hover */
+  background-color: #eef2fd;
 }
 
 .hour-option.selected {
-  background-color: #5a8dee; /* culoarea de fundal a orei selectate */
-  color: #ffffff; /* culoarea textului orei selectate */
+  background-color: #5a8dee;
+  color: #ffffff;
 }
 
 .input-group {
@@ -326,18 +309,17 @@ body {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
-  color: #555555; /* culoarea textului label-urilor - gri mediu */
+  color: #555555;
 }
 
-.input-group input,
-.input-group select {
+.input-group input, .input-group select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #cccccc; /* culoarea marginii input-urilor - gri deschis */
+  border: 1px solid #cccccc;
   border-radius: 4px;
   font-size: 14px;
-  color: #333333; /* culoarea textului din input-uri - gri închis */
-  background-color: #f7f7f7; /* culoarea fundalului input-urilor - gri foarte deschis */
+  color: #333333;
+  background-color: #f7f7f7;
   transition: border-color 0.2s ease;
 }
 
@@ -345,10 +327,9 @@ body {
   cursor: pointer;
 }
 
-.input-group input:focus,
-.input-group select:focus {
+.input-group input:focus, .input-group select:focus {
   outline: none;
-  border-color: #5a8dee; /* culoarea marginii la selectare - albastru, accentul site-ului */
+  border-color: #5a8dee;
 }
 
 .input-row {
@@ -360,12 +341,11 @@ body {
   flex: 1;
 }
 
-/*Mesajul de eroare de sub formular*/
 .form-error {
   min-height: 16px;
   margin-bottom: 14px;
   font-size: 13px;
-  color: #d32f2f; /* culoarea textului de eroare - roșu */
+  color: #d32f2f;
   text-align: center;
 }
 
@@ -373,8 +353,8 @@ body {
   width: 100%;
   padding: 12px;
   margin-top: 8px;
-  background-color: #5a8dee; /* culoarea de fundal a butonului Pasul următor - albastru, accentul site-ului */
-  color: #ffffff; /* culoarea textului butonului Pasul următor */
+  background-color: #5a8dee;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   font-size: 15px;
@@ -384,7 +364,7 @@ body {
 }
 
 .next-step-btn:hover {
-  background-color: #3a6cd4; /* culoarea butonului la hover - albastru mai închis */
+  background-color: #3a6cd4;
   transform: translateY(-1px);
 }
 
@@ -399,17 +379,15 @@ body {
   width: 14px;
   height: 14px;
   margin-left: 8px;
-  border: 2px solid rgba(255, 255, 255, 0.4); /* culoarea de fundal a inelului spinner-ului */
-  border-top-color: #ffffff; /* culoarea segmentului care se rotește */
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
   border-radius: 50%;
   vertical-align: middle;
   animation: btn-spin 0.6s linear infinite;
 }
 
 @keyframes btn-spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {

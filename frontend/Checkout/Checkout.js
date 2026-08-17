@@ -3,12 +3,11 @@ const checkoutDateRaw = localStorage.getItem('checkout_date');
 
 if (companyRaw) {
   const company = JSON.parse(companyRaw);
-
   document.getElementById('company-name').textContent = company.nume || 'Company name';
   document.getElementById('company-rating').textContent = company.rating || '-';
   document.getElementById('company-stars').textContent = company.stele || '';
   document.getElementById('company-location').textContent = company.locatie
-    ? `\u{1F4CD} ${company.locatie}`
+    ? `📍 ${company.locatie}`
     : 'Location unavailable';
   document.getElementById('company-description').textContent = company.descriere || 'No description available.';
   document.getElementById('checkout-price').textContent = company.pret || '-';
@@ -25,6 +24,7 @@ const hourDropdown = document.getElementById('hour-dropdown');
 const hourToggle = document.getElementById('hour-dropdown-toggle');
 const hourList = document.getElementById('hour-dropdown-list');
 
+// RESTAURAT LOGICA DE ORE DINAMICE
 async function incarcaOreLibere() {
     if (!companyRaw || !checkoutDateRaw) return;
     const company = JSON.parse(companyRaw);
@@ -40,12 +40,11 @@ async function incarcaOreLibere() {
             hourToggle.disabled = true;
             return;
         }
-
+        
         data.available_slots.forEach(slot => {
             const optionEl = document.createElement('div');
             optionEl.className = 'hour-option';
             optionEl.textContent = slot;
-
             optionEl.addEventListener('click', () => {
                 hourToggle.textContent = slot;
                 hourList.querySelectorAll('.hour-option').forEach((el) => el.classList.remove('selected'));
@@ -58,7 +57,6 @@ async function incarcaOreLibere() {
         hourToggle.textContent = "Loading error";
     }
 }
-
 incarcaOreLibere();
 
 hourToggle.addEventListener('click', (event) => {
@@ -74,31 +72,29 @@ document.addEventListener('click', (event) => {
 
 const carSelect = document.getElementById('car-select');
 
+// RESTAURAT LOGICA PENTRU MAȘINI (CU CACHE BUSTING)
 async function incarcaMasinile() {
   const token = localStorage.getItem('access_token');
-
   if (!token) {
     carSelect.innerHTML = '<option value="">Log in to see your cars</option>';
     return;
   }
-
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/auth/profile', {
+    const response = await fetch('http://127.0.0.1:8000/api/auth/profile?t=' + new Date().getTime(), {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Cache-Control': 'no-cache'
       }
     });
-
-    if (!response.ok) throw new Error('Error');
-
+    if (!response.ok) throw new Error('Error loading profile');
     const data = await response.json();
     carSelect.innerHTML = '';
-
+    
     if (Array.isArray(data.cars) && data.cars.length > 0) {
       data.cars.forEach((car, index) => {
         const option = document.createElement('option');
-        option.value = car.id || index;
+        option.value = car.id || index; 
         option.textContent = `${car.make || ''} ${car.model || ''}`.trim() || `Car ${index + 1}`;
         carSelect.appendChild(option);
       });
@@ -106,10 +102,10 @@ async function incarcaMasinile() {
       carSelect.innerHTML = '<option value="">No car added to your profile</option>';
     }
   } catch (error) {
+    console.error('Error loading cars:', error);
     carSelect.innerHTML = '<option value="">Could not load cars</option>';
   }
 }
-
 incarcaMasinile();
 
 const checkoutRight = document.getElementById('checkout-right');
@@ -130,7 +126,6 @@ function clearFormError() {
 
 function setNextStepLoading(isLoading) {
   nextStepBtn.disabled = isLoading;
-
   if (isLoading) {
     nextStepBtnText.textContent = 'Processing...';
     const spinner = document.createElement('span');
@@ -143,47 +138,43 @@ function setNextStepLoading(isLoading) {
   }
 }
 
+// RESTAURAT POST REQUEST-UL CĂTRE API
 nextStepBtn.addEventListener('click', async () => {
   clearFormError();
-
   const address = document.getElementById('address').value.trim();
   const city = document.getElementById('city').value.trim();
   const postalCode = document.getElementById('postalCode').value.trim();
   const country = document.getElementById('country').value.trim();
-  
   const carValue = carSelect.value;
   const oraSelectata = hourToggle.textContent;
   const token = localStorage.getItem('access_token');
-
+  
   if (!address || !city || !postalCode || !country) {
-    showFormError('Please fill in all address details.');
+    showFormError('Please fill in all address fields.');
     return;
   }
-
   if (!carValue) {
     showFormError('Please select a car.');
     return;
   }
-
   if (oraSelectata === 'Select a time' || oraSelectata === 'No available slots on this day' || oraSelectata === 'Loading error') {
     showFormError('Please select a valid time slot.');
     return;
   }
-
   if (!token) {
     showFormError('You must be logged in to make a booking.');
     return;
   }
-
+  
   setNextStepLoading(true);
   const company = JSON.parse(companyRaw);
-
+  
   const payload = {
       id_company: company.id,
       booking_date: checkoutDateRaw,
       time_slot: oraSelectata
   };
-
+  
   try {
       const response = await fetch("http://127.0.0.1:8000/api/bookings/create", {
           method: "POST",
@@ -193,9 +184,9 @@ nextStepBtn.addEventListener('click', async () => {
           },
           body: JSON.stringify(payload)
       });
-
+      
       const result = await response.json();
-
+      
       if (response.ok) {
           alert("Booking created successfully!");
           window.location.href = '../Profile/Profile.html';
