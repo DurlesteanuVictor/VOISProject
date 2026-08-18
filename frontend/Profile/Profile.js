@@ -73,7 +73,7 @@ function renderCars(cars) {
                     <div class="input-row">
                         <div class="input-group">
                             <label>Year</label>
-                            <input type="number" value="${car.year || ''}" readonly />
+                            <input type="text" value="${car.year || ''}" readonly />
                         </div>
                         <div class="input-group">
                             <label>Engine</label>
