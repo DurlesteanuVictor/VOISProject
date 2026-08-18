@@ -372,7 +372,6 @@ if (mottoEl) {
 async function incarcaAvatarUtilizator() {
     const token = localStorage.getItem('access_token');
     if (!token) return;
-
     try {
         const response = await fetch("http://127.0.0.1:8000/api/auth/profile?t=" + new Date().getTime(), {
             method: 'GET',
@@ -381,7 +380,6 @@ async function incarcaAvatarUtilizator() {
                 'Cache-Control': 'no-cache'
             }
         });
-
         if (response.ok) {
             const data = await response.json();
             if (data.avatar_url) {
@@ -395,7 +393,6 @@ async function incarcaAvatarUtilizator() {
         console.error("Eroare la incarcarea pozei de profil in meniu:", error);
     }
 }
-
 incarcaAvatarUtilizator();
 
 const reviewModalOverlay = document.getElementById('review-modal-overlay');

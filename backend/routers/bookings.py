@@ -90,17 +90,34 @@ def update_booking_status(
     
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found.")
-        
     if current_user.role == "user" and booking.id_user != current_user.id:
         raise HTTPException(status_code=403, detail="You do not have permission to modify this booking.")
-    
+        
     if current_user.role == "mechanic" and booking.id_company != current_user.id_company:
         raise HTTPException(status_code=403, detail="You do not have permission to modify this booking.")
 
-    if current_user.role == "user" and status_update.status != "cancelled":
-        raise HTTPException(status_code=400, detail="Clients can only cancel bookings.")
+    current_status = booking.status
+    new_status = status_update.status
 
-    booking.status = status_update.status
+    if current_user.role == "user":
+        if new_status != "cancelled":
+            raise HTTPException(status_code=400, detail="Clients can only cancel bookings.")
+            
+        if current_status not in ["pending", "confirmed"]:
+            raise HTTPException(status_code=400, detail="You cannot cancel a booking that is already completed or cancelled.")
+
+    elif current_user.role == "mechanic":
+        if current_status == "pending":
+            if new_status not in ["confirmed", "cancelled"]:
+                raise HTTPException(status_code=400, detail="From pending, you can only confirm or reject(cancel) the booking.")
+                
+        elif current_status == "confirmed":
+            if new_status not in ["completed", "cancelled"]:
+                raise HTTPException(status_code=400, detail="From confirmed, you can only complete or cancel the booking.")
+                
+        else:
+            raise HTTPException(status_code=400, detail="Cannot modify a booking that is already closed (completed/cancelled).")
+    booking.status = new_status
     db.commit()
     
-    return {"message": f"Status updated successfully."}
+    return {"message": f"Status successfully updated to {new_status}."}

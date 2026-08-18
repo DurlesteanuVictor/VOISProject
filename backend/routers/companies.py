@@ -61,22 +61,20 @@ def create_company(company_data: CompanyCreateData, db: Session = Depends(get_db
 @router.post("/review", status_code=status.HTTP_201_CREATED)
 def add_review(review_data: ReviewCreate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
     if current_user.role != 'user':
-        raise HTTPException(status_code=403, detail="Only users can leave rewiew!")
+        raise HTTPException(status_code=403, detail="Only users can leave review!")
     today_date = datetime.now().strftime("%Y-%m-%d")
     past_booking = db.query(models.Booking).filter(
         models.Booking.id_user == current_user.id,
         models.Booking.id_company == review_data.id_company,
-        models.Booking.status != "cancelled",
+      models.Booking.status == "completed",
         models.Booking.booking_date <= today_date
     ).first()
 
     if not past_booking:
         raise HTTPException(
             status_code=403, 
-            detail="Trebuie să ai o rezervare onorată la acest service pentru a lăsa o recenzie."
+            detail="You need to have a reservation in order to leave a review."
         )
-
-    # REGULA 3: Fără SPAM. Dacă ai lăsat deja un review, ești blocat.
     existing_review = db.query(models.Review).filter(
         models.Review.id_user == current_user.id,
         models.Review.id_company == review_data.id_company
@@ -85,10 +83,8 @@ def add_review(review_data: ReviewCreate, current_user: models.User = Depends(ge
     if existing_review:
         raise HTTPException(
             status_code=400, 
-            detail="Ai lăsat deja o recenzie pentru acest service. Nu poți vota de mai multe ori."
+            detail="You already reviewed once"
         )
-        
-    # Dacă a trecut de toate filtrele, salvăm nota!
     new_review = models.Review(
         id_user=current_user.id,
         id_company=review_data.id_company,
