@@ -228,8 +228,8 @@ locationApplyBtn.addEventListener('click', () => {
     radiusKm: Number(locationRadiusInput.value)
   };
   localStorage.setItem('preferredLocation', JSON.stringify(chosenLocation));
-  alert('Location saved! Filtering companies by distance is not connected to the backend yet.');
   locationPanel.classList.add('hidden');
+  incarcaCompaniile();
 });
 
 const servicesContainer = document.getElementById('services-container');
