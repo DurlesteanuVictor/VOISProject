@@ -1,0 +1,30 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from routers import auth, companies, bookings
+from db.database import engine, Base
+from db import models
+from fastapi.staticfiles import StaticFiles
+import os
+
+os.makedirs("uploads/avatars", exist_ok=True)
+
+models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="Aplicație Căutare Mecanici API")
+app.mount("/avatars", StaticFiles(directory="uploads/avatars"), name="avatars")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(auth.router)
+app.include_router(companies.router)
+app.include_router(bookings.router)
+
+@app.get("/")
+def read_root():
+    return {"status": "Backend-ul este viu!"}

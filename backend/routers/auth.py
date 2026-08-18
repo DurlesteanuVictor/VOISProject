@@ -1,0 +1,223 @@
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from core.security import create_access_token
+from db.database import get_db
+from db import models
+from schemas import auth as schemas
+from fastapi.security import OAuth2PasswordBearer
+import jwt
+from core.config import SECRET_KEY, ALGORITHM
+from fastapi import UploadFile, File
+import shutil
+import uuid
+
+router = APIRouter(
+    prefix="/api/auth",
+    tags=["Autentificare"]
+)
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
+
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, 
+                detail="Token invalid"
+            )
+    except jwt.PyJWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Token invalid sau expirat"
+        )
+    
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Utilizatorul nu a fost găsit"
+        )
+    return user
+
+@router.post("/register", status_code=status.HTTP_201_CREATED)
+async def register_user(date_intrare: schemas.UserCreate, db: Session = Depends(get_db)):
+    existing_user = db.query(models.User).filter(models.User.email == date_intrare.email).first()
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail="Mail already registered."
+        )
+    
+    new_User = models.User(
+        user=date_intrare.user,
+        email=date_intrare.email,
+        password=date_intrare.password,
+        telephoneNumber=date_intrare.telephoneNumber,
+        role=date_intrare.role
+    )
+    db.add(new_User)
+    db.commit()
+    db.refresh(new_User)
+    
+    if date_intrare.role == 'user':
+        masina_noua = models.Car(
+            make=date_intrare.carMake,
+            model=date_intrare.carModel,
+            year=date_intrare.carYear,                
+            engine=date_intrare.carEngine,
+            id_user=new_User.id
+        )
+        db.add(masina_noua)
+        db.commit()
+        
+    return {"message": "Account made with success", "user_id": new_User.id}
+
+@router.post("/login")
+async def login_user(credentials: schemas.UserLogin, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == credentials.email).first()
+    if not user or user.password != credentials.password:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Invalid email or password"
+        )
+    
+    token = create_access_token({"sub": user.email, "role": user.role})
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "role": user.role,
+        "user_name": user.user
+    }
+
+@router.get("/profile", response_model=schemas.UserProfileResponse)
+async def get_profile(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    cars_data = [] 
+    company_data = None
+
+    if current_user.role == 'user':
+        user_cars = db.query(models.Car).filter(models.Car.id_user == current_user.id).all()
+        cars_data = [schemas.CarResponse(id=c.id, make=c.make, model=c.model, year=c.year, engine=c.engine) for c in user_cars]
+    elif current_user.role == 'mechanic' and current_user.id_company:
+        company = db.query(models.Company).filter(models.Company.id == current_user.id_company).first()
+        if company:
+            servicii_lista = company.servicii.split(",") if company.servicii else []
+            mecanici_lista = [schemas.MechanicResponse(id=m.id, name=m.name) for m in company.mechanics]
+            
+            company_data = schemas.CompanyProfileResponse(
+                name=company.name_service,
+                services=servicii_lista,
+                mechanics=mecanici_lista
+            )
+            
+    return schemas.UserProfileResponse(
+        user=current_user.user,
+        email=current_user.email,
+        telephoneNumber=current_user.telephoneNumber,
+        role=current_user.role,
+        avatar_url=current_user.avatar_url,
+        cars=cars_data, 
+        company=company_data 
+    )
+
+@router.put("/profile")
+async def update_profile(
+    update_data: schemas.UserProfileUpdate,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if update_data.user:
+        current_user.user = update_data.user
+    if update_data.email:
+        current_user.email = update_data.email
+    if update_data.telephoneNumber:
+        current_user.telephoneNumber = update_data.telephoneNumber
+    
+    if current_user.role == 'user' and update_data.car:
+        car = db.query(models.Car).filter(models.Car.id_user == current_user.id).first()
+        if car:
+            if update_data.car.make is not None: car.make = update_data.car.make
+            if update_data.car.model is not None: car.model = update_data.car.model
+            if update_data.car.year is not None: car.year = update_data.car.year
+            if update_data.car.engine is not None: car.engine = update_data.car.engine
+            pass
+        if current_user.role == 'mechanic' and current_user.id_company:
+            company = db.query(models.Company).filter(models.Company.id == current_user.id_company).first()
+            if company:
+                if update_data.company_services is not None:
+                    company.servicii = ",".join(update_data.company_services)
+                
+                if update_data.company_mechanics is not None:
+                    db.query(models.Mechanic).filter(models.Mechanic.id_company == company.id).delete()
+                    for mech_name in update_data.company_mechanics:
+                        new_mech = models.Mechanic(name=mech_name, id_company=company.id)
+                        db.add(new_mech)
+    
+    db.commit()
+    return {"message": "Profile updated successfully"}
+
+@router.put("/password")
+async def update_password(
+    password_data: schemas.PasswordUpdate,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if current_user.password != password_data.currentPassword:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid current password"
+        )
+    
+    if password_data.currentPassword == password_data.newPassword:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot use the same password"
+        )
+        
+    current_user.password = password_data.newPassword
+    db.commit()
+    return {"message": "Password updated successfully"}
+
+@router.post("/car")
+async def add_car(car_data: schemas.CarCreate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if current_user.role != 'user':
+        raise HTTPException(status_code=403, detail="Doar clientii pot adauga masini.")
+    
+    new_car = models.Car(
+        make=car_data.make, 
+        model=car_data.model, 
+        year=car_data.year, 
+        engine=car_data.engine, 
+        id_user=current_user.id
+    )
+    db.add(new_car)
+    db.commit()
+    return {"message": "Masina adaugata cu succes."}
+
+@router.delete("/car/{car_id}")
+async def delete_car(car_id: int, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    car = db.query(models.Car).filter(models.Car.id == car_id, models.Car.id_user == current_user.id).first()
+    if not car:
+        raise HTTPException(status_code=404, detail="Masina nu a fost gasita.")
+    
+    db.delete(car)
+    db.commit()
+    return {"message": "Masina stearsa cu succes."}
+
+@router.post("/upload-avatar")
+async def upload_avatar(
+    file: UploadFile = File(...), 
+    current_user: models.User = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    file_extension = file.filename.split(".")[-1]
+    unique_filename = f"{current_user.id}_{uuid.uuid4().hex}.{file_extension}"
+    file_path = f"uploads/avatars/{unique_filename}"
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    file_url = f"http://127.0.0.1:8000/avatars/{unique_filename}"
+    current_user.avatar_url = file_url
+    db.commit()
+
+    return {"message": "Avatar incarcat cu succes", "avatar_url": file_url}

@@ -1,0 +1,329 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #f2f2f2;
+  padding: 40px 0;
+}
+
+.profile-container {
+  background-color: #ffffff;
+  padding: 40px 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 380px;
+}
+
+.profile-title {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #000000;
+}
+
+.avatar-section-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #dddddd;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 1px #e0e0e0, 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.avatar-upload-label {
+  font-size: 13px;
+  color: #0000FF;
+  cursor: pointer;
+}
+
+.avatar-upload-label:hover {
+  color: #00FFFF;
+}
+
+.accordion-item {
+  background-color: #ffffff;
+  border: 1px solid #FFC0CB;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  background-color: #fcfcfc;
+}
+
+.accordion-header h2, .accordion-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #000000;
+}
+
+.accordion-content {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid #FFC0CB;
+}
+
+.toggle-icon {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0096FF;
+  width: 24px;
+  text-align: center;
+  user-select: none;
+}
+
+.section-my-car {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-header-row h2 {
+  font-size: 18px;
+  color: #000000;
+  padding-left: 10px;
+  border-left: 3px solid #FFC0CB;
+}
+
+.add-car-btn {
+  background-color: #0096FF;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add-car-btn:hover {
+  background-color: #3F00FF;
+}
+
+.car-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.delete-btn {
+  background-color: #d32f2f;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #a02020;
+}
+
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #800080;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #FFC0CB;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #ffffff;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #FFFF00;
+}
+
+.input-group input[readonly] {
+  background-color: transparent;
+  border-color: transparent;
+  color: #000000;
+  cursor: default;
+  padding-left: 0;
+}
+
+.input-group input[readonly]:focus {
+  outline: none;
+  border-color: transparent;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding-right: 70px;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #0000FF;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.toggle-btn:hover {
+  color: #00FFFF;
+}
+
+.profile-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: #0096FF;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.profile-btn:hover {
+  background-color: #3F00FF;
+}
+
+.secondary-btn {
+  background-color: #ffffff;
+  color: #0096FF;
+  border: 1px solid #0096FF;
+  margin-bottom: 18px;
+}
+
+.secondary-btn:hover {
+  background-color: #f2f8ff;
+}
+
+.action-buttons-container {
+  display: none;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.save-btn {
+  margin-top: 0;
+}
+
+.cancel-btn {
+  margin-top: 0;
+  background-color: #d32f2f;
+}
+
+.cancel-btn:hover {
+  background-color: #a02020;
+}
+
+.logout-btn {
+  background-color: #555555;
+}
+
+.logout-btn:hover {
+  background-color: #333333;
+}
+
+.main-logout-btn {
+  margin-top: 30px;
+}
+
+.history-empty-text {
+  color: #555555;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.my-car-main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #fcfcfc;
+  border-bottom: 1px solid #FFC0CB;
+}
+
+.my-car-main-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #000000;
+}
+
+.inner-car-item {
+  border-bottom: 1px solid #FFC0CB;
+}
+
+.inner-car-item:last-child {
+  border-bottom: none;
+}
+
+.add-car-form-container {
+  display: none;
+  padding: 16px;
+  border-bottom: 1px solid #FFC0CB;
+  background-color: #fafafa;
+}
+
+.add-car-form-container h3 {
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: #000000;
+}
+
+.add-car-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}

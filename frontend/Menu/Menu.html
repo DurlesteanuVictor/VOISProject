@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <link rel="stylesheet" href="Menu.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+    />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <a href="#" id="menu-link" class="menu-button">FixFlex</a>
+      <div class="navbar-row">
+        <nav class="navbar">
+          <div class="nav-group date-wrapper">
+            <button type="button" id="date-btn" class="nav-toggle-btn">
+              Date
+            </button>
+            <div id="calendar-dropdown" class="calendar-dropdown hidden">
+              <div class="calendar-header">
+                <button type="button" id="prev-month" class="calendar-nav-btn">
+                  &#8592;
+                </button>
+                <span id="calendar-month-label"></span>
+                <button type="button" id="next-month" class="calendar-nav-btn">
+                  &#8594;
+                </button>
+              </div>
+              <div id="calendar-grid" class="calendar-grid"></div>
+            </div>
+          </div>
+          <div class="nav-group">
+            <button type="button" class="nav-toggle-btn" data-menu-target="servicii">Services 
+            <span class="arrow">&#9660;</span>
+            </button>
+            <div class="dropdown-panel" id="servicii">
+            <div class="dropdown-panel-content">
+              <h3 class="dropdown-title">Auto Services</h3>
+              <div class="services-grid">
+                <div class="services-column">
+                  <a href="#" class="service-filter-btn" data-service="Toate">Toate Serviciile</a>
+                  <a href="#" class="service-filter-btn" data-service="Schimb Ulei">Schimb Ulei</a>
+                </div>
+                <div class="services-column">
+                  <a href="#" class="service-filter-btn" data-service="Revizie Frâne">Revizie Frâne</a>
+                  <a href="#" class="service-filter-btn" data-service="Diagnoză Auto">Diagnoză Auto</a>
+                </div>
+                <div class="services-column">
+                  <a href="#" class="service-filter-btn" data-service="Schimb Distribuție">Schimb Distribuție</a>
+                  <a href="#" class="service-filter-btn" data-service="Vulcanizare">Vulcanizare</a>
+                  <a href="#" class="service-filter-btn" data-service="Climatizare AC">Climatizare AC</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="nav-group location-wrapper">
+            <button type="button" id="location-btn" class="nav-toggle-btn">
+              Change Location
+            </button>
+            <div id="location-panel" class="location-panel hidden">
+              <div id="location-map"></div>
+              <div class="location-controls">
+                <div class="location-radius-row">
+                  <label for="location-radius"
+                    >Radius: <span id="location-radius-value">25</span> km</label
+                  >
+                  <input
+                    type="range"
+                    id="location-radius"
+                    min="1"
+                    max="100"
+                    value="25"
+                  />
+                </div>
+                <div class="location-search-row">
+                  <input
+                    type="text"
+                    id="location-address"
+                    placeholder="Enter a city or address"
+                  />
+                  <button type="button" id="location-search-btn">Search</button>
+                </div>
+                <button
+                  type="button"
+                  id="location-current-btn"
+                  class="location-current-btn"
+                >
+                  Use my current location
+                </button>
+                <button
+                  type="button"
+                  id="location-apply-btn"
+                  class="location-apply-btn"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="nav-group">
+            <button
+              type="button"
+              class="nav-toggle-btn"
+              data-menu-target="about"
+            >
+              About <span class="arrow">&#9660;</span>
+            </button>
+            <div class="dropdown-panel" id="about">
+              <div class="dropdown-panel-content about-content">
+                <div class="about-column">
+                  <h3 class="dropdown-title">Why FixFlex</h3>
+                  <p class="about-text">
+                    Real-time availability, upfront pricing, and reviews from
+                    actual customers   everything you need to choose the
+                    right mechanic, without the guesswork.
+                  </p>
+                </div>
+                <div class="about-divider"></div>
+                <div class="about-column">
+                  <h3 class="dropdown-title">Our Mission</h3>
+                  <p class="about-text">
+                    We connect drivers with trusted local mechanics, making
+                    car repairs simple, transparent, and fast   no more
+                    endless phone calls or guessing who's reliable.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="nav-group">
+            <button
+              type="button"
+              class="nav-toggle-btn"
+              data-menu-target="contact"
+            >
+              Contact <span class="arrow">&#9660;</span>
+            </button>
+            <div class="dropdown-panel" id="contact">
+              <div class="dropdown-panel-content contact-details">
+                <div class="contact-row">
+                  <span class="contact-label">Email</span>
+                  <span class="contact-value">contact@fixflex.com</span>
+                </div>
+                <div class="contact-row">
+                  <span class="contact-label">Phone</span>
+                  <span class="contact-value">+40 722 345 678</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <a href="../Profile/Profile.html" class="account-avatar-link">
+        <img src="profile-placeholder.png" alt="Account" class="account-avatar" />
+      </a>
+    </div>
+    <main class="page-content">
+      <p class="page-motto" id="page-motto" data-text="FixFlex — car repairs, scheduled exactly your way."></p>
+      <div class="grid-container" id="services-container"></div>
+    </main>
+
+    <div id="review-modal-overlay" class="review-modal-overlay hidden">
+      <div class="review-modal">
+        <h2>Rate this service</h2>
+        <div class="review-question" data-question="quality">
+          <span class="review-question-label">Quality of work</span>
+          <div class="review-stars" data-value="0">
+            <span class="review-star" data-star="1">&#9733;</span>
+            <span class="review-star" data-star="2">&#9733;</span>
+            <span class="review-star" data-star="3">&#9733;</span>
+            <span class="review-star" data-star="4">&#9733;</span>
+            <span class="review-star" data-star="5">&#9733;</span>
+          </div>
+        </div>
+        <div class="review-question" data-question="punctuality">
+          <span class="review-question-label">Punctuality</span>
+          <div class="review-stars" data-value="0">
+            <span class="review-star" data-star="1">&#9733;</span>
+            <span class="review-star" data-star="2">&#9733;</span>
+            <span class="review-star" data-star="3">&#9733;</span>
+            <span class="review-star" data-star="4">&#9733;</span>
+            <span class="review-star" data-star="5">&#9733;</span>
+          </div>
+        </div>
+        <div class="review-question" data-question="price">
+          <span class="review-question-label">Price fairness</span>
+          <div class="review-stars" data-value="0">
+            <span class="review-star" data-star="1">&#9733;</span>
+            <span class="review-star" data-star="2">&#9733;</span>
+            <span class="review-star" data-star="3">&#9733;</span>
+            <span class="review-star" data-star="4">&#9733;</span>
+            <span class="review-star" data-star="5">&#9733;</span>
+          </div>
+        </div>
+        <div class="review-question" data-question="communication">
+          <span class="review-question-label">Communication</span>
+          <div class="review-stars" data-value="0">
+            <span class="review-star" data-star="1">&#9733;</span>
+            <span class="review-star" data-star="2">&#9733;</span>
+            <span class="review-star" data-star="3">&#9733;</span>
+            <span class="review-star" data-star="4">&#9733;</span>
+            <span class="review-star" data-star="5">&#9733;</span>
+          </div>
+        </div>
+        <div class="review-question" data-question="recommend">
+          <span class="review-question-label">Would recommend</span>
+          <div class="review-stars" data-value="0">
+            <span class="review-star" data-star="1">&#9733;</span>
+            <span class="review-star" data-star="2">&#9733;</span>
+            <span class="review-star" data-star="3">&#9733;</span>
+            <span class="review-star" data-star="4">&#9733;</span>
+            <span class="review-star" data-star="5">&#9733;</span>
+          </div>
+        </div>
+        <div class="review-modal-buttons">
+          <button type="button" id="review-cancel-btn" class="review-cancel-btn">Cancel</button>
+          <button type="button" id="review-submit-btn" class="review-submit-btn">Submit review</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="Menu.js"></script>
+  </body>
+</html>
