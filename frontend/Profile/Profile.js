@@ -319,9 +319,7 @@ document.querySelectorAll('.toggle-btn').forEach((btn) => {
     });
 });
 
-// ==========================================
-// BOOKINGS WORKFLOW
-// ==========================================
+
 const bookingsContainer = document.getElementById('bookings-list-container');
 
 async function loadMyBookings() {
