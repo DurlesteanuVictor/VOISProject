@@ -40,20 +40,25 @@ FixFlex is a web platform that connects drivers with local auto repair services.
 - Clear error and success feedback throughout all forms (no silent failures)
 - Location-based search (choose an area on a map, set a search radius)
 - Booking history on the user's profile
+- Real profile picture storage/upload
 
 ### Won't have (for now)
 
 - Real online payment processing
 - Automatic filtering of companies by distance from the selected location — the location map is implemented and fully functional as a visual tool (pick a point, set a search radius, save it), but it isn't yet connected to actually filtering the results
-- Real profile picture storage/upload
+- Support for service categories beyond car mechanics
+- Reviews / comments on companies
+- Dynamic pricing
 
 ---
 
 ## 4. Risk Register
 
-| #   | Risk                                                                                             | Impact | Likelihood | Fix                                                                                                                             |
-| --- | ------------------------------------------------------------------------------------------------ | ------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | The database (SQLite) is not built for many simultaneous users — it locks on concurrent writes   | Medium | Low        | Production-grade database would be the fix if usage grows                                                                       |
-| 2   | A team member falls behind on their part of the work                                             | Medium | Low        | Daily check-ins on progress make delays visible early, so tasks can be redistributed in time                                    |
-| 3   | A last-minute bug appears during the live demo presentation                                      | Medium | Low        | Regular QA checks on the whole site, plus testing each feature individually as it's built                                       |
-| 4   | A team member becomes unavailable and their part of the project is not well understood by others | Medium | Low        | Code is kept in a shared repository with incremental commits, so any change is traceable and reviewable by the rest of the team |
+| #   | Risk                                                                                             | Impact | Likelihood | Fix                                                                                                                                |
+| --- | ------------------------------------------------------------------------------------------------ | ------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | The database (SQLite) is not built for many simultaneous users — it locks on concurrent writes   | Medium | Low        | Migrating to a more robust database such as MySQL would be the fix if usage grows                                                  |
+| 2   | A team member falls behind on their part of the work                                             | Medium | Low        | Daily check-ins on progress make delays visible early, so tasks can be redistributed in time                                       |
+| 3   | A last-minute bug appears during the live demo presentation                                      | Medium | Low        | Regular QA checks on the whole site, plus testing each feature individually as it's built                                          |
+| 4   | A team member becomes unavailable and their part of the project is not well understood by others | Medium | Low        | Code is kept in a shared repository with incremental commits, so any change is traceable and reviewable by the rest of the team    |
+| 5   | SQL injection — malicious input used to manipulate database queries                              | High   | Low        | The backend uses SQLAlchemy's query builder rather than raw SQL, which parameterizes inputs and protects against this by default   |
+| 6   | DDoS — the server is overwhelmed by a flood of requests                                          | Medium | Low        | Not a priority at this project's current scale; would need rate-limiting / hosting-level protection if the app moves to production |
