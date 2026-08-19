@@ -17,8 +17,8 @@ body {
 .menu-button {
   position: absolute;
   top: 60px;
-  left: 350px;
-  font-size: 26px;
+  left: clamp(16px, 5vw, 350px);
+  font-size: clamp(19px, 3vw, 26px);
   font-weight: bold;
   text-decoration: none;
   color: #222222;
@@ -43,8 +43,11 @@ body {
   pointer-events: auto;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 36px;
   width: fit-content;
+  max-width: 100%;
   padding: 18px 34px;
   background-color: #ffffff;
   border: 1px solid #ececec;
@@ -73,6 +76,7 @@ body {
   padding: 10px 6px;
   border-radius: 100px;
   transition: color 0.2s ease, transform 0.2s ease, text-shadow 0.2s ease;
+  white-space: nowrap;
 }
 
 .nav-toggle-btn::after, .menu-button::after {
@@ -124,7 +128,7 @@ body {
 .account-avatar-link {
   position: absolute;
   top: 40px;
-  right: 350px;
+  right: clamp(16px, 5vw, 350px);
   display: block;
 }
 
@@ -174,6 +178,7 @@ body {
 
 .services-grid {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 64px;
 }
@@ -203,6 +208,7 @@ body {
 
 .about-column {
   flex: 1;
+  min-width: 180px;
 }
 
 .about-column .dropdown-title {
@@ -275,6 +281,7 @@ body {
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
   width: 380px;
+  max-width: 90vw;
   background-color: #ffffff;
   border: 1px solid #ececec;
   border-radius: 10px;
@@ -325,6 +332,7 @@ body {
 
 .location-search-row input {
   flex: 1;
+  min-width: 0;
   padding: 9px 10px;
   border: 1px solid #cccccc;
   border-radius: 4px;
@@ -460,12 +468,13 @@ body {
 
 .page-motto {
   margin-top: -140px;
-  font-size: 30px;
+  font-size: clamp(20px, 4vw, 30px);
   font-weight: 700;
   font-style: italic;
   color: #333333;
   margin-bottom: 180px;
   min-height: 28px;
+  padding: 0 16px;
 }
 
 .page-motto::after {
@@ -483,8 +492,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
-  width: calc(100% - 700px);
-  max-width: 1400px;
+  width: min(calc(100% - 80px), 1400px);
   margin: 0 auto;
   align-items: start;
 }
@@ -510,8 +518,10 @@ body {
 
 .card-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   font-weight: 600;
   margin: 0;
 }
@@ -540,12 +550,6 @@ body {
 
 .card.open .card-content {
   padding-top: 15px;
-}
-
-@media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: 1fr;
-  }
 }
 
 .booking-btn {
@@ -615,6 +619,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 200;
+  padding: 16px;
 }
 
 .review-modal-overlay.hidden {
@@ -638,8 +643,10 @@ body {
 
 .review-question {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 6px;
   margin-bottom: 14px;
 }
 
@@ -698,4 +705,104 @@ body {
 
 .review-submit-btn:hover {
   background-color: #3a6cd4; 
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    gap: 18px;
+    padding: 12px 22px;
+  }
+
+  .nav-toggle-btn {
+    font-size: 14px;
+  }
+
+  .dropdown-panel-content {
+    padding: 28px 24px;
+  }
+
+  .services-grid {
+    gap: 28px;
+  }
+
+  .about-content {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .about-divider {
+    width: 100%;
+    height: 1px;
+  }
+
+  .page-motto {
+    margin-top: -100px;
+    margin-bottom: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-wrapper {
+    height: 150px;
+  }
+
+  .menu-button {
+    top: 16px;
+  }
+
+  .account-avatar-link {
+    top: 16px;
+  }
+
+  .navbar-row {
+    top: 70px;
+    left: 12px;
+    right: 12px;
+  }
+
+  .navbar {
+    width: 100%;
+    border-radius: 20px;
+    gap: 10px;
+    padding: 10px 16px;
+  }
+
+  .nav-toggle-btn {
+    font-size: 13px;
+    gap: 4px;
+  }
+
+  .dropdown-title {
+    white-space: normal;
+  }
+
+  .dropdown-panel-content {
+    padding: 20px 16px;
+  }
+
+  .services-grid {
+    gap: 20px;
+  }
+
+  .contact-details {
+    max-width: 100%;
+  }
+
+  .grid-container {
+    width: calc(100% - 32px);
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .page-motto {
+    margin-top: -20px;
+    margin-bottom: 40px;
+  }
+
+  .dropdown-panel {
+    left: 8px;
+    right: 8px;
+  }
 }
