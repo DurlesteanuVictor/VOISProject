@@ -85,6 +85,7 @@ nextMonthBtn.addEventListener('click', () => {
 function renderCalendar() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
+  
   calendarMonthLabel.textContent = `${monthNames[month]} ${year}`;
   calendarGrid.innerHTML = '';
   
@@ -97,6 +98,7 @@ function renderCalendar() {
   
   const firstDayOfMonth = new Date(year, month, 1);
   const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
+  
   let startOffset = firstDayOfMonth.getDay() - 1;
   if (startOffset < 0) startOffset = 6;
   
@@ -121,7 +123,17 @@ function renderCalendar() {
     }
     
     dayEl.addEventListener('click', () => {
-      selectedDate = new Date(year, month, day);
+      const clickedDate = new Date(year, month, day);
+      
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); 
+      
+      if (clickedDate < today) {
+        alert("Select a valide date.");
+        return; 
+      }
+      
+      selectedDate = clickedDate;
       dateBtn.textContent = selectedDate.toLocaleDateString('en-GB');
       renderCalendar();
     });

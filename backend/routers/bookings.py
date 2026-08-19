@@ -5,6 +5,7 @@ from db.database import get_db
 from db import models
 from schemas import booking as schemas
 from routers.auth import get_current_user
+from datetime import datetime
 
 router = APIRouter(
     prefix="/api/bookings",
@@ -34,6 +35,13 @@ def create_booking(
 ):
     if current_user.role != "user":
         raise HTTPException(status_code=403, detail="Only clients can make bookings.")
+
+    today_date = datetime.now().strftime("%Y-%m-%d")
+    if booking_data.booking_date < today_date:
+        raise HTTPException(
+            status_code=400,
+            detail="Nu poți face o rezervare pe o dată din trecut."
+        )
 
     new_booking = models.Booking(
         id_user=current_user.id,
