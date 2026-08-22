@@ -45,6 +45,8 @@ async function loadProfileData() {
 
             if (data.role === 'mechanic') {
                 myCarSection.style.display = 'none';
+                const navMyCar = document.getElementById('nav-my-car');
+                if (navMyCar) navMyCar.style.display = 'none';
                 document.getElementById('company-extra-info').style.display = 'block';
                 if (data.company) {
                     document.getElementById('company-services').value = data.company.services.join(', ');
@@ -392,7 +394,7 @@ async function loadMyBookings() {
                 }
 
                 const bHtml = `
-                    <div class="inner-car-item" style="padding: 12px 0;">
+                    <div class="booking-card">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <h3 style="font-size: 15px; color: #000; margin-bottom: 4px;">
